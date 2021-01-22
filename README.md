@@ -12,10 +12,11 @@
   - Personnage :
     - Peut hook des blocs avec un grapin
     - Peut jump/double jump
-    - Peut se déplacer (gauche/droite)
+    - Peut se déplacer (gauche/droite) (Dans les airs, mais moindrement)
 - Bonus :
   - Editeur de niveau
   - Blocks bleus/oranges (inspiré de Portal)
+  - Portal gun avec le clic gauche
 
 ## Organisation des fichiers
 
