@@ -17,6 +17,12 @@
   - Editeur de niveau
   - Blocks bleus/oranges (inspiré de Portal)
 
+## Organisation des fichiers
+
+- Dossier `Assets` : Contient toutes les ressources utilisées (images, musiques...).
+- Dossier `Levels` : Contient tous les fichiers des niveaux.
+- Dossier `Sources` : Contient le code source Python.
+
 ## Répartition des tâches
 
 - Maitre Bendo gère le piano 🪗
