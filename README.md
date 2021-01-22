@@ -7,7 +7,7 @@
   - Options : affiche le menus des options (modifier les binds des touches, le volume, reset les scores...)
 - Jeu :
   - Encodage des cartes :
-    - 0 : Air, 1 : Block, 2 : Reset, 3 : Fin, 4 : Spawn
+    - Espaces : Air | 1 : Block | 2 : Reset | 3 : Fin | 4 : Spawn
     - Dans un .txt ou autre
   - Personnage :
     - Peut hook des blocs avec un grapin
