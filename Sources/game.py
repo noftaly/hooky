@@ -14,7 +14,7 @@ class Game:
         self.running = True
 
         self.inpt = [False,False,False] #jump,left,right
-    def handleEvent(self): #changes proprieties in function of the input
+    def handleEvent(self, event): #changes proprieties in function of the input
         pass
     def display(self): #sûrement sur un autre thread
         pass
@@ -27,9 +27,8 @@ class Game:
             #th.Thread(target=self.display())
             self.update()
             stFrame = t.time()
-            for event in pygame.event():
-                self.handleEvent(event) 
-            
+            for event in pg.event.get():
+                self.handleEvent(event)
 
             endFrame = t.time()
             if endFrame - stFrame < 0.0167:
