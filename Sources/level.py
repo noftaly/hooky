@@ -4,19 +4,24 @@
 """
 
 class Level:
-    def __init__(self,lvl):
+    def __init__(self, lvl):
         self.readLvl(lvl)
-    def readLvl(self,lvl):
+
+    def readLvl(self, lvl):
         self.lvAr = []
-        with open("../Levels/l"+str(lvl)+".lvl",mode='r+t') as levelFile: #lvl is the lvl number, (../Levels/l"+str(lvl)+".lvl") = Levels/l1.lvl, r+t => read as text file
+        # lvl is the lvl number / r+t => read as text file
+        with open("./Levels/level_" + str(lvl) + ".lvl", mode='r+t') as levelFile:
             i = 0
             for line in levelFile:
                 if line[-1] == '\n':
-                        line = line[:-1]
+                    line = line[:-1]
                 if i == 0:
-                    self.spn = tuple(map(int,line[1:-1].split(','))) #transforms a string "(x,y)" into a tuple (x,y), with x,y int
+                    # Transforms a string "(x,y)" into a tuple (x,y), with x,y int
+                    self.spn = tuple(map(int,line[1:-1].split(',')))
                 elif line[0] != '(':
-                    self.lvAr.append(list(map(int,line))) #adds the row converted into integers to lvAr
+                    # Adds the row converted into integers to lvAr
+                    self.lvAr.append(list(map(int,line)))
                 else:
-                    pass #on vera pour les objets custom plus tard (objets déplaçables, texte etc.. )
+                    # On vera pour les objets custom plus tard (objets déplaçables, texte etc.. )
+                    pass
                 i += 1
