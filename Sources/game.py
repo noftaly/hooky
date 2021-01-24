@@ -16,7 +16,7 @@ class Game:
         self.running = True
 
         self.inpt = [False,False,False] #jump,left,right
-        
+
     def handleEvent(self): #changes proprieties in function of the input
         pass
     def display(self): #sûrement sur un autre thread
@@ -45,6 +45,6 @@ class Game:
             endFrame = t.time()
             if endFrame - stFrame < 0.0167:
                 t.sleep(0.0167 - endFrame + stFrame)
-                print((endFrame - stFrame)*1000,"ms")
+                #print((endFrame - stFrame)*1000,"ms")
             else:
                 print("OPTI FDP")

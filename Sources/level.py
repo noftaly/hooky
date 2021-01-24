@@ -37,7 +37,7 @@ class Level:
         for i in range(rngX): # roundup(1920 / 64) + 1
             for j in range(rngY): # roundup(1080/64) + 1
                 if self.lvAr[tpLft[1]+j][tpLft[0]+i] == 1:
-                    if (i+j) % 2 == 0:
+                    if (tpLft[0]+tpLft[1]+i+j) % 2 == 0:
                         pg.draw.rect(self.game.surf,(255,0,0),(((i+tpLft[0])*64 + hlsz[0])-pos[0],((j+tpLft[1])*64 + hlsz[1])-pos[1],64,64))
                     else:
                         pg.draw.rect(self.game.surf,(0,255,0),(((i+tpLft[0])*64 + hlsz[0])-pos[0],((j+tpLft[1])*64 +  hlsz[1])-pos[1],64,64))
