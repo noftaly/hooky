@@ -1,4 +1,5 @@
 import pygame as pg
+import time as t
 """
 
 
@@ -12,25 +13,34 @@ class Level:
         self.blocks = [] #y stocker les sprites de block en fonction du niveau
 
 
-    def display(self): #CA MARCHE PAS
+    def display(self): #CA MARCHE UN PEU
+        
         pos = self.game.plr.pos
         tpLft = pos[0]//64 - 15 ,pos[1]//64 - 8
         if tpLft[0] < 0:
             tpLft = 0,tpLft[1]
-    
+        
         if tpLft[1] < 0:
             tpLft = tpLft[0],0
 
-       
-        for i in range(31): # roundup(1920 / 64) + 1
-            for j in range(18): # roundup(1080/64) + 1
+        if tpLft[0]+31 >= len(self.lvAr[0]):
+            rngX = len(self.lvAr[0]) - tpLft[0]
+        else:
+            rngX = 31
+
+        if tpLft[1]+18 >= len(self.lvAr):
+            rngY = len(self.lvAr) - tpLft[1]
+        else:
+            rngY = 18
+
+        hlsz = self.game.hsize
+        for i in range(rngX): # roundup(1920 / 64) + 1
+            for j in range(rngY): # roundup(1080/64) + 1
                 if self.lvAr[tpLft[1]+j][tpLft[0]+i] == 1:
                     if (i+j) % 2 == 0:
-                        pg.draw.rect(self.game.surf,(255,0,0),(((i+tpLft[0])*64 +960)-pos[0],((j+tpLft[1])*64 + 540)-pos[1],64,64))
+                        pg.draw.rect(self.game.surf,(255,0,0),(((i+tpLft[0])*64 + hlsz[0])-pos[0],((j+tpLft[1])*64 + hlsz[1])-pos[1],64,64))
                     else:
-                        pg.draw.rect(self.game.surf,(0,255,0),(((i+tpLft[0])*64 +960)-pos[0],((j+tpLft[1])*64 + 540)-pos[1],64,64))
-                pg.event.clear()
-                pg.display.update()
+                        pg.draw.rect(self.game.surf,(0,255,0),(((i+tpLft[0])*64 + hlsz[0])-pos[0],((j+tpLft[1])*64 +  hlsz[1])-pos[1],64,64))
         
 
     def update(self):
