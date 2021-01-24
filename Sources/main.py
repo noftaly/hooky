@@ -17,3 +17,5 @@ pg.display.set_mode((1000,1000))
 
 Game(0).main()
 #Menu().main()
+
+pg.quit()

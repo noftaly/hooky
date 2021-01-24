@@ -17,8 +17,9 @@ class Game:
 
         self.inpt = [False,False,False] #jump,left,right
 
-    def handleEvent(self): #changes proprieties in function of the input
-        pass
+    def handleEvent(self,event): #changes proprieties in function of the input
+        if event.type == pg.QUIT:
+            self.running = False
     def display(self): #sûrement sur un autre thread
         self.surf.fill((0,0,0))
         self.lvl.display()
@@ -32,12 +33,11 @@ class Game:
         i = 0
         while self.running:
             stFrame = t.time()
-            self.display()
-            #th.Thread(target=self.display())
+            #self.display()
+            th(target=self.display())
             self.update()
-            """
             for event in pg.event.get():
-                self.handleEvent(event) """
+                self.handleEvent(event)
             pg.event.clear()
 
             self.plr.pos = (i,i)
