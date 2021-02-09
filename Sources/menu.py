@@ -3,8 +3,8 @@ import pygame as pg
 
 class Menu():
     def __init__(self):
-        self.surf = pg.display.get_surface()
-        self.size = self.surf.get_size()
+        self.surface = pg.display.get_surface()
+        self.size = self.surface.get_size()
 
         self.childs = []
 

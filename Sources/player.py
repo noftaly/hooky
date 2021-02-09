@@ -3,14 +3,13 @@ import pygame as pg
 from vector import Vector
 
 class Player:
-    def __init__(self, game, spn):
+    def __init__(self, game, spawn_location):
         self.game = game
-        self.pos = Vector(spn[0]*64 + 32, spn[1]*64 + 32)
-        # Acceleration vector (x, y)
+        self.pos = Vector(spawn_location.x*64 + 32, spawn_location.y*64 + 32)
         self.acc = Vector(0, 0)
 
     def display(self):
-        pg.draw.circle(self.game.surf, (0, 0, 255), self.game.hsize, 26)
+        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.hsize, 26)
 
     def update_pos(self):
         self.pos += self.acc

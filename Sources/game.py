@@ -1,61 +1,48 @@
 import pygame as pg
-import time as t
 
 from level import Level
 from vector import Vector
 from player import Player
-from threading import Thread as th
 
 
 class Game:
-    def __init__(self, nlvl):
-        self.surf = pg.display.get_surface()
-        self.size = self.surf.get_size()
-        self.hsize = self.size[0]/2,self.size[1]/2
+    def __init__(self, number_level):
+        self.surface = pg.display.get_surface()
+        self.size = self.surface.get_size()
+        self.hsize = self.size[0] / 2, self.size[1] / 2
 
-        self.lvl = Level(self,nlvl)
-        self.plr = Player(self,self.lvl.spn)
+        self.level = Level(self, number_level)
+        self.player = Player(self, self.level.spawn)
         self.running = True
-
-        self.inpt = [False,False,False] #jump,left,right
 
     def handleEvent(self,event): #changes proprieties in function of the input
         if event.type == pg.QUIT:
             self.running = False
 
-    def display(self): #sûrement sur un autre thread
-        self.surf.fill((0,0,0))
-        self.lvl.display()
-        self.plr.display()
+    def display(self):
+        self.surface.fill((0,0,0))
+        self.level.display()
+        self.player.display()
 
         pg.display.update()
 
     #AUCUN OBJET PG DANS UPDATE !!!
     def update(self): #next tick (ajout de toute les accélérations aux vitesses et ajout de toute les vitesses aux positions)
-        self.plr.update_pos()
-        self.plr.apply_momentum()
+        self.player.update_pos()
+        self.player.apply_momentum()
 
     def main(self):
         i = 0
         while self.running:
-            stFrame = t.time()
-            #self.display()
-            th(target=self.display())
+            self.display()
             self.update()
             keys = pg.key.get_pressed()
             if keys[pg.K_LEFT]:
-                self.plr.acc += Vector(-3, 0)
+                self.player.acc += Vector(-2, 0)
             elif keys[pg.K_RIGHT]:
-                self.plr.acc += Vector(3, 0)
+                self.player.acc += Vector(2, 0)
             for event in pg.event.get():
                 self.handleEvent(event)
             pg.event.clear()
 
-            #self.plr.pos = (i,i)
             i += 5
-            endFrame = t.time()
-            if endFrame - stFrame < 0.0167:
-                t.sleep(0.0167 - endFrame + stFrame)
-                #print((endFrame - stFrame)*1000,"ms")
-            else:
-                print("OPTI FDP")
