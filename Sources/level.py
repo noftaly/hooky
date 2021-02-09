@@ -31,13 +31,15 @@ class Level:
         hlsz = self.game.hsize
         for i in range(rngX): # roundup(1920 / 64) + 1
             for j in range(rngY): # roundup(1080/64) + 1
+                x = ((i + tpLft.x) * 64 + hlsz[0]) - pos.x
+                y = ((j + tpLft.y) * 64 + hlsz[1]) - pos.y
+
+                # Dirt
                 if self.lvAr[tpLft.y+j][tpLft.x+i] == 1:
-                    x = ((i + tpLft.x) * 64 + hlsz[0]) - pos.x
-                    y = ((j + tpLft.y) * 64 + hlsz[1]) - pos.y
-                    if (tpLft.x+tpLft.y+i+j) % 2 == 0:
-                        pg.draw.rect(self.game.surf, (150, 150, 150), (x, y, 64,64))
-                    else:
-                        pg.draw.rect(self.game.surf, (50, 50, 50), (x, y, 64,64))
+                    pg.draw.rect(self.game.surface, (101, 67, 33), (x, y, 64,64))
+                # Sky
+                elif self.lvAr[tpLft.y+j][tpLft.x+i] == 0:
+                    pg.draw.rect(self.game.surface, (119, 181, 254), (x, y, 64,64))
 
     def update(self):
         pass
