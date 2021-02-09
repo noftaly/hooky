@@ -1,5 +1,5 @@
 import pygame as pg
-from game import Game
+
 
 class Menu():
     def __init__(self):
@@ -7,9 +7,10 @@ class Menu():
         self.size = self.surf.get_size()
 
         self.childs = []
+
     def display(self):
         for child in self.childs:
             child.display()
 
-    def handleEvent(self,event):
-        
+    def handleEvent(self, event):
+        pass

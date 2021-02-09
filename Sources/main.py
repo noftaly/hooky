@@ -2,7 +2,6 @@
 Initialisations, instalation des librairies
 """
 
-import os
 #from menu import Menu
 from game import Game
 
