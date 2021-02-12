@@ -9,7 +9,7 @@ class Player:
         self.acc = Vector(0, 0)
 
     def display(self):
-        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.hsize, 26)
+        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, 26)
 
     def update_pos(self):
         self.pos += self.acc

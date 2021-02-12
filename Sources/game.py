@@ -9,13 +9,13 @@ class Game:
     def __init__(self, number_level):
         self.surface = pg.display.get_surface()
         self.size = self.surface.get_size()
-        self.hsize = self.size[0] / 2, self.size[1] / 2
+        self.half_size = self.size[0] / 2, self.size[1] / 2
 
         self.level = Level(self, number_level)
         self.player = Player(self, self.level.spawn)
         self.running = True
 
-    def handleEvent(self,event): #changes proprieties in function of the input
+    def handleEvent(self,event):
         if event.type == pg.QUIT:
             self.running = False
 
@@ -26,23 +26,24 @@ class Game:
 
         pg.display.update()
 
-    #AUCUN OBJET PG DANS UPDATE !!!
-    def update(self): #next tick (ajout de toute les accélérations aux vitesses et ajout de toute les vitesses aux positions)
+    # NOTE: Aucun objet PyGame dans update() !
+    def update(self):
+        """ Update entities (add accelerations to the velocity, and add velocity to positions) """
         self.player.update_pos()
         self.player.apply_momentum()
 
     def main(self):
-        i = 0
         while self.running:
             self.display()
             self.update()
+
+            # We treat direction keys separately to allow keeping them pressed.
             keys = pg.key.get_pressed()
             if keys[pg.K_LEFT]:
-                self.player.acc += Vector(-2, 0)
+                self.player.acc += Vector(-3, 0)
             elif keys[pg.K_RIGHT]:
-                self.player.acc += Vector(2, 0)
+                self.player.acc += Vector(3, 0)
+
             for event in pg.event.get():
                 self.handleEvent(event)
             pg.event.clear()
-
-            i += 5

@@ -1,22 +1,22 @@
 import math
 
 class Vector:
-    """A two-dimensional vector with Cartesian coordinates."""
+    """ A two-dimensional vector with Cartesian coordinates. """
 
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
     def __str__(self):
-        """Human-readable string representation of the vector."""
+        """ Human-readable string representation of the vector. """
         return f'(x={self.x}, y={self.y})'
 
     def __eq__(self, other):
-        """Equality check."""
+        """ Equality check. """
         return self.x == other.x and self.y == other.y
 
     def dot(self, other):
-        """The scalar (dot) product of self and other. Both must be vectors."""
+        """ The scalar (dot) product of self and other. Both must be vectors. """
 
         if not isinstance(other, Vector):
             raise TypeError('Can only take dot product of two Vector objects')
@@ -25,51 +25,51 @@ class Vector:
     __matmul__ = dot
 
     def __sub__(self, other):
-        """Vector subtraction."""
+        """ Vector subtraction. """
         return Vector(self.x - other.x, self.y - other.y)
 
     def __add__(self, other):
-        """Vector addition."""
+        """ Vector addition. """
         return Vector(self.x + other.x, self.y + other.y)
 
     def __mul__(self, scalar):
-        """Multiplication of a vector by a scalar."""
+        """ Multiplication of a vector by a scalar. """
         if isinstance(scalar, int) or isinstance(scalar, float):
             return Vector(self.x*scalar, self.y*scalar)
         raise NotImplementedError('Can only multiply Vector by a scalar')
 
     def __rmul__(self, scalar):
-        """Reflected multiplication so vector * scalar also works."""
+        """ Reflected multiplication so vector * scalar also works. """
         return self.__mul__(scalar)
 
     def __neg__(self):
-        """Negation of the vector (invert through origin.)"""
+        """ Negation of the vector (invert through origin.) """
         return Vector(-self.x, -self.y)
 
     def __truediv__(self, scalar):
-        """True division of the vector by a scalar."""
+        """ True division of the vector by a scalar. """
         return Vector(self.x / scalar, self.y / scalar)
 
     def __mod__(self, scalar):
-        """One way to implement modulus operation: for each component."""
+        """ One way to implement modulus operation: for each component. """
         return Vector(self.x % scalar, self.y % scalar)
 
     def __abs__(self):
-        """Absolute value (magnitude) of the vector."""
+        """ Absolute value (magnitude) of the vector. """
         return math.sqrt(self.x**2 + self.y**2)
 
     def mag(self):
-        """Magnitude of the vector."""
+        """ Magnitude of the vector. """
         return math.sqrt(self.x**2 + self.y**2)
 
     def normalize(self):
-        """Normalize a vector."""
+        """ Normalize a vector. """
         return Vector(self.x, self.y) * (1/self.mag())
 
     def dist(self, other):
-        """The distance between vectors self and other."""
+        """ The distance between vectors self and other. """
         return abs(self - other)
 
     def to_polar(self):
-        """Return the vector's components in polar coordinates."""
+        """ Return the vector's components in polar coordinates. """
         return self.__abs__(), math.atan2(self.y, self.x)

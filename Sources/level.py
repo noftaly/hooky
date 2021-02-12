@@ -3,62 +3,54 @@ from vector import Vector
 
 
 class Level:
+    CELL_SIZE = 64
     def __init__(self, game, number_level):
         self.game = game
-        self.readLevel(number_level)
+        self.level_array = []
+        self.read_level(number_level)
 
-        self.blocks = [] #y stocker les sprites de block en fonction du niveau
-
-    def display(self): #CA MARCHE UN PEU
+    def display(self):
         pos = self.game.player.pos
-        tpLft = Vector(pos.x//64 - 15, pos.y//64 - 8)
-        if tpLft.x < 0:
-            tpLft = Vector(0, tpLft.y)
+        backgroundLeftOffset = Vector(pos.x // 64 - 15, pos.y // 64 - 8)
+        # We prevent leftBackgroundOffset to be below 0
+        backgroundLeftOffset.x = max([backgroundLeftOffset.x, 0])
+        backgroundLeftOffset.y = max([backgroundLeftOffset.y, 0])
 
-        if tpLft.y < 0:
-            tpLft = Vector(tpLft.x, 0)
+        rngX = 31
+        if backgroundLeftOffset.x + 31 >= len(self.level_array[0]):
+            rngX = len(self.level_array[0]) - backgroundLeftOffset.x
 
-        if tpLft.x + 31 >= len(self.lvAr[0]):
-            rngX = len(self.lvAr[0]) - tpLft.x
-        else:
-            rngX = 31
+        rngY = 18
+        if backgroundLeftOffset.y + 18 >= len(self.level_array):
+            rngY = len(self.level_array) - backgroundLeftOffset.y
 
-        if tpLft.y + 18 >= len(self.lvAr):
-            rngY = len(self.lvAr) - tpLft.y
-        else:
-            rngY = 18
-
-        hlsz = self.game.hsize
-        for i in range(rngX): # roundup(1920 / 64) + 1
-            for j in range(rngY): # roundup(1080/64) + 1
-                x = ((i + tpLft.x) * 64 + hlsz[0]) - pos.x
-                y = ((j + tpLft.y) * 64 + hlsz[1]) - pos.y
+        for row in range(rngX): # roundup(1920 / 64) + 1
+            for col in range(rngY): # roundup(1080/64) + 1
+                # (row index + X offset according to the player) * the cell cize + center of screen - the X position of the player
+                x = (row + backgroundLeftOffset.x) * self.CELL_SIZE + self.game.half_size[0] - pos.x
+                # (column index +Y offset according to the player) * the cell cize + center of screen - the Y position of the player
+                y = (col + backgroundLeftOffset.y) * self.CELL_SIZE + self.game.half_size[1] - pos.y
 
                 # Dirt
-                if self.lvAr[tpLft.y+j][tpLft.x+i] == 1:
-                    pg.draw.rect(self.game.surface, (101, 67, 33), (x, y, 64,64))
+                if self.level_array[backgroundLeftOffset.y + col][backgroundLeftOffset.x + row] == 1:
+                    pg.draw.rect(self.game.surface, (101, 67, 33), (x, y, self.CELL_SIZE, self.CELL_SIZE))
                 # Sky
-                elif self.lvAr[tpLft.y+j][tpLft.x+i] == 0:
-                    pg.draw.rect(self.game.surface, (119, 181, 254), (x, y, 64,64))
+                elif self.level_array[backgroundLeftOffset.y + col][backgroundLeftOffset.x + row] == 0:
+                    pg.draw.rect(self.game.surface, (119, 181, 254), (x, y, self.CELL_SIZE, self.CELL_SIZE))
 
     def update(self):
         pass
 
-    def readLevel(self, number_level):
-        self.lvAr = []
-        # lvl is the lvl number / r+t => read as text file
+    def read_level(self, number_level):
+        self.level_array = []
+        # r+t: read as text file
         with open("./Levels/level_" + str(number_level) + ".lvl", mode='r+t') as levelFile:
-            i = 0
-            for line in levelFile:
+            for (i, line) in enumerate(levelFile):
                 if line[-1] == '\n':
                     line = line[:-1]
                 if i == 0:
-                    # Transforms a string "(x,y)" into a tuple (x,y), with x,y int
-                    self.spawn = Vector(*map(int, line[1:-1].split(',')))
-                elif line[0] != '(':
-                    # Adds the row converted into integers to lvAr
-                    self.lvAr.append(list(map(int,line)))
+                    # Transforms a string "x,y" into a tuple (x,y), with x,y as integers
+                    self.spawn = Vector(*map(int, line.split(',')))
                 else:
-                    # On vera pour les objets custom plus tard (objets déplaçables, texte etc.. )
-                    pass
-                i += 1
+                    # Adds the row converted into integers to level_array
+                    self.level_array.append(list(map(int, line)))
