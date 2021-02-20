@@ -11,6 +11,10 @@ class Vector:
         """ Human-readable string representation of the vector. """
         return f'(x={self.x}, y={self.y})'
 
+    def __round__(self):
+        """ Round a vector """
+        return Vector(round(self.x), round(self.y))
+
     def __eq__(self, other):
         """ Equality check. """
         return self.x == other.x and self.y == other.y
@@ -64,7 +68,10 @@ class Vector:
 
     def normalize(self):
         """ Normalize a vector. """
-        return Vector(self.x, self.y) * (1/self.mag())
+        vec = Vector(self.x, self.y)
+        if self.mag() != 0:
+            return vec * (1/self.mag())
+        return vec
 
     def dist(self, other):
         """ The distance between vectors self and other. """
