@@ -1,27 +1,11 @@
 import pygame as pg
-
+from entity import Entity
 from vector import Vector
 
-class Player:
+class Player(Entity):
     def __init__(self, game, spawn_location):
+        super().__init__(spawn_location, 2)
         self.game = game
-        self.pos = Vector(spawn_location.x*64 + 32, spawn_location.y*64 + 32)
-        self.acc = Vector(0, 0)
 
     def display(self):
-        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, 26)
-
-    def update_pos(self):
-        self.pos += self.acc
-
-    def apply_momentum(self):
-        # Update x
-        if self.acc.x < 0:
-            self.acc += Vector(1, 0)
-        elif self.acc.x > 0:
-            self.acc += Vector(-1, 0)
-        # Update y
-        if self.acc.x < 0:
-            self.acc += Vector(1, 0)
-        elif self.acc.x > 0:
-            self.acc += Vector(-1, 0)
+        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, self.radius * 2)

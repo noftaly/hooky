@@ -11,7 +11,7 @@ class Level:
 
     def display(self):
         pos = self.game.player.pos
-        backgroundLeftOffset = Vector(pos.x // 64 - 15, pos.y // 64 - 8)
+        backgroundLeftOffset = round(Vector(pos.x // 64 - 15, pos.y // 64 - 8))
         # We prevent leftBackgroundOffset to be below 0
         backgroundLeftOffset.x = max([backgroundLeftOffset.x, 0])
         backgroundLeftOffset.y = max([backgroundLeftOffset.y, 0])

@@ -20,7 +20,7 @@ class Game:
             self.running = False
 
     def display(self):
-        self.surface.fill((0,0,0))
+        self.surface.fill((0, 0, 0))
         self.level.display()
         self.player.display()
 
@@ -28,9 +28,11 @@ class Game:
 
     # NOTE: Aucun objet PyGame dans update() !
     def update(self):
-        """ Update entities (add accelerations to the velocity, and add velocity to positions) """
-        self.player.update_pos()
-        self.player.apply_momentum()
+        """ Update entities """
+        # self.player.gravity()
+        self.player.friction()
+        self.player.edges()
+        self.player.update()
 
     def main(self):
         while self.running:
@@ -40,9 +42,9 @@ class Game:
             # We treat direction keys separately to allow keeping them pressed.
             keys = pg.key.get_pressed()
             if keys[pg.K_LEFT]:
-                self.player.acc += Vector(-3, 0)
+                self.player.acc += Vector(-1, 0)
             elif keys[pg.K_RIGHT]:
-                self.player.acc += Vector(3, 0)
+                self.player.acc += Vector(1, 0)
 
             for event in pg.event.get():
                 self.handleEvent(event)
