@@ -1,10 +1,9 @@
 import pygame as pg
 from entity import Entity
-from vector import Vector
 
 class Player(Entity):
     def __init__(self, game, spawn_location):
-        super().__init__(spawn_location, 2)
+        super().__init__(spawn_location, 2.56)
         self.game = game
 
     def display(self):
