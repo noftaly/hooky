@@ -26,12 +26,12 @@ class Game:
 
         pg.display.update()
 
-    # NOTE: Aucun objet PyGame dans update() !
+    # NOTE: No PyGame object in update()!
     def update(self):
         """ Update entities """
         # self.player.gravity()
         self.player.friction()
-        self.player.edges()
+        self.player.edges(self.level.level_array)
         self.player.update()
 
     def main(self):

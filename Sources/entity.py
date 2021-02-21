@@ -1,4 +1,5 @@
 from math import sqrt
+from utils import get_2d_array
 from vector import Vector
 
 class Entity:
@@ -33,11 +34,24 @@ class Entity:
     def apply_force(self, force):
         self.acc += force
 
-    def edges(self):
+    def edges(self, level_array):
     	# Whenever it hits an edge, we invert its velocity (*-1), but we also
     	# reduce it a bit, because of the energy transfer.
-        # TODO
-        pass
+        current_cell = round(Vector((self.pos.x - 32) / 64, (self.pos.y - 32) / 64))
+
+        block_left = get_2d_array(level_array, current_cell.x - 1, current_cell.y)
+        block_right = get_2d_array(level_array, current_cell.x + 1, current_cell.y)
+        # block_above = get_2d_array(level_array, current_cell.x, current_cell.y - 1)
+        # block_below = get_2d_array(level_array, current_cell.x, current_cell.y + 1)
+
+        # Check at left
+        if block_left == 1 and self.pos.x - 32 < current_cell.x * 64:
+            self.pos.x = current_cell.x * 64 + self.radius * 2 + 1
+            self.vel.x *= -0.4
+        # Check at right
+        if block_right == 1 and self.pos.x - 32 > current_cell.x * 64:
+            self.pos.x = current_cell.x * 64 + self.radius * 2 - 1
+            self.vel.x *= -0.4
 
     def update(self):
         # Add the acceleration to the velocity, and add the velocity to the position.
