@@ -6,6 +6,8 @@ from player import Player
 
 
 class Game:
+    CELL_SIZE = 64
+
     def __init__(self, number_level):
         self.surface = pg.display.get_surface()
         self.size = self.surface.get_size()

@@ -3,7 +3,6 @@ from vector import Vector
 
 
 class Level:
-    CELL_SIZE = 64
     def __init__(self, game, number_level):
         self.game = game
         self.level_array = []
@@ -27,16 +26,16 @@ class Level:
         for row in range(rngX): # roundup(1920 / 64) + 1
             for col in range(rngY): # roundup(1080/64) + 1
                 # (row index + X offset according to the player) * the cell cize + center of screen - the X position of the player
-                x = (row + backgroundLeftOffset.x) * self.CELL_SIZE + self.game.half_size[0] - pos.x
+                x = (row + backgroundLeftOffset.x) * self.game.CELL_SIZE + self.game.half_size[0] - pos.x
                 # (column index +Y offset according to the player) * the cell cize + center of screen - the Y position of the player
-                y = (col + backgroundLeftOffset.y) * self.CELL_SIZE + self.game.half_size[1] - pos.y
+                y = (col + backgroundLeftOffset.y) * self.game.CELL_SIZE + self.game.half_size[1] - pos.y
 
                 # Dirt
                 if self.level_array[backgroundLeftOffset.y + col][backgroundLeftOffset.x + row] == 1:
-                    pg.draw.rect(self.game.surface, (101, 67, 33), (x, y, self.CELL_SIZE, self.CELL_SIZE))
+                    pg.draw.rect(self.game.surface, (101, 67, 33), (x, y, self.game.CELL_SIZE, self.game.CELL_SIZE))
                 # Sky
                 elif self.level_array[backgroundLeftOffset.y + col][backgroundLeftOffset.x + row] == 0:
-                    pg.draw.rect(self.game.surface, (119, 181, 254), (x, y, self.CELL_SIZE, self.CELL_SIZE))
+                    pg.draw.rect(self.game.surface, (119, 181, 254), (x, y, self.game.CELL_SIZE, self.game.CELL_SIZE))
 
     def update(self):
         pass
