@@ -13,7 +13,7 @@ class Entity:
         self.radius = sqrt(self.mass) * 10
 
     def friction(self):
-        # Should check if it is in contact with a surface
+        # TODO: Should check if it is in contact with a surface
         if True:
             # Shortcut:
             # self.acc *= 0.95
@@ -21,7 +21,7 @@ class Entity:
             # Compute the friction
             friction = self.vel.normalize() * -1 # Compute the direction (opposite to velocity)
             friction = friction.normalize()      # Normalize the direction
-            friction *= 0.1 # Compute the magnitude
+            friction *= 0.2 # Compute the magnitude
 
             # Apply friction
             self.apply_force(friction)
