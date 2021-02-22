@@ -1,6 +1,7 @@
 import pygame as pg
 
 from level import Level
+from utils import BlockDirection
 from vector import Vector
 from player import Player
 
@@ -45,8 +46,10 @@ class Game:
             keys = pg.key.get_pressed()
             if keys[pg.K_LEFT]:
                 self.player.acc += Vector(-1, 0)
-            elif keys[pg.K_RIGHT]:
+            if keys[pg.K_RIGHT]:
                 self.player.acc += Vector(1, 0)
+            if keys[pg.K_UP] and self.player.has_block(BlockDirection.BELOW):
+                    self.player.acc += Vector(0, -4)
 
             for event in pg.event.get():
                 self.handleEvent(event)
