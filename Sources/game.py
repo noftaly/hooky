@@ -18,7 +18,7 @@ class Game:
         self.player = Player(self, self.level.spawn)
         self.running = True
 
-    def handleEvent(self,event):
+    def handle_event(self,event):
         if event.type == pg.QUIT:
             self.running = False
 
@@ -49,8 +49,8 @@ class Game:
             if keys[pg.K_RIGHT]:
                 self.player.acc += Vector(1, 0)
             if keys[pg.K_UP] and self.player.has_block(BlockDirection.BELOW):
-                    self.player.acc += Vector(0, -4)
+                self.player.acc += Vector(0, -4)
 
             for event in pg.event.get():
-                self.handleEvent(event)
+                self.handle_event(event)
             pg.event.clear()
