@@ -34,7 +34,7 @@ class Game:
         """ Update entities """
         self.player.gravity()
         self.player.friction()
-        self.player.edges()
+        self.player.collisions()
         self.player.update()
 
     def main(self):

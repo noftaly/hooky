@@ -57,7 +57,7 @@ class Entity:
         if direction == BlockDirection.RIGHT:
             return self.pos.x + 32 > (self.cell.x + 1) * 64
 
-    def edges(self):
+    def collisions(self):
     	# Whenever it hits an edge, we invert its velocity (*-1), but we also
     	# reduce it a bit, because of the energy transfer.
 
