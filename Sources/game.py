@@ -31,9 +31,9 @@ class Game:
     # NOTE: No PyGame object in update()!
     def update(self):
         """ Update entities """
-        # self.player.gravity()
+        self.player.gravity()
         self.player.friction()
-        self.player.edges(self.level.level_array)
+        self.player.edges()
         self.player.update()
 
     def main(self):
