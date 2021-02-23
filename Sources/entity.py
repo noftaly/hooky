@@ -7,7 +7,7 @@ class Entity:
 
     def __init__(self, location, mass, game):
         self.pos = Vector(location.x * 64 + 32, location.y * 64 + 32)
-        self.cell = Vector(0, 0)
+        self.cell = Vector(location.x, location.y)
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
         self.mass = mass
