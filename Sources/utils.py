@@ -9,7 +9,11 @@ def get_2d_array(array, x, y):
 	return array[y][x]
 
 class BlockDirection(Enum):
-    BELOW = 0
-    ABOVE = 1
-    LEFT = 2
-    RIGHT = 3
+	BELOW = 0
+	ABOVE = 1
+	LEFT = 2
+	RIGHT = 3
+
+class BlockType(Enum):
+	SKY = 0
+	DIRT = 1

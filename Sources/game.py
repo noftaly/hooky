@@ -49,7 +49,7 @@ class Game:
             if keys[pg.K_RIGHT]:
                 self.player.acc += Vector(1, 0)
             if keys[pg.K_UP] and self.player.has_block(BlockDirection.BELOW):
-                self.player.acc += Vector(0, -4)
+                self.player.acc += Vector(0, -7)
 
             for event in pg.event.get():
                 self.handle_event(event)

@@ -9,11 +9,12 @@ class Entity:
     def __init__(self, location, mass, game):
         self.pos = Vector(location.x * 64 + 32, location.y * 64 + 32)
         self.cell = Vector(location.x, location.y)
+        self.game = game
+
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
         self.mass = mass
         self.radius = sqrt(self.mass) * 10
-        self.game = game
 
     def friction(self):
         # Compute the friction
@@ -33,7 +34,6 @@ class Entity:
         self.acc += force
 
     def has_block(self, direction):
-        block = 0
         if direction == BlockDirection.ABOVE:
             block = get_2d_array(self.game.level.level_array, self.cell.x, self.cell.y - 1)
         elif direction == BlockDirection.BELOW:
@@ -42,7 +42,9 @@ class Entity:
             block = get_2d_array(self.game.level.level_array, self.cell.x - 1, self.cell.y)
         elif direction == BlockDirection.RIGHT:
             block = get_2d_array(self.game.level.level_array, self.cell.x + 1, self.cell.y)
-        return block == 1
+        else:
+            raise TypeError('Invalid direction')
+        return block.type == 1
 
     def intersects_with_neighbor(self, direction):
         if direction == BlockDirection.ABOVE:
