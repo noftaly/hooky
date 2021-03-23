@@ -17,17 +17,20 @@ class Entity:
     
     def fricNgrav(self): #friction and gravity
         if self.grounded: #horizontal friction, proportional to speed
-            rxvel = self.vel.x / 50 #reduced X vel, reducing the constant raises the friction.
+            rxvel = self.vel.x / 5 #reduced X vel, reducing the constant raises the friction.
             self.acc -= (Vector(rxvel,0))
         else:
-            rxvel = self.vel.x / 200
+            rxvel = self.vel.x / 20
             self.acc -= (Vector(rxvel,0))
 
         if (not self.grounded):
-            self.acc += Vector(0,0.1) #grav
+            self.acc += Vector(0,1.5) #grav
 
     def col(self):
-        self.grounded=False
+        if self.grounded:
+            self.vel.y = 0
+
+        self.grounded = False
         solid = [1] #define solid blocks
         loc = [int(self.pos[0] // 64), int(self.pos[1] // 64)]
         for i in range(-1,2): #Not well secured, but the player shouldn't be on the edge of the map anyway
@@ -42,11 +45,12 @@ class Entity:
                             self.pos[0] = posb[0] + 64 + self.size
                             self.vel.x = 0
 
-                    if posb[0] - self.size < self.pos[0] < posb[0] + 64 + self.size : 
-                        if (self.pos[1] < posb[1]) and (self.pos[1] + self.size + self.vel.y > posb[1]) and (not self.grounded): #no need to check, if it's already grounded 
+                    if posb[0] - self.size < self.pos[0] < posb[0] + 64 + self.size :
+                        if (not self.grounded) and (self.pos[1] < posb[1]) and (self.pos[1] + self.size + self.vel.y + 0.001 > posb[1]):
                             self.pos[1] = posb[1] - self.size
                             self.vel.y = 0
                             self.grounded = True
+
                         elif (self.pos[1] > posb[1]) and (self.pos[1] - self.size + self.vel.y < posb[1]+64): 
                             self.pos[1] = posb[1] + 64 + self.size
                             self.vel.y = 0
@@ -57,8 +61,6 @@ class Entity:
         if abs(self.vel.y) < 0.05:
             self.vel.y = 0
     def update(self):
-        self.applyF()
-        self.col()
         self.pos = list(self.vel.cast(self.pos))
         self.nullify()
         

@@ -3,6 +3,7 @@ import pygame as pg
 from level import Level
 from Vec import Vector
 from player import Player
+import time as t
 
 
 class Game:
@@ -48,6 +49,6 @@ class Game:
         while self.running:
             self.display()
             self.update()
-            
+            t.sleep(0.00833)
             for event in pg.event.get():
                 self.handle_event(event)
