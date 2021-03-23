@@ -1,8 +1,7 @@
 import pygame as pg
 
 from level import Level
-from utils import BlockDirection
-from vector import Vector
+from Vec import Vector
 from player import Player
 
 
@@ -12,18 +11,28 @@ class Game:
     def __init__(self, number_level):
         self.surface = pg.display.get_surface()
         self.size = self.surface.get_size()
-        self.half_size = self.size[0] / 2, self.size[1] / 2
+        self.half_size = self.size[0] // 2, self.size[1] // 2
+
+        self.bckg = pg.Surface(self.size)
+        self.bckg.fill((0,240,240))
 
         self.level = Level(self, number_level)
         self.player = Player(self, self.level.spawn)
+
+        self.read_cfg()
         self.running = True
 
-    def handle_event(self,event):
+    def read_cfg(self): # à faire dans Menu plus tard
+        self.up_k = pg.K_UP
+        self.lft_k = pg.K_LEFT
+        self.rgt_k = pg.K_RIGHT
+    def handle_event(self,event): 
         if event.type == pg.QUIT:
             self.running = False
 
     def display(self):
-        self.surface.fill((0, 0, 0))
+        self.surface.blit(self.bckg,(0,0))
+        
         self.level.display()
         self.player.display()
 
@@ -32,25 +41,13 @@ class Game:
     # NOTE: No PyGame object in update()!
     def update(self):
         """ Update entities """
-        self.player.gravity()
-        self.player.friction()
-        self.player.collisions()
         self.player.update()
+        pass
 
     def main(self):
         while self.running:
             self.display()
             self.update()
-
-            # We treat direction keys separately to allow keeping them pressed.
-            keys = pg.key.get_pressed()
-            if keys[pg.K_LEFT]:
-                self.player.acc += Vector(-1, 0)
-            if keys[pg.K_RIGHT]:
-                self.player.acc += Vector(1, 0)
-            if keys[pg.K_UP] and self.player.has_block(BlockDirection.BELOW):
-                self.player.acc += Vector(0, -7)
-
+            
             for event in pg.event.get():
                 self.handle_event(event)
-            pg.event.clear()
