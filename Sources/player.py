@@ -7,16 +7,23 @@ class Player(Entity):
         super().__init__(spawn_location, game,26)
 
     def display(self):
-        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size*1.2)) #bit bigger than the hitbox to make it look cuul
+        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size)) #bit bigger than the hitbox to make it look cuul
 
     def handle_input(self):
         keys = pg.key.get_pressed()
         if keys[self.game.lft_k]:
-            self.acc += Vector(-0.01, 0)
+            if self.grounded:
+                self.acc += Vector(-0.1, 0)
+            else:
+                self.acc += Vector(-0.01, 0)
         if keys[self.game.rgt_k]:
-            self.acc += Vector(0.01, 0)
+            if self.grounded:
+                self.acc += Vector(0.1, 0)
+            else:
+                self.acc += Vector(0.01,0)
+            
         if keys[self.game.up_k] and self.grounded:
-            self.acc += Vector(0, -1)
+            self.acc += Vector(0, -8)
             self.grounded = False
     def update(self):
         #applie forces

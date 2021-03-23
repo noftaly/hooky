@@ -17,16 +17,17 @@ class Entity:
     
     def fricNgrav(self): #friction and gravity
         if self.grounded: #horizontal friction, proportional to speed
-            rxvel = self.vel.x / 100 #reduced X vel
+            rxvel = self.vel.x / 50 #reduced X vel, reducing the constant raises the friction.
             self.acc -= (Vector(rxvel,0))
         else:
             rxvel = self.vel.x / 200
             self.acc -= (Vector(rxvel,0))
 
         if (not self.grounded):
-            self.acc += Vector(0,0.2) #grav
+            self.acc += Vector(0,0.1) #grav
 
     def col(self):
+        self.grounded=False
         solid = [1] #define solid blocks
         loc = [int(self.pos[0] // 64), int(self.pos[1] // 64)]
         for i in range(-1,2): #Not well secured, but the player shouldn't be on the edge of the map anyway
@@ -45,16 +46,15 @@ class Entity:
                         if (self.pos[1] < posb[1]) and (self.pos[1] + self.size + self.vel.y > posb[1]) and (not self.grounded): #no need to check, if it's already grounded 
                             self.pos[1] = posb[1] - self.size
                             self.vel.y = 0
-                            print("Grounded it !")
                             self.grounded = True
                         elif (self.pos[1] > posb[1]) and (self.pos[1] - self.size + self.vel.y < posb[1]+64): 
                             self.pos[1] = posb[1] + 64 + self.size
                             self.vel.y = 0
 
     def nullify(self):
-        if abs(self.vel.x) < 0.000000005:
+        if abs(self.vel.x) < 0.05:
             self.vel.x = 0
-        if abs(self.vel.y) < 0.000000005:
+        if abs(self.vel.y) < 0.05:
             self.vel.y = 0
     def update(self):
         self.applyF()
