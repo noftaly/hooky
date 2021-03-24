@@ -46,7 +46,7 @@ class Entity:
                             self.vel.x = 0
 
                     if posb[0] - self.size < self.pos[0] < posb[0] + 64 + self.size :
-                        if (not self.grounded) and (self.pos[1] < posb[1]) and (self.pos[1] + self.size + self.vel.y + 0.001 > posb[1]):
+                        if (not self.grounded) and (self.pos[1] < posb[1]) and (self.pos[1] + self.size + self.vel.y + 0.001 > posb[1]): #the 0.001 makes sure we are looking inside of the block if 
                             self.pos[1] = posb[1] - self.size
                             self.vel.y = 0
                             self.grounded = True
@@ -63,5 +63,4 @@ class Entity:
     def update(self):
         self.pos = list(self.vel.cast(self.pos))
         self.nullify()
-        
         

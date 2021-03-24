@@ -13,20 +13,21 @@ class Level:
     def load_blocs(self):
         self.blocks_im = []
         if 0 <= self.number_level <= 99: #définir quel map as quel thème plus tard
-            #à modifier quand on aura les assets
-            b1 = pg.Surface((64,64))
-            b1.fill((216, 106, 0))
-            self.blocks_im.append(b1)
+            #à modifier quand on aura les assets par un for
+            b = pg.Surface((64,64))
+            b.fill((216, 106, 0))
+            self.blocks_im.append(b)
 
-            b2 = pg.Surface((64,64))
-            b2.fill((137,90,00))
-            self.blocks_im.append(b2)
+            b = pg.Surface((64,64))
+            b.fill((137,90,00))
+            self.blocks_im.append(b)
+
 
     
     def mk_lvl_surf(self): #Makes a pg Surface, that will be displayed over the background by Game
         px_size = len(self.level_array[0])*64,len(self.level_array)*64
         self.lvl_surf = pg.Surface(px_size)
-        self.lvl_surf.set_colorkey((0,0,0)) #tells pg that every perfectly black pixel should be transparent, the hex of black pixel should be 010101
+        self.lvl_surf.set_colorkey((0,0,0)) #tells pg that every perfectly black pixel should be transparent, the hex of black pixels should be 010101
 
         for x in range(len(self.level_array[0])):
             for y in range(len(self.level_array)):
