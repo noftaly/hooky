@@ -12,7 +12,7 @@ class Entity:
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
     
-    def applyF(self):
+    def apply_forces(self):
         self.vel += self.acc
         self.acc = Vector(0, 0)
     
@@ -63,6 +63,7 @@ class Entity:
                         elif (self.pos.y > posb.y) and (self.pos.y - self.size + self.vel.y < posb.y+64): 
                             self.pos.y = posb.y + 64 + self.size
                             self.vel.y = 0
+
     def nullify(self):
         """ When vel approaches 0, set it to 0, because otherwise there are cases where it will
         never reach 0 and we will always have a base velocity. """

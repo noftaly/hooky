@@ -38,7 +38,7 @@ class Player(Entity):
         self.add_friction()
         self.add_gravity()
         self.handle_input()
-        self.applyF()
+        self.apply_forces()
         self.collision()
 
         # Takes them into account
