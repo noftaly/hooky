@@ -18,6 +18,9 @@ class Hook(Entity):
         self.visible = False
 
     def display(self):
-        position = self.pos // 2
-        pg.draw.circle(self.game.surface, (0, 0, 0), position.as_tuple(), int(self.size))
+        position = (
+                    self.game.half_size[0] - (self.pos.x - self.player.pos.x),
+                    self.game.half_size[1] - (self.pos.y - self.player.pos.y)
+                    )
+        pg.draw.circle(self.game.surface, (0, 0, 0), position, int(self.size))
 
