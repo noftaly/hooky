@@ -1,7 +1,3 @@
-"""
-Initialisations, installation des librairies
-"""
-
 #from menu import Menu
 from game import Game
 
@@ -17,4 +13,4 @@ pg.display.set_mode((1000, 1000))
 Game(0).main()
 # Menu().main()
 
-pg.quit()    
+pg.quit()

@@ -1,37 +1,42 @@
 import pygame as pg
 from entity import Entity
-from Vec import Vector
+from Vector import Vector
 
 class Player(Entity):
+
     def __init__(self, game, spawn_location):
-        super().__init__(spawn_location, game,26)
+        super().__init__(spawn_location, game, 26)
 
     def display(self):
-        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size*1.2)) #bit bigger than the hitbox to make it look cuul
+        # Bit bigger than the hitbox to make it look cuul
+        # pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size * 1.2))
+        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size))
 
     def handle_input(self):
         keys = pg.key.get_pressed()
-        if keys[self.game.lft_k]:
+        if keys[self.game.left_key]:
             if self.grounded:
                 self.acc += Vector(-1.7, 0)
             else:
                 self.acc += Vector(-0.425, 0)
-        if keys[self.game.rgt_k]:
+        if keys[self.game.right_key]:
             if self.grounded:
                 self.acc += Vector(1.7, 0)
             else:
-                self.acc += Vector(0.425,0)
+                self.acc += Vector(0.425, 0)
             
-        if keys[self.game.up_k] and self.grounded:
+        if keys[self.game.up_key] and self.grounded:
             self.acc += Vector(0, -20)
             self.grounded = False
-    def update(self):
-        #applie forces
-        super().fricNgrav()
-        self.handle_input()
-        super().applyF()
-        super().col()
 
-        #takes them into account
+    def update(self):
+        # Applie forces
+        self.add_friction()
+        self.add_gravity()
+        self.handle_input()
+        self.applyF()
+        self.col()
+
+        # Takes them into account
         super().update()
         print(self.vel)

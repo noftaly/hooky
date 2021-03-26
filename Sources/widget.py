@@ -12,8 +12,8 @@ class Button():
         self.parent, self.pos, self.size, self.command = parent, pos, size, command
         half_size = (self.size[0]//2,self.size[1]//2)
         if self.centered:
-            self.blitpos = (self.pos[0]-half_size[0],
-                            self.pos[1]-.half_size[1])
+            self.blitpos = (self.pos.x-half_size[0],
+                            self.pos.y-.half_size[1])
 
         self.hovered = False
         self.engaged = False
