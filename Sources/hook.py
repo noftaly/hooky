@@ -12,5 +12,6 @@ class Hook(Entity):
         self.vel = Vector(3, 0)
 
     def display(self):
-        # Bit bigger than the hitbox to make it look cuul
-        pg.draw.circle(self.game.surface, (0, 0, 0), self.game.half_size, int(self.size))
+        print(self.pos.as_tuple())
+        exit(1)
+        pg.draw.circle(self.game.surface, (0, 0, 0), self.pos.as_tuple(), int(self.size))

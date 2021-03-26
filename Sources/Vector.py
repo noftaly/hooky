@@ -59,5 +59,8 @@ class Vector:
         self.x = int(self.x)
         self.y = int(self.y)
 
+    def as_tuple(self):
+        return (self.x, self.y)
+
     def cast(self, pos):
         return Vector(pos.x + self.x, pos.y + self.y)
