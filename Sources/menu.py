@@ -1,6 +1,5 @@
 import pygame as pg
 
-
 class Menu():
     def __init__(self):
         self.surf = pg.display.get_surface()
