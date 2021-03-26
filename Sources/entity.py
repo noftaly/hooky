@@ -27,7 +27,7 @@ class Entity:
         if not self.grounded:
             self.acc += Vector(0, Entity.GRAVITY)
 
-    def col(self):
+    def collision(self):
         if self.grounded:
             self.vel.y = 0
             self.grounded = False

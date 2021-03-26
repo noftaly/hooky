@@ -1,4 +1,5 @@
 import pygame as pg
+from Vector import Vector
 
 from level import Level
 from player import Player
@@ -29,6 +30,8 @@ class Game:
     def handle_event(self, event): 
         if event.type == pg.QUIT:
             self.running = False
+        if event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
+            self.player.launch_hook(Vector.from_tuple(event.pos))
 
     def display(self):
         """ Update the graphics """
