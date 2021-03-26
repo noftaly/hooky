@@ -72,6 +72,6 @@ class Entity:
             self.vel.y = 0
 
     def update(self):
-        self.pos = self.vel.cast(self.pos)
+        self.pos += self.vel
         self.nullify()
         

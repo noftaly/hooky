@@ -52,7 +52,7 @@ class Vector:
         """ Normalize a vector. """
         magnitude = self.mag()
         if magnitude != 0:
-            return  self * ((1/magnitude) * val)
+            return self * ((1/magnitude) * val)
         return self
     
     def with_ints(self):

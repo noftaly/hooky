@@ -39,6 +39,8 @@ class Game:
         
         self.level.display()
         self.player.display()
+        if self.player.hook.visible:
+            self.player.hook.display()
 
         pg.display.update()
 
@@ -46,6 +48,8 @@ class Game:
     def update(self):
         """ Update entities """
         self.player.update()
+        if self.player.hook.visible:
+            self.player.hook.update()
 
     def main(self):
         while self.running:

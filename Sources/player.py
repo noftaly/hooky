@@ -4,7 +4,6 @@ from Vector import Vector
 from hook import Hook
 
 class Player(Entity):
-
     def __init__(self, game, spawn_location):
         super().__init__(spawn_location, game, 26)
         self.hook = Hook(self, game)
@@ -30,12 +29,12 @@ class Player(Entity):
             self.acc += Vector(0, -20)
             self.grounded = False
 
-    def launch_hook(self):
+    def launch_hook(self, position):
         self.hook.visible = True
-        self.hook.launch()
+        self.hook.direction = position.normalize(1)
 
     def update(self):
-        # Applie forces
+        # Apply forces
         self.add_friction()
         self.add_gravity()
         self.handle_input()
@@ -44,4 +43,3 @@ class Player(Entity):
 
         # Takes them into account
         super().update()
-        print(self.vel)
