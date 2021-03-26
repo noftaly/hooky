@@ -4,8 +4,9 @@ class Entity:
     FRICTION = 5
     GRAVITY = 1.5
 
-    def __init__(self, pos, game,size):
-        self.pos = Vector(pos.x * 64 + 32, pos.y * 64 + 32)
+    def __init__(self, cell, game,size):
+        self.pos = Vector(cell.x * 64 + 32, cell.y * 64 + 32)
+        self.cell = cell
         self.game = game
         self.size = size # Actually half the size of the hitbox!!
         self.grounded = False
@@ -75,4 +76,4 @@ class Entity:
     def update(self):
         self.pos += self.vel
         self.nullify()
-        
+        self.cell = (self.pos - 32) // 64
