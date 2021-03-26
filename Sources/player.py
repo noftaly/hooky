@@ -4,8 +4,6 @@ from Vector import Vector
 from hook import Hook
 
 class Player(Entity):
-    JUMP_HEIGHT = 1.7
-    WALK_LENGTH = 0.8
 
     def __init__(self, game, spawn_location):
         super().__init__(spawn_location, game, 26)
@@ -19,14 +17,14 @@ class Player(Entity):
         keys = pg.key.get_pressed()
         if keys[self.game.left_key]:
             if self.grounded:
-                self.acc += Vector(-Player.JUMP_HEIGHT, 0)
+                self.acc += Vector(-1.7, 0)
             else:
-                self.acc += Vector(-Player.WALK_LENGTH, 0)
+                self.acc += Vector(-0.425, 0)
         if keys[self.game.right_key]:
             if self.grounded:
-                self.acc += Vector(Player.JUMP_HEIGHT, 0)
+                self.acc += Vector(1.7, 0)
             else:
-                self.acc += Vector(Player.WALK_LENGTH, 0)
+                self.acc += Vector(0.425, 0)
             
         if keys[self.game.up_key] and self.grounded:
             self.acc += Vector(0, -20)
@@ -46,3 +44,4 @@ class Player(Entity):
 
         # Takes them into account
         super().update()
+        print(self.vel)
