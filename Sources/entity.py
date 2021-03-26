@@ -1,5 +1,6 @@
 from math import sqrt
 from Vec import Vector
+from time import time as t
 
 class Entity:
 
@@ -54,7 +55,6 @@ class Entity:
                         elif (self.pos[1] > posb[1]) and (self.pos[1] - self.size + self.vel.y < posb[1]+64): 
                             self.pos[1] = posb[1] + 64 + self.size
                             self.vel.y = 0
-
     def nullify(self):
         if abs(self.vel.x) < 0.05:
             self.vel.x = 0

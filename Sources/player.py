@@ -15,12 +15,12 @@ class Player(Entity):
             if self.grounded:
                 self.acc += Vector(-1.7, 0)
             else:
-                self.acc += Vector(-0.50, 0)
+                self.acc += Vector(-0.425, 0)
         if keys[self.game.rgt_k]:
             if self.grounded:
                 self.acc += Vector(1.7, 0)
             else:
-                self.acc += Vector(0.50,0)
+                self.acc += Vector(0.425,0)
             
         if keys[self.game.up_k] and self.grounded:
             self.acc += Vector(0, -20)
@@ -34,3 +34,4 @@ class Player(Entity):
 
         #takes them into account
         super().update()
+        print(self.vel)
