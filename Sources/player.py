@@ -29,9 +29,14 @@ class Player(Entity):
             self.acc += Vector(0, -20)
             self.grounded = False
 
-    def launch_hook(self, position):
+    def launch_hook(self, event_position):
         self.hook.visible = True
-        self.hook.direction = position.normalize(1)
+        
+        position = Vector(
+                    event_position[0] - self.game.half_size[0],
+                    event_position[1] - self.game.half_size[1]
+                    ) 
+        self.hook.vel = position.normalize(10)
 
     def stop_hook(self):
         self.hook.reset()

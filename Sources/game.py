@@ -31,7 +31,7 @@ class Game:
         if event.type == pg.QUIT:
             self.running = False
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
-            self.player.launch_hook(Vector.from_tuple(event.pos))
+            self.player.launch_hook(event.pos)
         if event.type == pg.MOUSEBUTTONUP and event.button == 3:
             self.player.stop_hook()
 
