@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-from math import sqrt
-from Vec import Vector
-from time import time as t
-=======
 from Vector import Vector
->>>>>>> 17ef0c45f7e35f4d71f641c803f1df862cc467f2
 
 class Entity:
     FRICTION = 5
