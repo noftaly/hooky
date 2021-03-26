@@ -9,11 +9,16 @@ class Vector:
         return Vector(tuple[0], tuple[1])
 
     # Operations
-    def __sub__(self,other):
+    def __sub__(self, other):
+        """ Subtraction by a vector or a scalar. """
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(self.x - other, self.y - other)
         return Vector(self.x - other.x, self.y - other.y)
 
     def __add__(self, other):
-        """ Vector addition. """
+        """ Addition with a vector or a scalar. """
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(self.x + other, self.y + other)
         return Vector(self.x + other.x, self.y + other.y)
 
     def __mul__(self, scalar):
