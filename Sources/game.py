@@ -32,6 +32,8 @@ class Game:
             self.running = False
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
             self.player.launch_hook(Vector.from_tuple(event.pos))
+        if event.type == pg.MOUSEBUTTONUP and event.button == 3:
+            self.player.stop_hook()
 
     def display(self):
         """ Update the graphics """

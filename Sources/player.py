@@ -33,6 +33,9 @@ class Player(Entity):
         self.hook.visible = True
         self.hook.direction = position.normalize(1)
 
+    def stop_hook(self):
+        self.hook.reset()
+
     def update(self):
         # Apply forces
         self.add_friction()
