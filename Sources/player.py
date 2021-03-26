@@ -31,7 +31,8 @@ class Player(Entity):
 
     def launch_hook(self, event_position):
         self.hook.visible = True
-        
+        self.hook.offset = self.pos
+
         position = Vector(
                     event_position[0] - self.game.half_size[0],
                     event_position[1] - self.game.half_size[1]

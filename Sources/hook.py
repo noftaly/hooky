@@ -8,7 +8,8 @@ class Hook(Entity):
 
         self.player = player
         self.visible = False
-        self.vel= Vector(0, 0)
+        self.offset = Vector(0, 0)
+        self.vel = Vector(0, 0)
 
     def reset(self):
         self.pos = self.player.pos
@@ -18,8 +19,8 @@ class Hook(Entity):
 
     def display(self):
         position = (
-                    self.game.half_size[0] - (self.player.pos.x - self.pos.x),
-                    self.game.half_size[1] - (self.player.pos.y - self.pos.y)
+                    self.game.half_size[0] - (self.offset.x - self.pos.x),
+                    self.game.half_size[1] - (self.offset.y - self.pos.y)
                     )
         pg.draw.circle(self.game.surface, (0, 0, 0), position, int(self.size))
 
