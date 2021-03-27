@@ -3,6 +3,8 @@ from Vector import Vector
 from entity import Entity
 
 class Hook(Entity):
+    LAUNCH_SPEED = 30
+
     def __init__(self, player, game):
         super().__init__(player.cell, game, 5)
 
