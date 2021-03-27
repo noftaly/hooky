@@ -42,27 +42,27 @@ class Entity:
             for j in range(-1,2):
                 # If the pointed block is solid
                 if self.game.level.level_array[loc.y+j][loc.x+i] in solid:
-                    posb = Vector((loc.x+i)*64, (loc.y+j)*64)
-                    # Look at the paint
-                    if posb.y - self.size < self.pos.y < posb.y + 64 + self.size :
+                    neighbor = Vector((loc.x+i)*64, (loc.y+j)*64)
+                    # Look at /collisions.png
+                    if neighbor.y - self.size < self.pos.y < neighbor.y + 64 + self.size:
                         # If on the left AND the speed will make it go through
-                        if (self.pos.x < posb.x) and (self.pos.x + self.size + self.vel.x > posb.x):
-                            self.pos.x = posb.x - self.size
+                        if (self.pos.x < neighbor.x) and (self.pos.x + self.size + self.vel.x > neighbor.x):
+                            self.pos.x = neighbor.x - self.size
                             self.vel.x = 0
                         # On the right
-                        elif (self.pos.x > posb.x) and (self.pos.x - self.size + self.vel.x < posb.x+64):
-                            self.pos.x = posb.x + 64 + self.size
+                        elif (self.pos.x > neighbor.x) and (self.pos.x - self.size + self.vel.x < neighbor.x+64):
+                            self.pos.x = neighbor.x + 64 + self.size
                             self.vel.x = 0
 
-                    if posb.x - self.size < self.pos.x < posb.x + 64 + self.size :
+                    if neighbor.x - self.size < self.pos.x < neighbor.x + 64 + self.size :
                         # The 0.001 makes sure we are looking inside of the block if 
-                        if (not self.grounded) and (self.pos.y < posb.y) and (self.pos.y + self.size + self.vel.y + 0.001 > posb.y):
-                            self.pos.y = posb.y - self.size
+                        if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
+                            self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.grounded = True
 
-                        elif (self.pos.y > posb.y) and (self.pos.y - self.size + self.vel.y < posb.y+64): 
-                            self.pos.y = posb.y + 64 + self.size
+                        elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64): 
+                            self.pos.y = neighbor.y + 64 + self.size
                             self.vel.y = 0
 
     def nullify(self):
