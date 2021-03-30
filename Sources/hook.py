@@ -23,8 +23,8 @@ class Hook(Entity):
 
     def display(self):
         position = (
-                    self.game.half_size[0] - (self.offset.x - self.pos.x),
-                    self.game.half_size[1] - (self.offset.y - self.pos.y)
+                    self.game.half_size[0] - (self.player.pos.x - self.pos.x),
+                    self.game.half_size[1] - (self.player.pos.y - self.pos.y)
                     )
 
         pg.draw.line(self.game.surface, (0, 0, 0), self.game.half_size, position, 3)
