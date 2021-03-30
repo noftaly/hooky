@@ -1,5 +1,4 @@
 import pygame as pg
-from Vector import Vector
 
 from level import Level
 from player import Player
@@ -23,9 +22,9 @@ class Game:
         self.running = True
 
     def read_settings(self): # à faire dans Menu plus tard
-        self.up_key = pg.K_UP
-        self.left_key = pg.K_LEFT
-        self.right_key = pg.K_RIGHT
+        self.up_key = pg.K_SPACE # pg.K_UP
+        self.left_key = pg.K_q # pg.K_LEFT
+        self.right_key = pg.K_d # pg.K_RIGHT
 
     def handle_event(self, event): 
         if event.type == pg.QUIT:

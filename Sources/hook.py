@@ -22,13 +22,11 @@ class Hook(Entity):
         self.stopped = False
 
     def display(self):
-        position = (
-                    self.game.half_size[0] - (self.player.pos.x - self.pos.x),
-                    self.game.half_size[1] - (self.player.pos.y - self.pos.y)
-                    )
+        halfsize = Vector.from_tuple(self.game.half_size)
+        position = halfsize - self.player.pos + self.pos
 
-        pg.draw.line(self.game.surface, (0, 0, 0), self.game.half_size, position, 3)
-        pg.draw.circle(self.game.surface, (0, 0, 0), position, int(self.size))
+        pg.draw.line(self.game.surface, (0, 0, 0), self.game.half_size, position.as_tuple(), 3)
+        pg.draw.circle(self.game.surface, (0, 0, 0), position.as_tuple(), int(self.size))
 
     def update(self):
         if not self.stopped:
