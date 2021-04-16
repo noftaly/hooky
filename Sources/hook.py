@@ -6,7 +6,7 @@ class Hook(Entity):
     LAUNCH_SPEED = 30
 
     def __init__(self, player, game):
-        super().__init__(player.cell, game, 5)
+        super().__init__(player.cell, game, 1)
 
         self.player = player
         self.visible = False
@@ -26,9 +26,16 @@ class Hook(Entity):
         position = halfsize - self.player.pos + self.pos
 
         pg.draw.line(self.game.surface, (0, 0, 0), self.game.half_size, position.as_tuple(), 3)
-        pg.draw.circle(self.game.surface, (0, 0, 0), position.as_tuple(), int(self.size))
+        pg.draw.circle(self.game.surface, (0, 0, 0), position.as_tuple(), self.size * 5)
 
     def update(self):
+        force: Vector = self.player.pos - self.pos
+        displacement = force.mag() / 2
+        force.normalize(1)
+        force *= -0.000001 * displacement
+
+        self.player.vel += force
+
         if not self.stopped:
             self.collision()
             # If we hit something

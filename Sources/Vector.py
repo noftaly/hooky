@@ -67,5 +67,9 @@ class Vector:
     def as_tuple(self):
         return (self.x, self.y)
 
-    def cast(self, pos):
-        return Vector(pos.x + self.x, pos.y + self.y)
+    def angle_with(self, other):
+        return math.acos((self.x * other.x + self.y * other.y) / (self.mag() + other.mag()))
+
+    def apply_angle(self, angle):
+        self.x = self.x * math.cos(angle) - math.sin(angle) * self.y
+        self.y = self.x * math.sin(angle) + math.cos(angle) * self.y

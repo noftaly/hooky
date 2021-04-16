@@ -50,5 +50,8 @@ class Player(Entity):
         self.apply_forces()
         self.collision()
 
+        if self.hook.visible and self.hook.stopped:
+            self.vel += self.hook.vel.normalize(1)
+
         # Takes them into account
         super().update()

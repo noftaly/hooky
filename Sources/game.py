@@ -39,9 +39,9 @@ class Game:
         self.surface.blit(self.background, (0, 0))
         
         self.level.display()
-        self.player.display()
         if self.player.hook.visible:
             self.player.hook.display()
+        self.player.display()
 
         pg.display.update()
 
