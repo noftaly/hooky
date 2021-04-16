@@ -10,7 +10,7 @@ class Hook(Entity):
 
         self.player = player
         self.visible = False
-        self.stopped = False
+        self.gripped = False
         self.offset = Vector(0, 0)
         self.vel = Vector(0, 0)
 
@@ -19,7 +19,7 @@ class Hook(Entity):
         self.cell = (self.pos - 32) // 64
         self.vel = Vector(0, 0)
         self.visible = False
-        self.stopped = False
+        self.gripped = False
 
     def display(self):
         halfsize = Vector.from_tuple(self.game.half_size)
@@ -29,17 +29,10 @@ class Hook(Entity):
         pg.draw.circle(self.game.surface, (0, 0, 0), position.as_tuple(), self.size * 5)
 
     def update(self):
-        force: Vector = self.player.pos - self.pos
-        displacement = force.mag() / 2
-        force.normalize(1)
-        force *= -0.000001 * displacement
-
-        self.player.vel += force
-
-        if not self.stopped:
+        if not self.gripped:
             self.collision()
             # If we hit something
             if self.vel.x == 0 or self.vel.y == 0:
                 self.dest = self.pos
-                self.stopped = True
+                self.gripped = True
             super().update()

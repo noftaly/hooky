@@ -30,7 +30,7 @@ class Player(Entity):
             self.grounded = False
 
     def launch_hook(self, event_position):
-        self.hook.visible = True
+        self.hook.reset()
         self.hook.offset = self.pos
 
         position = Vector(
@@ -38,9 +38,13 @@ class Player(Entity):
             event_position[1] - self.game.half_size[1]
         )
         self.hook.vel = position.normalize(1 * Hook.LAUNCH_SPEED)
+        self.hook.visible = True
 
     def stop_hook(self):
         self.hook.reset()
+
+    def apply_hook(self):
+        pass
 
     def update(self):
         # Apply forces
@@ -50,8 +54,8 @@ class Player(Entity):
         self.apply_forces()
         self.collision()
 
-        if self.hook.visible and self.hook.stopped:
-            self.vel += self.hook.vel.normalize(1)
+        if self.hook.visible and self.hook.gripped:
+            self.apply_hook()
 
         # Takes them into account
         super().update()
