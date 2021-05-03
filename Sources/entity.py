@@ -2,7 +2,7 @@ from Vector import Vector
 
 class Entity:
     FRICTION = 5
-    GRAVITY = 1.5
+    GRAVITY = 1.4
 
     def __init__(self, cell, game,size):
         self.pos = Vector(cell.x * 64 + 32, cell.y * 64 + 32)
