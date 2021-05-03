@@ -44,7 +44,17 @@ class Player(Entity):
         self.hook.reset()
 
     def apply_hook(self):
-        pass
+        x_offset = self.hook.pos.x - self.pos.x
+        if x_offset > 1:
+            self.acc.x += 2
+        elif x_offset < 1:
+            self.acc.x -= 2
+        
+        y_offset = self.hook.pos.y - self.pos.y
+        if y_offset > 1:
+            self.acc.y += .5
+        elif y_offset < 1:
+            self.acc.y -= .5
 
     def update(self):
         # Apply forces
