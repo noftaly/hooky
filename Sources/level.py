@@ -49,7 +49,7 @@ class Level:
     def read_level(self, number_level):
         self.level_array = []
         # r+t: read as text file
-        with open("../Levels/level_" + str(number_level) + ".lvl", mode='r+t') as level_file:
+        with open("./Levels/level_" + str(number_level) + ".lvl", mode='r+t') as level_file:
             for (row, line) in enumerate(level_file):
                 if line[-1] == '\n':
                     line = line[:-1]
