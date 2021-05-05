@@ -44,28 +44,34 @@ class Player(Entity):
         self.hook.reset()
 
     def apply_hook(self):
+        # Determine the x force to add to the acceleration
         x_offset = self.hook.pos.x - self.pos.x
-        if x_offset > 1:
-            self.acc.x += 2
-        elif x_offset < 1:
-            self.acc.x -= 2
+        if x_offset > 48:
+            self.acc.x += 3
+        elif x_offset < -48:
+            self.acc.x -= 3
         
+        # Determine the y force to add to the acceleration
         y_offset = self.hook.pos.y - self.pos.y
-        if y_offset > 1:
-            self.acc.y += .5
-        elif y_offset < 1:
-            self.acc.y -= .5
+        if y_offset > 48:
+            self.acc.y += 0.8
+        elif y_offset < -48:
+            self.acc.y -= 0.8
 
     def update(self):
         # Apply forces
         self.add_friction()
         self.add_gravity()
         self.handle_input()
-        self.apply_forces()
-        self.collision()
 
         if self.hook.visible and self.hook.gripped:
             self.apply_hook()
+
+        self.vel += self.acc
+        if self.vel.y > 10:
+            self.vel.y = 10
+        self.collision()
+        self.acc = Vector(0, 0)
 
         # Takes them into account
         super().update()

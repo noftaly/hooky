@@ -13,10 +13,6 @@ class Entity:
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
     
-    def apply_forces(self):
-        self.vel += self.acc
-        self.acc = Vector(0, 0)
-    
     def add_friction(self):
         if self.grounded: # Horizontal friction, proportional to speed
             # Reduce the X vel, reducing the constant raises the friction.
@@ -29,7 +25,7 @@ class Entity:
             self.acc += Vector(0, Entity.GRAVITY)
 
     def collision(self):
-        if self.grounded:
+        if self.grounded and self.acc.y == 0:
             self.vel.y = 0
             self.grounded = False
 
@@ -37,9 +33,9 @@ class Entity:
         loc = self.pos // 64
         loc.with_ints()
         # Not well secured, but the player shouldn't be on the edge of the map anyway
-        for i in range(-1,2):
+        for i in range(-1, 2):
             # Goes around the player
-            for j in range(-1,2):
+            for j in range(-1, 2):
                 # If the pointed block is solid
                 if self.game.level.level_array[loc.y+j][loc.x+i] in solid:
                     neighbor = Vector((loc.x+i)*64, (loc.y+j)*64)
