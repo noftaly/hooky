@@ -1,5 +1,6 @@
 import pygame as pg
 from widget import Button, Checker, Slider
+from game import Game
 
 class Principal():
     def __init__(self, parent):
@@ -9,7 +10,7 @@ class Principal():
 
         self.childs = []
 
-        self.surf.blit(pg.transform.scale(pg.image.load("../Assets/mbckg.png"),(1920//self.parent.ratio, 1080//self.parent.ratio)), (0,0))
+        self.surf.blit(pg.transform.scale(pg.image.load("./Assets/mbckg.png"),(1920//self.parent.ratio, 1080//self.parent.ratio)), (0,0))
         #Les gros bouttons du centre d'abord !
         self.childs.append(Button(self, True, self.play, "playb"))
         self.childs.append(Button(self, True, self.options, "opb"))
@@ -27,12 +28,12 @@ class Principal():
     def update(self):
         ratio = self.parent.ratio
         for i in range(3): 
-            self.childs[i].size = (512//ratio, 128//ratio)
-            self.childs[i].pos = (960//ratio - 120//ratio, 500//ratio + i*178//ratio)
+            self.childs[i].size = (450//ratio, 112//ratio)
+            self.childs[i].pos = (960//ratio,500 //ratio + i*150//ratio)
             self.childs[i].update()
 
     def play(self):
-        print("play !")
+        Game(0).main()
     
     def options(self):
         self.parent.active = Options(self.parent)
@@ -47,7 +48,7 @@ class Options():
         self.surf = parent.surf
         self.size = self.parent.size
 
-        self.bckg = pg.transform.scale(pg.image.load("../Assets/obckg.png"), (1920//self.parent.ratio, 1080//self.parent.ratio))
+        self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (1920//self.parent.ratio, 1080//self.parent.ratio))
         self.childs = []
         self.childs.append(Checker(self))
         self.childs.append(Slider(self))

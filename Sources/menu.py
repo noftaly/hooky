@@ -4,7 +4,7 @@ from screens import Principal
 """
 display() blits the right things onto Menu.surf
 handle_event() updates the class variables in function of the input
-update() updates the position (childs) or the image(self)
+update() updates the position/size (childs) or the image(self)
 
 """
 class Menu():
@@ -31,13 +31,9 @@ class Menu():
         st = t.time()
         while self.running:
             self.display()
-            a = t.time()
             for event in pg.event.get():
                 self.handle_event(event)
-            print(t.time()-a)
-        end = t.time()
-        if (end-st<=0.0083):
-            t.sleep(0.0083-end+st)
+        print(1/(t.time()-st))
 
     def get_config(self):
         # = [vol,disp settings,]

@@ -10,7 +10,7 @@ except:
 pg.init()
 pg.display.set_mode((1920, 1080))
 
-Game(0).main()
-# Menu().main()
+#Game(0).main()
+Menu().main()
 
 pg.quit()

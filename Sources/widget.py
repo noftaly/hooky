@@ -11,16 +11,15 @@ class Button():
         self.parent, self.centered, self.bound, self.name = parent, centered, bind, name
 
         try:
-            self.image = pg.image.load("../Assets/"+self.name+".png")
+            self.image = pg.image.load("./Assets/"+self.name+".png")
         except:
-            self.image = pg.image.load("../Assets/missing.png")
+            self.image = pg.image.load("./Assets/missing.png")
         self.to_disp = True
         self.hovered = False
         self.engaged = False
     
 
     def display(self):
-        print("disp",self)
         self.parent.surf.blit(self.image,self.pos)
         if self.hovered:
             self.parent.surf.blit(self.mask,self.pos)
@@ -52,6 +51,17 @@ class Button():
             self.engaged = False
             self.bound()
 
+class Binder():
+    def __init__(self,parent):
+        self.parent = parent
+        
+        self.to_disp = True
+        self.hovered = False
+
+    def update():
+        pass
+
+
 class Checker():
     def __init__(self, parent):
         self.parent = parent
@@ -61,7 +71,6 @@ class Checker():
         self.hovered = False
         self.engaged = False
     def display(self):
-        print("disp",self)
         self.update()
         self.parent.surf.blit(self.image,self.pos)
         self.to_disp = False
@@ -101,19 +110,17 @@ class Slider():
         self.engaged = False
         self.to_disp = True
 
-
     def display(self):
-        print("disp",self)
         ratio = self.parent.parent.ratio
         pg.draw.line(self.parent.surf, (50,50,50),
                     (self.pos[0], self.pos[1]),
                     (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
-                    4//ratio)
+                    8//ratio)
         pg.draw.line(self.parent.surf, (150,150,150),
                     (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
                     (self.pos[0] + self.size, self.pos[1]),
-                    4//ratio)
-        pg.draw.circle(self.parent.surf, (50,50,50), (self.pos[0] + (self.size*self.vol)//1000,self.pos[1]), 10//ratio)
+                    8//ratio)
+        pg.draw.circle(self.parent.surf, (50,50,50), (self.pos[0] + (self.size*self.vol)//1000,self.pos[1]), 25//ratio)
         self.to_disp = False
 
     def handle_event(self, event):
@@ -127,7 +134,7 @@ class Slider():
             self.to_disp = True
         elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             ratio = self.parent.parent.ratio
-            if is_in(event.pos, (18/ratio,18/ratio), (self.pos[0] + (self.size*self.vol)//1000 + 9/ratio, self.pos[1] + 9/ratio)):
+            if is_in(event.pos, (48/ratio,48/ratio), (self.pos[0] + (self.size*self.vol)//1000 + 24/ratio, self.pos[1] + 24/ratio)):
                 self.engaged = True
         elif event.type == pg.MOUSEBUTTONUP and self.engaged:
             self.engaged = False
