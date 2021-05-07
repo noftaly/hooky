@@ -1,5 +1,5 @@
-#from menu import Menu
-from game import Game
+from menu import Menu
+#from game import Game
 
 try:
     import pygame as pg
@@ -8,7 +8,7 @@ except:
     exit(1)
 
 pg.init()
-pg.display.set_mode((1000, 1000))
+pg.display.set_mode((1920, 1080))
 
 Game(0).main()
 # Menu().main()
