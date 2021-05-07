@@ -4,7 +4,7 @@ from entity import Entity
 
 class Hook(Entity):
     LAUNCH_SPEED = 30
-    MAX_SIZE = 1000
+    MAX_SIZE = 64 * 8
 
     def __init__(self, player, game):
         super().__init__(player.cell, game, 1)
@@ -14,6 +14,7 @@ class Hook(Entity):
         self.gripped = False
         self.offset = Vector(0, 0)
         self.vel = Vector(0, 0)
+        self.length = 0
 
     def reset(self):
         self.pos = self.player.pos
@@ -38,5 +39,6 @@ class Hook(Entity):
                 self.gripped = True
             super().update()
 
-            if not self.gripped and (self.pos - self.player.pos).mag() > Hook.MAX_SIZE:
+            self.length = (self.pos - self.player.pos).mag()
+            if not self.gripped and self.length > Hook.MAX_SIZE:
                 self.reset()
