@@ -11,10 +11,10 @@ class Menu():
     def __init__(self):
         pg.init()
         pg.font.init()
-        pg.display.set_mode((1920, 1080))
+        pg.display.set_mode((1920,1080), pg.FULLSCREEN)
         self.surf = pg.display.get_surface()
         self.size = self.surf.get_size()
-        self.ratio = 1920 // self.size[0]
+        self.ratio = self.size[0] / 1920
 
         self.active = Principal(self)
 
