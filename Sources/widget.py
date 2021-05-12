@@ -68,9 +68,9 @@ class Checker():
         self.image = pg.Surface((self.size,self.size))
         if self.hovered:
             self.image.fill((0,255,255))
-        pg.draw.rect(self.image, (255,255,255),(4//ratio,4//ratio,self.size-8//ratio,self.size-8//ratio))
+        pg.draw.rect(self.image, (255,255,255),(int(4*ratio),4*ratio,int(self.size- 8*ratio),int(self.size-8*ratio)))
         if self.state:
-            pg.draw.rect(self.image, (0,0,0),(10//ratio,10//ratio,self.size-20//ratio,self.size-20//ratio))
+            pg.draw.rect(self.image, (0,0,0),(int(10*ratio),int(10*ratio),self.size-int(20*ratio),self.size-int(20*ratio)))
     
     def handle_event(self,event):
         if event.type == pg.MOUSEMOTION:
@@ -97,16 +97,15 @@ class Slider():
 
     def display(self):
         ratio = self.parent.parent.ratio
-        print("size, pos",self.size, self.pos)
         pg.draw.line(self.parent.surf, (50,50,50),
                     (self.pos[0], self.pos[1]),
                     (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
-                    int(8//ratio))
+                    int(8*ratio))
         pg.draw.line(self.parent.surf, (150,150,150),
                     (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
                     (self.pos[0] + self.size, self.pos[1]),
-                    int(8//ratio))
-        pg.draw.circle(self.parent.surf, (50,50,50), (self.pos[0] + (self.size*self.vol)//1000,self.pos[1]), 25//ratio)
+                    int(8*ratio))
+        pg.draw.circle(self.parent.surf, (50,50,50), (self.pos[0] + (self.size*self.vol)//1000,self.pos[1]), int(25*ratio))
         self.to_disp = False
 
     def handle_event(self, event):
@@ -145,9 +144,9 @@ class KeyBinder():
             self.image.fill((255,255,255))
 
         #retrieves a Font object, asking for Option.ft (impact or default), renders the character corresponding to self.key and blits it onto self.image
-        txt = pg.font.SysFont(self.parent.ft, int(30//ratio)).render(KeyBinder.chars[self.key], True, (0,0,0))
+        txt = pg.font.SysFont(self.parent.ft, int(30*ratio)).render(KeyBinder.chars[self.key], True, (0,0,0))
         size = txt.get_size()
-        self.image.blit(txt, (self.size[0]//2,0))
+        self.image.blit(txt, ((self.size[0]-size[0])//2, 0))
         
     def display(self):
         self.update() #pas opti

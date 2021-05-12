@@ -69,7 +69,7 @@ class Hook(Entity):
 
                     if neighbor.x - self.size < self.pos.x < neighbor.x + 64 + self.size :
                         # The 0.001 makes sure we are looking inside of the block if 
-                        if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
+                        if (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
                             self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.impact = True

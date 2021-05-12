@@ -9,7 +9,7 @@ class Principal():
         self.size = self.parent.size
 
         self.childs = []
-        self.surf.blit(pg.transform.scale(pg.image.load("./Assets/mbckg.png"),(int(1920//self.parent.ratio), int(1080//self.parent.ratio))), (0,0))
+        self.surf.blit(pg.transform.scale(pg.image.load("./Assets/mbckg.png"),(int(1920*self.parent.ratio), int(1080*self.parent.ratio))), (0,0))
         #Les gros bouttons du centre d'abord !
         self.childs.append(Button(self, True, self.play, "playb"))
         self.childs.append(Button(self, True, self.options, "opb"))
@@ -54,15 +54,21 @@ class Options():
         else:
             self.ft = pg.font.get_default_font()
 
-        self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920//self.parent.ratio), int(1080//self.parent.ratio)))
+        self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920*self.parent.ratio), int(1080*self.parent.ratio)))
         self.childs = []
         self.childs.append(Checker(self,self.fullscreen))
         self.childs.append(Slider(self))
-        self.childs.append(KeyBinder(self,97))
+        self.childs.append(KeyBinder(self,113))
+        self.childs.append(KeyBinder(self,100))
+        self.childs.append(KeyBinder(self,32))
+        self.childs.append(KeyBinder(self,27))
+        self.childs.append(Button(self, True, self.back, "back"))
         self.update()
 
     def display(self):
         if self.childs[1].to_disp: #the slider needs the whole screen to be redrawn
+            self.all_disp = True
+        if self.all_disp:
             self.surf.blit(self.bckg,(0,0))
 
         for child in self.childs:
@@ -76,17 +82,24 @@ class Options():
         for child in self.childs:
             child.handle_event(event)
     def update(self):
+        self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920*self.parent.ratio), int(1080*self.parent.ratio))) #need to reload image from file, or scale will compress it
+
         ratio = self.parent.ratio
-        print("ratio", ratio)
         self.childs[0].pos = (int(1020*ratio),int(875*ratio))
         self.childs[0].size = int(50*ratio)
         self.childs[1].pos = (int(950*ratio),int(778*ratio))
         self.childs[1].size = int(350*ratio)
-        #for i in range(4):
-        self.childs[2].pos = (int(950*ratio),int(500*ratio))
-        self.childs[2].size = (int(300*ratio),int(50*ratio))
-        self.childs[2].update()
+        for i in range(4):
+            self.childs[2+i].pos = (int(950*ratio),int(485*ratio + i*60*ratio))
+            self.childs[2+i].size = (int(300*ratio),int(50*ratio))
+            self.childs[2+i].update()
 
+        self.childs[6].pos = (int(1450*ratio), int(60*ratio))
+        self.childs[6].size = (int(150*ratio), int(60*ratio))
+        self.childs[6].update()
+    def back(self):
+        self.parent.active = Principal(self.parent)
+        del self
     def fullscreen(self, mode):
         if mode:
             pg.display.set_mode((1920,1080), pg.FULLSCREEN)
@@ -95,8 +108,7 @@ class Options():
         
         self.parent.surf = pg.display.get_surface()
         self.parent.size = self.parent.surf.get_size()
-        print(self.parent.size)
         self.parent.ratio = self.parent.size[0] / 1920
 
+        self.all_disp = True
         self.update()
-        self.display()
