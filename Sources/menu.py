@@ -42,5 +42,3 @@ class Menu():
         pass
     
         #faire ca, puis faire display binder
-
-Menu().main()

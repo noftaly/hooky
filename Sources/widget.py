@@ -52,11 +52,10 @@ class Button():
             self.bound()
 
 class Checker():
-    def __init__(self, parent):
-        self.parent = parent
-
+    def __init__(self, parent, command):
+        self.parent, self.command = parent, command
         self.to_disp = True
-        self.state = False
+        self.state = True
         self.hovered = False
         self.engaged = False
     def display(self):
@@ -86,11 +85,8 @@ class Checker():
         elif event.type == pg.MOUSEBUTTONUP and event.button == 1 and self.engaged and self.hovered:
             self.engaged = False
             self.to_disp = True
-            self.fullscreen()
-    def fullscreen(self):
-        self.state = not self.state
-        pass
-
+            self.state = not self.state
+            self.command(self.state)
 class Slider():
     def __init__(self, parent):
         self.parent = parent

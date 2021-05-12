@@ -34,12 +34,12 @@ class Principal():
 
     def play(self):
         Game(0).main()
+        self.parent.running = False #Will be executed only if the Game.main() is broke by an alt+f4
     
     def options(self):
         self.parent.active = Options(self.parent)
 
     def quit(self):
-        print("quit !")
         self.parent.running = False
 
     
@@ -57,7 +57,7 @@ class Options():
 
         self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (1920//self.parent.ratio, 1080//self.parent.ratio))
         self.childs = []
-        self.childs.append(Checker(self))
+        self.childs.append(Checker(self,self.fullscreen))
         self.childs.append(Slider(self))
         self.childs.append(KeyBinder(self,97))
         self.update()
@@ -86,5 +86,11 @@ class Options():
         self.childs[2].size = (300//ratio, 50//ratio)
         self.childs[2].update()
 
-
-    
+    def fullscreen(self, mode):
+        if mode:
+            pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+        else:
+            pg.display.set_mode((960,540))
+        self.parent.surf = pg.display.get_surface()
+        self.update()
+        self.display()
