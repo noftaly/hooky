@@ -9,6 +9,9 @@ update() updates the position/size (childs) or the image(self)
 """
 class Menu():
     def __init__(self):
+        pg.init()
+        pg.font.init()
+        pg.display.set_mode((1920, 1080))
         self.surf = pg.display.get_surface()
         self.size = self.surf.get_size()
         self.ratio = 1920 // self.size[0]
@@ -33,12 +36,11 @@ class Menu():
             self.display()
             for event in pg.event.get():
                 self.handle_event(event)
-        print(1/(t.time()-st))
 
     def get_config(self):
         # = [vol,disp settings,]
         pass
+    
+        #faire ca, puis faire display binder
 
-pg.init()
-pg.display.set_mode((1920, 1080))
 Menu().main()
