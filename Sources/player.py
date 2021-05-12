@@ -6,6 +6,8 @@ from hook import Hook
 class Player(Entity):
     def __init__(self, game, spawn_location):
         super().__init__(spawn_location, game, 26)
+        self.spawn = spawn_location*64
+        print("spn",self.spawn.x,self.spawn.y)
         self.hook = Hook(self, game)
 
     def display(self):
@@ -28,7 +30,9 @@ class Player(Entity):
         if keys[self.game.up_key] and self.grounded:
             self.acc += Vector(0, -20)
             self.grounded = False
-
+    def die(self):
+        self.vel = Vector(0,0)
+        self.pos = self.game.level.spawn*64
     def launch_hook(self, event_position):
         self.hook.reset()
         self.hook.offset = self.pos

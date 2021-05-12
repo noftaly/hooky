@@ -54,8 +54,11 @@ class Game:
 
     def main(self):
         while self.running:
+            st = t.time()
             self.display()
             self.update()
-            t.sleep(0.00833)
             for event in pg.event.get():
                 self.handle_event(event)
+            slp = 0.0083 - t.time() + st
+            if slp>0:
+                t.sleep(slp)

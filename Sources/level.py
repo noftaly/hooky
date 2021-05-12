@@ -28,6 +28,9 @@ class Level:
     def mk_lvl_surf(self):
         """ Makes a pg Surface, that will be displayed over the background by Game """
         px_size = (len(self.level_array[0])*64, len(self.level_array)*64)
+        red = pg.Surface((64,64))
+        red.fill((255,0,0))
+
         self.lvl_surf = pg.Surface(px_size)
         # Tells pg that every perfectly black pixel should be transparent, the hex of black pixels should be 010101
         self.lvl_surf.set_colorkey((0, 0, 0))
@@ -36,6 +39,8 @@ class Level:
             for y in range(len(self.level_array)):
                 if self.level_array[y][x] == 1:
                     self.lvl_surf.blit(random.choice(self.blocks_im),(x*64,y*64))
+                elif self.level_array[y][x] == 2:
+                    self.lvl_surf.blit(red,(x*64,y*64))
 
     def display(self): 
         self.game.surface.blit(

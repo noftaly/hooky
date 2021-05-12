@@ -1,5 +1,7 @@
 from Vector import Vector
 
+import player
+
 class Entity:
     FRICTION = 5
     GRAVITY = 1.4
@@ -29,7 +31,7 @@ class Entity:
             self.vel.y = 0
             self.grounded = False
 
-        solid = [1] # Define solid blocks
+        solid = [1,2,3] # Define solid blocks
         loc = self.pos // 64
         loc.with_ints()
         # Not well secured, but the player shouldn't be on the edge of the map anyway
@@ -38,26 +40,38 @@ class Entity:
             for j in range(-1, 2):
                 # If the pointed block is solid
                 if self.game.level.level_array[loc.y+j][loc.x+i] in solid:
+                    if self.game.level.level_array[loc.y+j][loc.x+i] == 2 and isinstance(self,player.Player):
+                        danger = True
+                    else:
+                        danger = False
                     neighbor = Vector((loc.x+i)*64, (loc.y+j)*64)
                     # Look at /collisions.png
                     if neighbor.y - self.size < self.pos.y < neighbor.y + 64 + self.size:
                         # If on the left AND the speed will make it go through
                         if (self.pos.x < neighbor.x) and (self.pos.x + self.size + self.vel.x > neighbor.x):
+                            if danger:
+                                self.die()
                             self.pos.x = neighbor.x - self.size
                             self.vel.x = 0
                         # On the right
                         elif (self.pos.x > neighbor.x) and (self.pos.x - self.size + self.vel.x < neighbor.x+64):
+                            if danger:
+                                self.die()
                             self.pos.x = neighbor.x + 64 + self.size
                             self.vel.x = 0
 
                     if neighbor.x - self.size < self.pos.x < neighbor.x + 64 + self.size :
                         # The 0.001 makes sure we are looking inside of the block if 
                         if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
+                            if danger:
+                                self.die()
                             self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.grounded = True
 
                         elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64): 
+                            if danger:
+                                self.die()
                             self.pos.y = neighbor.y + 64 + self.size
                             self.vel.y = 0
 

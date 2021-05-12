@@ -1,5 +1,6 @@
 import pygame as pg
-from widget import Button, Checker, Slider
+from widget import Button, Checker, Slider, KeyBinder
+from game import Game
 
 class Principal():
     def __init__(self, parent):
@@ -9,7 +10,7 @@ class Principal():
 
         self.childs = []
 
-        self.surf.blit(pg.transform.scale(pg.image.load("../Assets/mbckg.png"),(1920//self.parent.ratio, 1080//self.parent.ratio)), (0,0))
+        self.surf.blit(pg.transform.scale(pg.image.load("./Assets/mbckg.png"),(1920//self.parent.ratio, 1080//self.parent.ratio)), (0,0))
         #Les gros bouttons du centre d'abord !
         self.childs.append(Button(self, True, self.play, "playb"))
         self.childs.append(Button(self, True, self.options, "opb"))
@@ -27,19 +28,21 @@ class Principal():
     def update(self):
         ratio = self.parent.ratio
         for i in range(3): 
-            self.childs[i].size = (512//ratio, 128//ratio)
-            self.childs[i].pos = (960//ratio - 120//ratio, 500//ratio + i*178//ratio)
+            self.childs[i].size = (450//ratio, 112//ratio)
+            self.childs[i].pos = (960//ratio,500 //ratio + i*150//ratio)
             self.childs[i].update()
 
     def play(self):
-        print("play !")
+        Game(0).main()
+        self.parent.running = False #Will be executed only if the Game.main() is broke by an alt+f4
     
     def options(self):
         self.parent.active = Options(self.parent)
 
     def quit(self):
-        print("quit !")
         self.parent.running = False
+
+    
 
 class Options():
     def __init__(self, parent):
@@ -47,15 +50,20 @@ class Options():
         self.surf = parent.surf
         self.size = self.parent.size
 
-        self.bckg = pg.transform.scale(pg.image.load("../Assets/obckg.png"), (1920//self.parent.ratio, 1080//self.parent.ratio))
-        self.childs = []
-        self.childs.append(Checker(self))
-        self.childs.append(Slider(self))
+        if 'impact' in pg.font.get_fonts():
+            self.ft = 'impact'
+        else:
+            self.ft = pg.font.get_default_font()
 
+        self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (1920//self.parent.ratio, 1080//self.parent.ratio))
+        self.childs = []
+        self.childs.append(Checker(self,self.fullscreen))
+        self.childs.append(Slider(self))
+        self.childs.append(KeyBinder(self,97))
         self.update()
 
     def display(self):
-        if self.childs[1].to_disp:
+        if self.childs[1].to_disp: #the slider needs the whole screen to be redrawn
             self.surf.blit(self.bckg,(0,0))
             all_disp = True
         else:
@@ -73,6 +81,16 @@ class Options():
         self.childs[0].size = 50//ratio
         self.childs[1].pos = (950//ratio, 778//ratio)
         self.childs[1].size = 350//ratio
+        #for i in range(4):
+        self.childs[2].pos = (950//ratio, 500//ratio)
+        self.childs[2].size = (300//ratio, 50//ratio)
+        self.childs[2].update()
 
-
-    
+    def fullscreen(self, mode):
+        if mode:
+            pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+        else:
+            pg.display.set_mode((960,540))
+        self.parent.surf = pg.display.get_surface()
+        self.update()
+        self.display()
