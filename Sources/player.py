@@ -44,7 +44,9 @@ class Player(Entity):
             event_position[0] - self.game.half_size[0],
             event_position[1] - self.game.half_size[1]
         )
-        self.hook.vel = position.normalize(1 * Hook.LAUNCH_SPEED)
+        if position.y:
+            self.grounded = False
+        self.hook.vel = position.normalize(Hook.LAUNCH_SPEED)
         self.hook.visible = True
 
     def stop_hook(self):
@@ -54,21 +56,57 @@ class Player(Entity):
         # Determine the x force to add to the acceleration
         hook_acc = Vector(0,0)
         hook_acc = self.hook.pos - self.pos
-        hook_acc = hook_acc.normalize((self.hook.length/Hook.MAX_SIZE)*5)
+        hook_acc = hook_acc.normalize((self.hook.length/Hook.MAX_SIZE)*2)
         self.acc += hook_acc
-        """x_offset = self.hook.pos.x - self.pos.x
-        if x_offset > 48:
-            self.acc.x += 3
-        elif x_offset < -48:
-            self.acc.x -= 3
-        
-        # Determine the y force to add to the acceleration
-        y_offset = self.hook.pos.y - self.pos.y
-        if y_offset > 48:
-            self.acc.y += 0.8
-        elif y_offset < -48:
-            self.acc.y -= 0.8"""
 
+    def collision(self):
+        if self.grounded and self.acc.y == 0:
+            self.vel.y = 0
+            self.grounded = False
+
+        solid = [1,2,3] # Define solid blocks
+        loc = self.pos // 64
+        loc.with_ints()
+        # Not well secured, but the player shouldn't be on the edge of the map anyway
+        for i in range(-1, 2):
+            # Goes around the player
+            for j in range(-1, 2):
+                # If the pointed block is solid
+                if self.game.level.level_array[loc.y+j][loc.x+i] in solid:
+                    if self.game.level.level_array[loc.y+j][loc.x+i] == 2:
+                        danger = True
+                    else:
+                        danger = False
+                    neighbor = Vector((loc.x+i)*64, (loc.y+j)*64)
+                    # Look at /collisions.png
+                    if neighbor.y - self.size < self.pos.y < neighbor.y + 64 + self.size:
+                        # If on the left AND the speed will make it go through
+                        if (self.pos.x < neighbor.x) and (self.pos.x + self.size + self.vel.x > neighbor.x):
+                            if danger:
+                                self.dead = True
+                            self.pos.x = neighbor.x - self.size
+                            self.vel.x = 0
+                        # On the right
+                        elif (self.pos.x > neighbor.x) and (self.pos.x - self.size + self.vel.x < neighbor.x+64):
+                            if danger:
+                                self.dead = True
+                            self.pos.x = neighbor.x + 64 + self.size
+                            self.vel.x = 0
+
+                    if neighbor.x - self.size < self.pos.x < neighbor.x + 64 + self.size :
+                        # The 0.001 makes sure we are looking inside of the block if 
+                        if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
+                            if danger:
+                                self.dead = True
+                            self.pos.y = neighbor.y - self.size
+                            self.vel.y = 0
+                            self.grounded = True
+
+                        elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64): 
+                            if danger:
+                                self.dead = True
+                            self.pos.y = neighbor.y + 64 + self.size
+                            self.vel.y = 0
     def update(self):
         # Apply forces
         self.add_friction()
@@ -86,6 +124,7 @@ class Player(Entity):
             self.die()
             self.dead = False
         self.acc = Vector(0, 0)
+        print("gnd",self.grounded)
         
         # Takes them into account
         super().update()
