@@ -50,13 +50,13 @@ class Entity:
                         # If on the left AND the speed will make it go through
                         if (self.pos.x < neighbor.x) and (self.pos.x + self.size + self.vel.x > neighbor.x):
                             if danger:
-                                self.die()
+                                self.dead = True
                             self.pos.x = neighbor.x - self.size
                             self.vel.x = 0
                         # On the right
                         elif (self.pos.x > neighbor.x) and (self.pos.x - self.size + self.vel.x < neighbor.x+64):
                             if danger:
-                                self.die()
+                                self.dead = True
                             self.pos.x = neighbor.x + 64 + self.size
                             self.vel.x = 0
 
@@ -64,14 +64,14 @@ class Entity:
                         # The 0.001 makes sure we are looking inside of the block if 
                         if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
                             if danger:
-                                self.die()
+                                self.dead = True
                             self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.grounded = True
 
                         elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64): 
                             if danger:
-                                self.die()
+                                self.dead = True
                             self.pos.y = neighbor.y + 64 + self.size
                             self.vel.y = 0
 

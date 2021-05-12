@@ -10,6 +10,8 @@ class Player(Entity):
         print("spn",self.spawn.x,self.spawn.y)
         self.hook = Hook(self, game)
 
+        self.dead = False
+
     def display(self):
         # Bit bigger than the hitbox to make it look cuul
         pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size * 1.2))
@@ -75,7 +77,10 @@ class Player(Entity):
         if self.vel.y > 10:
             self.vel.y = 10
         self.collision()
+        if self.dead:
+            self.die()
+            self.dead = False
         self.acc = Vector(0, 0)
-
+        
         # Takes them into account
         super().update()
