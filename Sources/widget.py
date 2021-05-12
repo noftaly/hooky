@@ -150,7 +150,7 @@ class KeyBinder():
         #retrieves a Font object, asking for Option.ft (impact or default), renders the character corresponding to self.key and blits it onto self.image
         txt = pg.font.SysFont(self.parent.ft, 30//ratio).render(KeyBinder.chars[self.key], True, (0,0,0))
         size = txt.get_size()
-        self.image.blit(txt, (0,self.size[1]//2))
+        self.image.blit(txt, (self.size[0]//2,0))
         
     def display(self):
         self.update() #pas opti
