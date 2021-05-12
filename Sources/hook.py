@@ -12,7 +12,6 @@ class Hook(Entity):
         self.player = player
         self.visible = False
         self.gripped = False
-        self.offset = Vector(0, 0)
         self.vel = Vector(0, 0)
         self.length = 0
 

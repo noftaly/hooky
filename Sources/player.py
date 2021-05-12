@@ -35,6 +35,7 @@ class Player(Entity):
     def die(self):
         self.vel = Vector(0,0)
         self.pos = self.game.level.spawn*64
+        self.stop_hook()
     def launch_hook(self, event_position):
         self.hook.reset()
         self.hook.offset = self.pos
@@ -51,7 +52,11 @@ class Player(Entity):
 
     def apply_hook(self):
         # Determine the x force to add to the acceleration
-        x_offset = self.hook.pos.x - self.pos.x
+        hook_acc = Vector(0,0)
+        hook_acc = self.hook.pos - self.pos
+        hook_acc = hook_acc.normalize((self.hook.length/Hook.MAX_SIZE)*5)
+        self.acc += hook_acc
+        """x_offset = self.hook.pos.x - self.pos.x
         if x_offset > 48:
             self.acc.x += 3
         elif x_offset < -48:
@@ -62,7 +67,7 @@ class Player(Entity):
         if y_offset > 48:
             self.acc.y += 0.8
         elif y_offset < -48:
-            self.acc.y -= 0.8
+            self.acc.y -= 0.8"""
 
     def update(self):
         # Apply forces
