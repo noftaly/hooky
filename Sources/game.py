@@ -7,7 +7,8 @@ import time as t
 class Game:
     CELL_SIZE = 64
 
-    def __init__(self, number_level):
+    def __init__(self, parent, number_level):
+        self.parent = parent
         self.surface = pg.display.get_surface()
         self.size = self.surface.get_size()
         self.half_size = self.size[0] // 2, self.size[1] // 2
@@ -18,13 +19,15 @@ class Game:
         self.level = Level(self, number_level)
         self.player = Player(self, self.level.spawn)
 
-        self.read_settings()
+        self.config = self.parent.config
+        self.set_keys()
+
         self.running = True
 
-    def read_settings(self): # à faire dans Menu plus tard
-        self.up_key = pg.K_SPACE # pg.K_UP
-        self.left_key = pg.K_q # pg.K_LEFT
-        self.right_key = pg.K_d # pg.K_RIGHT
+    def set_keys(self): # à faire dans Menu plus tard
+        self.up_key = self.config[1][2] # pg.K_UP
+        self.left_key = self.config[1][0] # pg.K_LEFT
+        self.right_key = self.config[1][1] # pg.K_RIGHT
 
     def handle_event(self, event): 
         if event.type == pg.QUIT:

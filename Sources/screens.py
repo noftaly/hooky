@@ -32,7 +32,7 @@ class Principal():
             self.childs[i].update()
 
     def play(self):
-        Game(0).main()
+        Game(self.parent, 0).main()
         self.parent.running = False #Will be executed only if the Game.main() is broke by an alt+f4
     
     def options(self):
@@ -57,11 +57,11 @@ class Options():
         self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920*self.parent.ratio), int(1080*self.parent.ratio)))
         self.childs = []
         self.childs.append(Checker(self,self.fullscreen))
-        self.childs.append(Slider(self))
-        self.childs.append(KeyBinder(self,113))
-        self.childs.append(KeyBinder(self,100))
-        self.childs.append(KeyBinder(self,32))
-        self.childs.append(KeyBinder(self,27))
+        self.childs.append(Slider(self,self.parent.config[0]))
+        self.childs.append(KeyBinder(self,self.parent.config[1][0]))
+        self.childs.append(KeyBinder(self,self.parent.config[1][1]))
+        self.childs.append(KeyBinder(self,self.parent.config[1][2]))
+        self.childs.append(KeyBinder(self,self.parent.config[1][3]))
         self.childs.append(Button(self, True, self.back, "back"))
         self.update()
 
@@ -99,7 +99,14 @@ class Options():
         self.childs[6].update()
     def back(self):
         self.parent.active = Principal(self.parent)
+        self.apply()
         del self
+
+    def apply(self):
+        self.parent.config[0] = self.childs[1].vol
+        for i in range(4):
+            self.parent.config[1][i] = self.childs[2+i].key
+        self.parent.write_config()
     def fullscreen(self, mode):
         if mode:
             pg.display.set_mode((1920,1080), pg.FULLSCREEN)

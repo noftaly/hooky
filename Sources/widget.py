@@ -88,10 +88,9 @@ class Checker():
             self.state = not self.state
             self.command(self.state)
 class Slider():
-    def __init__(self, parent):
-        self.parent = parent
+    def __init__(self, parent, vol):
+        self.parent, self.vol = parent, vol
         
-        self.vol = 500
         self.engaged = False
         self.to_disp = True
 

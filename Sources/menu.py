@@ -18,7 +18,8 @@ class Menu():
 
         self.active = Principal(self)
 
-        self.get_config()
+        self.read_config()
+        print(self.config)
         self.running = True
     def display(self):
         self.active.display()
@@ -37,8 +38,20 @@ class Menu():
             for event in pg.event.get():
                 self.handle_event(event)
 
-    def get_config(self):
-        # = [vol,disp settings,]
-        pass
-    
-        #faire ca, puis faire display binder
+    def read_config(self):
+        self.config = []
+        with open("./Assets/settings.cfg", mode="r+t") as config_f:
+            i = 0
+            for line in config_f:
+                if line[-1] == '\n' or line[-1] == ' ':
+                    line = line[:-1]
+                if i == 0:
+                    self.config.append(int(line))
+                else:
+                   self.config.append(list(map(int,line.split(' '))))
+                i += 1
+    def write_config(self):
+        with open("./Assets/settings.cfg", mode="w+t") as config_f:
+                config_f.write(str(self.config[0])+'\n')
+                for i in range(4):
+                        config_f.write(str(self.config[1][i])+' ')
