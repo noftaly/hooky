@@ -25,7 +25,7 @@ class Level:
             b.fill((137,90,00))
             self.blocks_im.append(b)"""
 
-            b = pg.image.load("./Assets/test_block.png")
+            b = pg.image.load("./Assets/dirt_2.png")
             b = b_var = pg.transform.scale(b,(64,64))
             for i in range(3):
                 b_var = pg.transform.rotate(b_var,-90)

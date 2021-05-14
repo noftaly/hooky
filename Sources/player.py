@@ -31,7 +31,7 @@ class Player(Entity):
                 self.acc += Vector(0.425, 0)
             
         if keys[self.game.up_key] and self.grounded:
-            self.acc += Vector(0, -15)
+            self.acc += Vector(0, -12)
             self.grounded = False
     def die(self):
         self.vel = Vector(0,0)
@@ -57,13 +57,17 @@ class Player(Entity):
         # Every value in there is found "à tâton", don't ask questions you won't get answers
         hook_acc = Vector(0,0)
         hook_acc = self.hook.pos - self.pos
-        length = abs(hook_acc)
-        norm = (length/Hook.MAX_SIZE)*10 - 0.5
-        if norm > 2:
-            norm = 2
+        length = abs(hook_acc) - 20
+        norm = (length/Hook.MAX_SIZE)*1.8
+        print("len",length,"thus",norm)
+        if norm > 1.3:
+            norm = 1.3
         hook_acc = hook_acc.normalize(norm)
+
         if (self.acc.x < 0 and hook_acc.x > 0) or (self.acc.x > 0 and hook_acc.x < 0):
             hook_acc.x *= 0.8
+        if hook_acc.y > 0:
+            hook_acc.y *= 0.8
         self.acc += hook_acc
 
     def collision(self):
@@ -125,8 +129,8 @@ class Player(Entity):
         self.add_gravity()
 
         self.vel += self.acc
-        if self.vel.y > 10:
-            self.vel.y = 10
+        if self.vel.y > 15:
+            self.vel.y = 15
         self.collision()
         if self.dead:
             self.die()
