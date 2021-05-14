@@ -8,7 +8,6 @@ class Player(Entity):
     def __init__(self, game, spawn_location):
         super().__init__(spawn_location, game, 26)
         self.spawn = spawn_location*64
-        print("spn",self.spawn.x,self.spawn.y)
         self.hook = Hook(self, game)
 
         self.dead = False
@@ -57,17 +56,19 @@ class Player(Entity):
         # Every value in there is found "à tâton", don't ask questions you won't get answers
         hook_acc = Vector(0,0)
         hook_acc = self.hook.pos - self.pos
-        length = abs(hook_acc) - 20
-        norm = (length/Hook.MAX_SIZE)*1.8
-        print("len",length,"thus",norm)
-        if norm > 1.3:
-            norm = 1.3
-        hook_acc = hook_acc.normalize(norm)
-
+        
         if (self.acc.x < 0 and hook_acc.x > 0) or (self.acc.x > 0 and hook_acc.x < 0):
             hook_acc.x *= 0.8
         if hook_acc.y > 0:
             hook_acc.y *= 0.8
+        
+
+        length = abs(hook_acc) - 20
+        norm = (length/(Hook.MAX_SIZE/1.5))*2
+        print(hook_acc, norm)
+        if norm > 0.9:
+            norm = 0.9
+        hook_acc = hook_acc.normalize(norm)
         self.acc += hook_acc
 
     def collision(self):
@@ -136,7 +137,6 @@ class Player(Entity):
             self.die()
             self.dead = False
         self.acc = Vector(0, 0)
-        #print("gnd",self.grounded)
         
         # Takes them into account
         super().update()
