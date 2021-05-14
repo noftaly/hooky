@@ -35,6 +35,7 @@ class Hook(Entity):
             # If we hit something
             if self.impact:
                 self.dest = self.pos
+                self.vel = Vector(0,0)
                 self.gripped = True
             super().update()
 

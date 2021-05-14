@@ -2,6 +2,7 @@ import pygame as pg
 from entity import Entity
 from Vector import Vector
 from hook import Hook
+from math import log
 
 class Player(Entity):
     def __init__(self, game, spawn_location):
@@ -30,7 +31,7 @@ class Player(Entity):
                 self.acc += Vector(0.425, 0)
             
         if keys[self.game.up_key] and self.grounded:
-            self.acc += Vector(0, -20)
+            self.acc += Vector(0, -15)
             self.grounded = False
     def die(self):
         self.vel = Vector(0,0)
@@ -56,12 +57,16 @@ class Player(Entity):
         # Determine the x force to add to the acceleration
         hook_acc = Vector(0,0)
         hook_acc = self.hook.pos - self.pos
-        hook_acc = hook_acc.normalize((self.hook.length/Hook.MAX_SIZE)*2)
+        length = abs(hook_acc)
+        #le grappin attire trop de loin, ln(1+x) est un fix artificiel
+        hook_acc = hook_acc.normalize(log(1 + length/Hook.MAX_SIZE)*4.5)
+        if (self.acc.x < 0 and hook_acc.x > 0) or (self.acc.x > 0 and hook_acc.x < 0):
+            hook_acc.x *= 0.8
         self.acc += hook_acc
 
     def collision(self):
-        if self.grounded and self.acc.y == 0:
-            self.vel.y = 0
+        if self.grounded:
+            #self.vel.y = 0
             self.grounded = False
 
         solid = [1,2,3] # Define solid blocks
@@ -109,22 +114,24 @@ class Player(Entity):
                             self.vel.y = 0
     def update(self):
         # Apply forces
-        self.add_friction()
-        self.add_gravity()
         self.handle_input()
 
         if self.hook.visible and self.hook.gripped:
             self.apply_hook()
+        
+        self.add_friction()
+        self.add_gravity()
 
         self.vel += self.acc
         if self.vel.y > 10:
             self.vel.y = 10
         self.collision()
+        print(self.vel)
         if self.dead:
             self.die()
             self.dead = False
         self.acc = Vector(0, 0)
-        print("gnd",self.grounded)
+        #print("gnd",self.grounded)
         
         # Takes them into account
         super().update()
