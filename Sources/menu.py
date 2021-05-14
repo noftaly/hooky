@@ -11,15 +11,22 @@ class Menu():
     def __init__(self):
         pg.init()
         pg.font.init()
-        pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+
+        self.read_config()
+        print(self.config)
+        if self.config[1]:
+            pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+        else:
+            print("petit")
+            pg.display.set_mode((1280,720))
+
         self.surf = pg.display.get_surface()
         self.size = self.surf.get_size()
         self.ratio = self.size[0] / 1920
 
         self.active = Principal(self)
 
-        self.read_config()
-        print(self.config)
+        
         self.running = True
     def display(self):
         self.active.display()
@@ -47,11 +54,19 @@ class Menu():
                     line = line[:-1]
                 if i == 0:
                     self.config.append(int(line))
+                elif i == 1:
+                    self.config.append(bool(int(line)))
                 else:
-                   self.config.append(list(map(int,line.split(' '))))
+                    self.config.append(list(map(int,line.split(' '))))
                 i += 1
+
     def write_config(self):
         with open("./Assets/settings.cfg", mode="w+t") as config_f:
                 config_f.write(str(self.config[0])+'\n')
+                if self.config[1]:
+                    config_f.write('1\n')
+                else:
+                    config_f.write('0\n')
                 for i in range(4):
-                        config_f.write(str(self.config[1][i])+' ')
+                        config_f.write(str(self.config[2][i])+' ')
+                

@@ -7,8 +7,8 @@ def is_in(pos,size,coords):
     return False
 
 class Button():
-    def __init__(self, parent,centered, bind, name):
-        self.parent, self.centered, self.bound, self.name = parent, centered, bind, name
+    def __init__(self, parent, bind, name):
+        self.parent, self.bound, self.name = parent, bind, name
 
         try:
             self.image = pg.image.load("./Assets/"+self.name+".png")
@@ -27,10 +27,8 @@ class Button():
 
     def update(self):
         half_size = (self.size[0]//2, self.size[1]//2)
-        #changes the blitpos
-        if self.centered:
-            self.pos = (self.pos[0] - half_size[0],
-                            self.pos[1] - half_size[1])
+        self.pos = (self.pos[0] - half_size[0],
+                        self.pos[1] - half_size[1])
 
         self.mask = pg.Surface(self.size)
         self.mask.set_alpha(80)
@@ -50,6 +48,7 @@ class Button():
         elif self.engaged and event.type == pg.MOUSEBUTTONUP and event.button == 1:
             self.engaged = False
             self.bound()
+
 
 class Checker():
     def __init__(self, parent, command, state):

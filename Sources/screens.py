@@ -11,9 +11,9 @@ class Principal():
         self.childs = []
         self.surf.blit(pg.transform.scale(pg.image.load("./Assets/mbckg.png"),(int(1920*self.parent.ratio), int(1080*self.parent.ratio))), (0,0))
         #Les gros bouttons du centre d'abord !
-        self.childs.append(Button(self, True, self.play, "playb"))
-        self.childs.append(Button(self, True, self.options, "opb"))
-        self.childs.append(Button(self, True, self.quit, "quitb"))
+        self.childs.append(Button(self, self.play, "playb"))
+        self.childs.append(Button(self, self.options, "opb"))
+        self.childs.append(Button(self, self.quit, "quitb"))
 
         self.update()
     def display(self):
@@ -56,13 +56,13 @@ class Options():
 
         self.bckg = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920*self.parent.ratio), int(1080*self.parent.ratio)))
         self.childs = []
-        self.childs.append(Checker(self,self.fullscreen))
+        self.childs.append(Checker(self,self.fullscreen, self.parent.config[1]))
         self.childs.append(Slider(self,self.parent.config[0]))
-        self.childs.append(KeyBinder(self,self.parent.config[1][0]))
-        self.childs.append(KeyBinder(self,self.parent.config[1][1]))
-        self.childs.append(KeyBinder(self,self.parent.config[1][2]))
-        self.childs.append(KeyBinder(self,self.parent.config[1][3]))
-        self.childs.append(Button(self, True, self.back, "back"))
+        self.childs.append(KeyBinder(self,self.parent.config[2][0]))
+        self.childs.append(KeyBinder(self,self.parent.config[2][1]))
+        self.childs.append(KeyBinder(self,self.parent.config[2][2]))
+        self.childs.append(KeyBinder(self,self.parent.config[2][3]))
+        self.childs.append(Button(self, self.back, "back"))
         self.update()
 
     def display(self):
@@ -104,8 +104,10 @@ class Options():
 
     def apply(self):
         self.parent.config[0] = self.childs[1].vol
+        self.parent.config[1] = self.childs[0].state
         for i in range(4):
-            self.parent.config[1][i] = self.childs[2+i].key
+            self.parent.config[2][i] = self.childs[2+i].key
+        
         self.parent.write_config()
     def fullscreen(self, mode):
         if mode:
