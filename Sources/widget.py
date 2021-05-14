@@ -52,10 +52,9 @@ class Button():
             self.bound()
 
 class Checker():
-    def __init__(self, parent, command):
-        self.parent, self.command = parent, command
+    def __init__(self, parent, command, state):
+        self.parent, self.command, self.state = parent, command, state
         self.to_disp = True
-        self.state = True
         self.hovered = False
         self.engaged = False
     def display(self):
@@ -68,9 +67,9 @@ class Checker():
         self.image = pg.Surface((self.size,self.size))
         if self.hovered:
             self.image.fill((0,255,255))
-        pg.draw.rect(self.image, (255,255,255),(int(4*ratio),4*ratio,int(self.size- 8*ratio),int(self.size-8*ratio)))
+        pg.draw.rect(self.image, (255,255,255),(int(6*ratio),6*ratio,int(self.size- 12*ratio),int(self.size-12*ratio)))
         if self.state:
-            pg.draw.rect(self.image, (0,0,0),(int(10*ratio),int(10*ratio),self.size-int(20*ratio),self.size-int(20*ratio)))
+            pg.draw.rect(self.image, (0,0,0),(int(12*ratio),int(12*ratio),self.size-int(24*ratio),self.size-int(24*ratio)))
     
     def handle_event(self,event):
         if event.type == pg.MOUSEMOTION:
