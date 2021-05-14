@@ -17,12 +17,19 @@ class Level:
         # Définir quel map a quel thème plus tard
         if 0 <= self.number_level <= 99:
             # À modifier quand on aura les assets par un for
-            b = pg.Surface((64, 64))
+            """b = pg.Surface((64, 64))
             b.fill((216, 106, 0))
             self.blocks_im.append(b)
 
             b = pg.Surface((64,64))
             b.fill((137,90,00))
+            self.blocks_im.append(b)"""
+
+            b = pg.image.load("./Assets/test_block.png")
+            b = b_var = pg.transform.scale(b,(64,64))
+            for i in range(3):
+                b_var = pg.transform.rotate(b_var,-90)
+                self.blocks_im.append(b_var)
             self.blocks_im.append(b)
 
     def mk_lvl_surf(self):

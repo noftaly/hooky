@@ -54,12 +54,14 @@ class Player(Entity):
         self.hook.reset()
 
     def apply_hook(self):
-        # Determine the x force to add to the acceleration
+        # Every value in there is found "à tâton", don't ask questions you won't get answers
         hook_acc = Vector(0,0)
         hook_acc = self.hook.pos - self.pos
         length = abs(hook_acc)
-        #le grappin attire trop de loin, ln(1+x) est un fix artificiel
-        hook_acc = hook_acc.normalize(log(1 + length/Hook.MAX_SIZE)*4.5)
+        norm = (length/Hook.MAX_SIZE)*10 - 0.5
+        if norm > 2:
+            norm = 2
+        hook_acc = hook_acc.normalize(norm)
         if (self.acc.x < 0 and hook_acc.x > 0) or (self.acc.x > 0 and hook_acc.x < 0):
             hook_acc.x *= 0.8
         self.acc += hook_acc
@@ -126,7 +128,6 @@ class Player(Entity):
         if self.vel.y > 10:
             self.vel.y = 10
         self.collision()
-        print(self.vel)
         if self.dead:
             self.die()
             self.dead = False
