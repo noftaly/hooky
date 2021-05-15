@@ -1,5 +1,6 @@
 import pygame as pg
 from screens import Principal
+from utils import get_asset
 
 class Menu():
     """
@@ -43,7 +44,7 @@ class Menu():
 
     def read_config(self):
         self.config = []
-        with open("./Assets/settings.cfg", mode="r+t") as config_f:
+        with open(get_asset("settings.cfg"), mode="r+t") as config_f:
             i = 0
             for line in config_f:
                 if line[-1] == '\n' or line[-1] == ' ':
@@ -57,7 +58,7 @@ class Menu():
                 i += 1
 
     def write_config(self):
-        with open("./Assets/settings.cfg", mode="w+t") as config_f:
+        with open(get_asset("settings.cfg"), mode="w+t") as config_f:
             config_f.write(str(self.config[0])+'\n')
             if self.config[1]:
                 config_f.write('1\n')

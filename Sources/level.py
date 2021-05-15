@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 import pygame as pg
+from utils import get_asset
 from vector import Vector
 
 class Level:
@@ -20,7 +21,7 @@ class Level:
         # Définir quel map a quel thème plus tard
         if 0 <= self.number_level <= 99:
             # À modifier quand on aura les assets par un for
-            dirt = pg.image.load("./Assets/dirt_2.png")
+            dirt = pg.image.load(get_asset("dirt_2.png"))
             dirt = dirt_variation = pg.transform.scale(dirt, (64, 64))
             for _ in range(4):
                 dirt_variation = pg.transform.rotate(dirt_variation, -90)
@@ -56,7 +57,7 @@ class Level:
     def read_level(self, number_level):
         self.level_array = []
         # r+t: read as text file
-        with open("./Levels/level_" + str(number_level) + ".lvl", mode='r+t') as level_file:
+        with open(get_asset("Levels/level_" + str(number_level) + ".lvl"), mode='r+t') as level_file:
             for (row, line) in enumerate(level_file):
                 if line[-1] == '\n':
                     line = line[:-1]
