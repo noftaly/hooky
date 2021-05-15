@@ -1,45 +1,41 @@
 import pygame as pg
-import time as t
 from screens import Principal
-"""
-display() blits the right things onto Menu.surf
-handle_event() updates the class variables in function of the input
-update() updates the position/size (childs) or the image(self)
 
-"""
 class Menu():
+    """
+    display() blits the right things onto Menu.surface
+    handle_event() updates the class variables in function of the input
+    update() updates the position/size (childs) or the image(self)
+    """
     def __init__(self):
         pg.init()
         pg.font.init()
 
         self.read_config()
-        print(self.config)
         if self.config[1]:
-            pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+            pg.display.set_mode((1920, 1080), pg.FULLSCREEN)
         else:
-            print("petit")
-            pg.display.set_mode((1280,720))
+            pg.display.set_mode((1280, 720))
 
-        self.surf = pg.display.get_surface()
-        self.size = self.surf.get_size()
+        self.surface = pg.display.get_surface()
+        self.size = self.surface.get_size()
         self.ratio = self.size[0] / 1920
 
         self.active = Principal(self)
 
-        
         self.running = True
+
     def display(self):
         self.active.display()
         pg.display.update()
 
     def handle_event(self, event):
-        if event.type  == pg.QUIT:
+        if event.type == pg.QUIT:
             self.running = False
         else:
             self.active.handle_event(event)
-    
+
     def main(self):
-        st = t.time()
         while self.running:
             self.display()
             for event in pg.event.get():
@@ -62,11 +58,10 @@ class Menu():
 
     def write_config(self):
         with open("./Assets/settings.cfg", mode="w+t") as config_f:
-                config_f.write(str(self.config[0])+'\n')
-                if self.config[1]:
-                    config_f.write('1\n')
-                else:
-                    config_f.write('0\n')
-                for i in range(4):
-                        config_f.write(str(self.config[2][i])+' ')
-                
+            config_f.write(str(self.config[0])+'\n')
+            if self.config[1]:
+                config_f.write('1\n')
+            else:
+                config_f.write('0\n')
+            for i in range(4):
+                    config_f.write(str(self.config[2][i]) + ' ')

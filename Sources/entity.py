@@ -1,7 +1,5 @@
 from Vector import Vector
 
-import player
-
 class Entity:
     FRICTION = 5
     GRAVITY = 0.3
@@ -14,14 +12,14 @@ class Entity:
         self.grounded = False
         self.vel = Vector(0, 0)
         self.acc = Vector(0, 0)
-    
+
     def add_friction(self):
         if self.grounded: # Horizontal friction, proportional to speed
             # Reduce the X vel, reducing the constant raises the friction.
             self.acc -= Vector(self.vel.x / Entity.FRICTION, 0)
         else:
             self.acc -= Vector(self.vel.x / (Entity.FRICTION * 4), 0)
-    
+
     def add_gravity(self):
         if not self.grounded:
             self.acc += Vector(0, Entity.GRAVITY)

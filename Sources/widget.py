@@ -1,9 +1,8 @@
 import pygame as pg
 
-def is_in(pos,size,coords):
-    if ((pos[0] <= coords[0] <= pos[0] + size[0])
-        and (pos[1] <= coords[1] <= pos[1] + size[1])):
-            return True
+def is_in(pos, size, coords):
+    if ((pos[0] <= coords[0] <= pos[0] + size[0]) and (pos[1] <= coords[1] <= pos[1] + size[1])):
+        return True
     return False
 
 class Button():
@@ -11,31 +10,29 @@ class Button():
         self.parent, self.bound, self.name = parent, bind, name
 
         try:
-            self.image = pg.image.load("./Assets/"+self.name+".png")
-        except:
+            self.image = pg.image.load(f'./Assets/{self.name}.png')
+        except FileNotFoundError:
             self.image = pg.image.load("./Assets/missing.png")
         self.to_disp = True
         self.hovered = False
         self.engaged = False
-    
-    
+
     def display(self):
-        self.parent.surf.blit(self.image,self.pos)
+        self.parent.surface.blit(self.image, self.pos)
         if self.hovered:
-            self.parent.surf.blit(self.mask,self.pos)
+            self.parent.surface.blit(self.mask, self.pos)
         self.to_disp = False
 
     def update(self):
-        half_size = (self.size[0]//2, self.size[1]//2)
-        self.pos = (self.pos[0] - half_size[0],
-                        self.pos[1] - half_size[1])
+        half_size = (self.size[0] // 2, self.size[1] // 2)
+        self.pos = (self.pos[0] - half_size[0], self.pos[1] - half_size[1])
 
         self.mask = pg.Surface(self.size)
         self.mask.set_alpha(80)
 
-        self.image = pg.transform.scale(self.image,self.size)
+        self.image = pg.transform.scale(self.image, self.size)
 
-    def handle_event(self,event): #only pass mouse events !
+    def handle_event(self, event): # Only pass mouse events !
         if event.type == pg.MOUSEMOTION:
             if is_in(self.pos, self.size, event.pos):
                 self.to_disp = not self.hovered
@@ -43,12 +40,13 @@ class Button():
             else:
                 self.to_disp = self.hovered
                 self.hovered = False
+
         elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             self.engaged = self.hovered
+
         elif self.engaged and event.type == pg.MOUSEBUTTONUP and event.button == 1:
             self.engaged = False
             self.bound()
-
 
 class Checker():
     def __init__(self, parent, command, state):
@@ -56,21 +54,28 @@ class Checker():
         self.to_disp = True
         self.hovered = False
         self.engaged = False
+
     def display(self):
         self.update()
-        self.parent.surf.blit(self.image,self.pos)
+        self.parent.surface.blit(self.image,self.pos)
         self.to_disp = False
 
     def update(self):
         ratio = self.parent.parent.ratio
-        self.image = pg.Surface((self.size,self.size))
+        self.image = pg.Surface((self.size, self.size))
         if self.hovered:
-            self.image.fill((0,255,255))
-        pg.draw.rect(self.image, (255,255,255),(int(6*ratio),6*ratio,int(self.size- 12*ratio),int(self.size-12*ratio)))
+            self.image.fill((0, 255, 255))
+        pg.draw.rect(
+            self.image, (255, 255, 255),
+            (int(6 * ratio), 6 * ratio, int(self.size - 12 * ratio), int(self.size - 12 * ratio))
+        )
         if self.state:
-            pg.draw.rect(self.image, (0,0,0),(int(12*ratio),int(12*ratio),self.size-int(24*ratio),self.size-int(24*ratio)))
-    
-    def handle_event(self,event):
+            pg.draw.rect(
+                self.image, (0, 0, 0),
+                (int(12 * ratio), int(12 * ratio), self.size - int(24 * ratio), self.size - int(24 * ratio))
+            )
+
+    def handle_event(self, event):
         if event.type == pg.MOUSEMOTION:
             if is_in(self.pos, (self.size, self.size), event.pos):
                 self.to_disp = not self.hovered
@@ -85,24 +90,25 @@ class Checker():
             self.to_disp = True
             self.state = not self.state
             self.command(self.state)
+
 class Slider():
     def __init__(self, parent, vol):
         self.parent, self.vol = parent, vol
-        
+
         self.engaged = False
         self.to_disp = True
 
     def display(self):
         ratio = self.parent.parent.ratio
-        pg.draw.line(self.parent.surf, (50,50,50),
+        pg.draw.line(self.parent.surface, (50, 50, 50),
                     (self.pos[0], self.pos[1]),
-                    (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
-                    int(8*ratio))
-        pg.draw.line(self.parent.surf, (150,150,150),
-                    (self.pos[0] + (self.size*self.vol)//1000, self.pos[1]),
+                    (self.pos[0] + (self.size * self.vol) // 1000, self.pos[1]),
+                    int(8 * ratio))
+        pg.draw.line(self.parent.surface, (150, 150, 150),
+                    (self.pos[0] + (self.size * self.vol) // 1000, self.pos[1]),
                     (self.pos[0] + self.size, self.pos[1]),
-                    int(8*ratio))
-        pg.draw.circle(self.parent.surf, (50,50,50), (self.pos[0] + (self.size*self.vol)//1000,self.pos[1]), int(25*ratio))
+                    int(8 * ratio))
+        pg.draw.circle(self.parent.surface, (50, 50, 50), (self.pos[0] + (self.size * self.vol) // 1000,self.pos[1]), int(25 * ratio))
         self.to_disp = False
 
     def handle_event(self, event):
@@ -112,11 +118,11 @@ class Slider():
             elif event.pos[0] >= self.pos[0] + self.size:
                 self.vol = 1000
             else:
-                self.vol = int(((event.pos[0] - self.pos[0])/self.size)*1000)
+                self.vol = int(((event.pos[0] - self.pos[0]) / self.size) * 1000)
             self.to_disp = True
         elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             ratio = self.parent.parent.ratio
-            if is_in(event.pos, (48*ratio,48*ratio), (self.pos[0] + (self.size*self.vol)//1000 + 24*ratio, self.pos[1] + 24*ratio)):
+            if is_in(event.pos, (48 * ratio, 48 * ratio), (self.pos[0] + (self.size * self.vol) // 1000 + 24 * ratio, self.pos[1] + 24 * ratio)):
                 self.engaged = True
         elif event.type == pg.MOUSEBUTTONUP and self.engaged:
             self.engaged = False
@@ -136,19 +142,21 @@ class KeyBinder():
 
         self.image = pg.Surface(self.size)
         if self.hovered:
-            self.image.fill((200,200,200))
+            self.image.fill((200, 200, 200))
         else:
-            self.image.fill((255,255,255))
+            self.image.fill((255, 255, 255))
 
-        #retrieves a Font object, asking for Option.ft (impact or default), renders the character corresponding to self.key and blits it onto self.image
-        txt = pg.font.SysFont(self.parent.ft, int(30*ratio)).render(KeyBinder.chars[self.key], True, (0,0,0))
+        # Retrieves a Font object, asking for Option.font (impact or default), renders the character corresponding
+        # to self.key and blits it onto self.image
+        txt = pg.font.SysFont(self.parent.font, int(30 * ratio)).render(KeyBinder.chars[self.key], True, (0,0,0))
         size = txt.get_size()
-        self.image.blit(txt, ((self.size[0]-size[0])//2, 0))
-        
+        self.image.blit(txt, ((self.size[0] - size[0]) // 2, 0))
+
     def display(self):
-        self.update() #pas opti
-        self.parent.surf.blit(self.image, self.pos)
+        self.update() # Pas opti
+        self.parent.surface.blit(self.image, self.pos)
         self.to_disp = False
+
     def handle_event(self, event):
         if event.type == pg.MOUSEMOTION:
             if is_in(self.pos, self.size, event.pos):

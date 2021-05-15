@@ -1,8 +1,8 @@
+import time
 import pygame as pg
 
 from level import Level
 from player import Player
-import time as t
 
 class Game:
     CELL_SIZE = 64
@@ -13,8 +13,9 @@ class Game:
         self.size = self.surface.get_size()
         self.half_size = self.size[0] // 2, self.size[1] // 2
 
+        # self.font = pg.font.SysFont('Helvetica', 30)
         self.background = pg.Surface(self.size)
-        self.background.fill((0,240,240))
+        self.background.fill((0, 240, 240))
 
         self.level = Level(self, number_level)
         self.player = Player(self, self.level.spawn)
@@ -26,7 +27,7 @@ class Game:
 
         self.running = True 
 
-    def handle_event(self, event): 
+    def handle_event(self, event):
         if event.type == pg.QUIT:
             self.running = False
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
@@ -37,13 +38,34 @@ class Game:
     def display(self):
         """ Update the graphics """
         self.surface.blit(self.background, (0, 0))
-        
+
         self.level.display()
         if self.player.hook.visible:
             self.player.hook.display()
         self.player.display()
+        #self.show_hud()
 
         pg.display.update()
+
+    # def show_hud(self):
+    #     """ Create an HUD """
+    #     surface = pg.Surface((250, 150))
+    #     surface.fill(0x010101)
+    #     time = self.font.render(f'Temps : {self.get_time()}', False, (255, 255, 255))
+    #     level = self.font.render(f'Niveau : X', False, (255, 255, 255))
+    #     attempt = self.font.render(f'Tentative : X', False, (255, 255, 255))
+    #     surface.blit(time, (20, 20))
+    #     surface.blit(level, (20, 60))
+    #     surface.blit(attempt, (20, 100))
+
+    #     self.surface.blit(surface, (10, 10))
+
+    # def get_time(self):
+    #     seconds = round(datetime.today().timestamp()) - self.level.start
+    #     minutes = seconds // 60
+    #     seconds %= 60
+    #     print(f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}')
+    #     return f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}'
 
     # NOTE: No PyGame object in update()!
     def update(self):
@@ -54,11 +76,13 @@ class Game:
 
     def main(self):
         while self.running:
-            st = t.time()
+            start_frame = time.time()
+
             self.display()
             self.update()
             for event in pg.event.get():
                 self.handle_event(event)
-            slp = 0.0083 - t.time() + st
-            if slp>0:
-                t.sleep(slp)
+
+            wait = 0.0083 - time.time() + start_frame
+            if wait > 0:
+                time.sleep(wait)

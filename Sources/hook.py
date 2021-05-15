@@ -1,5 +1,5 @@
 import pygame as pg
-from Vector import Vector
+from vector import Vector
 from entity import Entity
 
 class Hook(Entity):
@@ -14,6 +14,7 @@ class Hook(Entity):
         self.gripped = False
         self.vel = Vector(0, 0)
         self.length = 0
+        self.impact = False
 
     def reset(self):
         self.pos = self.player.pos
@@ -34,7 +35,6 @@ class Hook(Entity):
             self.collision()
             # If we hit something
             if self.impact:
-                self.dest = self.pos
                 self.vel = Vector(0,0)
                 self.gripped = True
             super().update()
@@ -69,13 +69,13 @@ class Hook(Entity):
                             self.impact = True
 
                     if neighbor.x - self.size < self.pos.x < neighbor.x + 64 + self.size :
-                        # The 0.001 makes sure we are looking inside of the block if 
+                        # The 0.001 makes sure we are looking inside of the block if
                         if (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
                             self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.impact = True
 
-                        elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64): 
+                        elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64):
                             self.pos.y = neighbor.y + 64 + self.size
                             self.vel.y = 0
                             self.impact = True

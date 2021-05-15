@@ -1,6 +1,7 @@
 import random
+from datetime import datetime
 import pygame as pg
-from Vector import Vector
+from vector import Vector
 
 class Level:
     def __init__(self, game, number_level):
@@ -8,50 +9,44 @@ class Level:
         self.blocks_im = []
         self.spawn = Vector(0, 0)
         self.read_level(number_level)
-        
+
         self.load_blocs()
-        self.mk_lvl_surf()
+        self.create_level_surface()
+
+        self.start = round(datetime.today().timestamp())
 
     def load_blocs(self):
         self.blocks_im = []
         # Définir quel map a quel thème plus tard
         if 0 <= self.number_level <= 99:
             # À modifier quand on aura les assets par un for
-            """b = pg.Surface((64, 64))
-            b.fill((216, 106, 0))
-            self.blocks_im.append(b)
+            dirt = pg.image.load("./Assets/dirt_2.png")
+            dirt = dirt_variation = pg.transform.scale(dirt, (64, 64))
+            for _ in range(4):
+                dirt_variation = pg.transform.rotate(dirt_variation, -90)
+                self.blocks_im.append(dirt_variation)
 
-            b = pg.Surface((64,64))
-            b.fill((137,90,00))
-            self.blocks_im.append(b)"""
-
-            b = pg.image.load("./Assets/dirt_2.png")
-            b = b_var = pg.transform.scale(b,(64,64))
-            for i in range(3):
-                b_var = pg.transform.rotate(b_var,-90)
-                self.blocks_im.append(b_var)
-            self.blocks_im.append(b)
-
-    def mk_lvl_surf(self):
+    def create_level_surface(self):
         """ Makes a pg Surface, that will be displayed over the background by Game """
-        px_size = (len(self.level_array[0])*64, len(self.level_array)*64)
-        red = pg.Surface((64,64))
-        red.fill((255,0,0))
+        size = (len(self.level_array[0]) * 64, len(self.level_array) * 64)
 
-        self.lvl_surf = pg.Surface(px_size)
+        red_block = pg.Surface((64,64))
+        red_block.fill((255,0,0))
+
+        self.level_surface = pg.Surface(size)
         # Tells pg that every perfectly black pixel should be transparent, the hex of black pixels should be 010101
-        self.lvl_surf.set_colorkey((0, 0, 0))
+        self.level_surface.set_colorkey((0, 0, 0))
 
         for x in range(len(self.level_array[0])):
             for y in range(len(self.level_array)):
                 if self.level_array[y][x] == 1:
-                    self.lvl_surf.blit(random.choice(self.blocks_im),(x*64,y*64))
+                    self.level_surface.blit(random.choice(self.blocks_im), (x * 64, y * 64))
                 elif self.level_array[y][x] == 2:
-                    self.lvl_surf.blit(red,(x*64,y*64))
+                    self.level_surface.blit(red_block, (x * 64, y * 64))
 
-    def display(self): 
+    def display(self):
         self.game.surface.blit(
-            self.lvl_surf,
+            self.level_surface,
             (
                 self.game.half_size[0] - self.game.player.pos.x,
                 self.game.half_size[1] - self.game.player.pos.y
