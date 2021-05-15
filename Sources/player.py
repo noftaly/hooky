@@ -64,7 +64,7 @@ class Player(Entity):
             hook_acc.y *= 0.8
 
         length = abs(hook_acc) - 20
-        norm = (length/Hook.MAX_SIZE) * 2.25
+        norm = (length/Hook.MAX_SIZE) * 1.5
 
         norm = min(norm, 0.9)
 
