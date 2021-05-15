@@ -1,4 +1,4 @@
-from Vector import Vector
+from vector import Vector
 
 class Entity:
     FRICTION = 5

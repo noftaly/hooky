@@ -1,6 +1,6 @@
 import pygame as pg
 from entity import Entity
-from Vector import Vector
+from vector import Vector
 from hook import Hook
 
 class Player(Entity):
