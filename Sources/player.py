@@ -60,7 +60,7 @@ class Player(Entity):
         if (self.acc.x < 0 and hook_acc.x > 0) or (self.acc.x > 0 and hook_acc.x < 0):
             hook_acc.x *= 0.8
         if hook_acc.y > 0:
-            hook_acc.y *= 0.8
+            hook_acc.y *= 0.5
         
 
         length = abs(hook_acc) - 20

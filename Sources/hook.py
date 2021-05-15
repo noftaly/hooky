@@ -4,7 +4,7 @@ from entity import Entity
 
 class Hook(Entity):
     LAUNCH_SPEED = 50
-    MAX_SIZE = 64 * 8
+    MAX_SIZE = 64 * 7
 
     def __init__(self, player, game):
         super().__init__(player.cell, game, 1)

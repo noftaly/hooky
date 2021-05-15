@@ -20,14 +20,11 @@ class Game:
         self.player = Player(self, self.level.spawn)
 
         self.config = self.parent.config
-        self.set_keys()
+        self.up_key = self.config[2][2] # pg.K_UP
+        self.left_key = self.config[2][0] # pg.K_LEFT
+        self.right_key = self.config[2][1] # pg.K_RIGHT
 
-        self.running = True
-
-    def set_keys(self): # à faire dans Menu plus tard
-        self.up_key = self.config[1][2] # pg.K_UP
-        self.left_key = self.config[1][0] # pg.K_LEFT
-        self.right_key = self.config[1][1] # pg.K_RIGHT
+        self.running = True 
 
     def handle_event(self, event): 
         if event.type == pg.QUIT:

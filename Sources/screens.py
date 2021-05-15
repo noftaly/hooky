@@ -32,7 +32,7 @@ class Principal():
             self.childs[i].update()
 
     def play(self):
-        Game(self.parent, 0).main()
+        Game(self.parent, 5).main()
         self.parent.running = False #Will be executed only if the Game.main() is broke by an alt+f4
     
     def options(self):
@@ -121,3 +121,11 @@ class Options():
 
         self.all_disp = True
         self.update()
+
+class Level_Selec():
+    def __init__(self):
+        pass
+    def display(self):
+        for child in self.childs:
+            if child.todisp:
+                child.display()
