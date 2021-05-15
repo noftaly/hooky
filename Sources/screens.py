@@ -1,4 +1,5 @@
 import pygame as pg
+from utils import get_asset
 from widget import Button, Checker, Slider, KeyBinder
 from game import Game
 
@@ -11,7 +12,7 @@ class Principal():
         self.childs = []
         self.surface.blit(
             pg.transform.scale(
-                pg.image.load("./Assets/mbckg.png"),
+                pg.image.load(get_asset("mbckg.png")),
                 (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio))
             ),
             (0, 0)
@@ -61,7 +62,7 @@ class Options():
         else:
             self.font = pg.font.get_default_font()
 
-        self.background = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
         self.childs = []
         self.childs.append(Checker(self, self.fullscreen, self.parent.config[1]))
         self.childs.append(Slider(self, self.parent.config[0]))
@@ -90,7 +91,7 @@ class Options():
 
     def update(self):
         # Need to reload image from file, or scale will compress it
-        self.background = pg.transform.scale(pg.image.load("./Assets/obckg.png"), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         ratio = self.parent.ratio
         self.childs[0].pos = (int(1020 * ratio),int(875 * ratio))

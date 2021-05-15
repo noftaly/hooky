@@ -1,5 +1,7 @@
 import pygame as pg
 
+from utils import get_asset
+
 def is_in(pos, size, coords):
     if ((pos[0] <= coords[0] <= pos[0] + size[0]) and (pos[1] <= coords[1] <= pos[1] + size[1])):
         return True
@@ -10,9 +12,9 @@ class Button():
         self.parent, self.bound, self.name = parent, bind, name
 
         try:
-            self.image = pg.image.load(f'./Assets/{self.name}.png')
+            self.image = pg.image.load(get_asset(f'{self.name}.png'))
         except FileNotFoundError:
-            self.image = pg.image.load("./Assets/missing.png")
+            self.image = pg.image.load(get_asset("missing.png"))
         self.to_disp = True
         self.hovered = False
         self.engaged = False
