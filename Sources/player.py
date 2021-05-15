@@ -64,7 +64,7 @@ class Player(Entity):
         
 
         length = abs(hook_acc) - 20
-        norm = (length/(Hook.MAX_SIZE/1.5))*2
+        norm = (length/(Hook.MAX_SIZE/1.5))*1.5
         if norm > 0.9:
             norm = 0.9
         hook_acc = hook_acc.normalize(norm)

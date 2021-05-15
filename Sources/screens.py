@@ -32,7 +32,7 @@ class Principal():
             self.childs[i].update()
 
     def play(self):
-        Game(self.parent, 5).main()
+        Game(self.parent, 3).main()
         self.parent.running = False #Will be executed only if the Game.main() is broke by an alt+f4
     
     def options(self):
