@@ -25,7 +25,7 @@ class Game:
         self.left_key = self.config[2][0] # pg.K_LEFT
         self.right_key = self.config[2][1] # pg.K_RIGHT
 
-        self.running = True 
+        self.running = True
 
     def handle_event(self, event):
         if event.type == pg.QUIT:

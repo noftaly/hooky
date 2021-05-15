@@ -64,4 +64,4 @@ class Menu():
             else:
                 config_f.write('0\n')
             for i in range(4):
-                    config_f.write(str(self.config[2][i]) + ' ')
+                config_f.write(str(self.config[2][i]) + ' ')
