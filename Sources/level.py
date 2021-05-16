@@ -5,11 +5,13 @@ from utils import get_asset
 from vector import Vector
 
 class Level:
+    MAX_LEVEL = 5
+
     def __init__(self, game, number_level):
         self.number_level, self.game = number_level, game
         self.blocks_im = []
         self.spawn = Vector(0, 0)
-        self.read_level(number_level)
+        self.read_level()
 
         self.load_blocs()
         self.create_level_surface()
@@ -54,16 +56,21 @@ class Level:
             )
         )
 
-    def read_level(self, number_level):
+    def read_level(self):
         self.level_array = []
         # r+t: read as text file
-        with open(get_asset("Levels/level_" + str(number_level) + ".lvl"), mode='r+t') as level_file:
-            for (row, line) in enumerate(level_file):
-                if line[-1] == '\n':
-                    line = line[:-1]
-                if row == 0:
-                    # Transforms a string "x,y" into a tuple (x,y), with x,y int, and then into a vector
-                    spawn = tuple(map(int, line.split(',')))
-                    self.spawn = Vector.from_tuple(spawn)
-                else:
-                    self.level_array.append(list(map(int, line)))
+        try:
+            with open(get_asset("Levels/level_" + str(self.number_level) + ".lvl"), mode='r+t') as level_file:
+                for (row, line) in enumerate(level_file):
+                    if line[-1] == '\n':
+                        line = line[:-1]
+                    if row == 0:
+                        # Transforms a string "x,y" into a tuple (x,y), with x,y int, and then into a vector
+                        spawn = tuple(map(int, line.split(',')))
+                        self.spawn = Vector.from_tuple(spawn)
+                    else:
+                        self.level_array.append(list(map(int, line)))
+        except FileNotFoundError:
+            print("HOOKY ERROR: invalid level, decrementing level counter.")
+            self.number_level -= 1
+            self.read_level()

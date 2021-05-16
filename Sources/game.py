@@ -67,6 +67,18 @@ class Game:
     #     print(f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}')
     #     return f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}'
 
+    def next_level(self):
+        self.running = False
+        next_level = self.level.number_level + 1
+        if next_level > Level.MAX_LEVEL:
+            # TODO: Bring back to main menu
+            print("Max level reached.")
+        else:
+            self.level = Level(self, self.level.number_level + 1)
+            self.player = Player(self, self.level.spawn)
+            self.running = True
+            self.main()
+
     # NOTE: No PyGame object in update()!
     def update(self):
         """ Update entities """

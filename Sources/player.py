@@ -32,6 +32,9 @@ class Player(Entity):
             self.acc += Vector(0, -12)
             self.grounded = False
 
+    def finish_level(self):
+        self.game.next_level()
+
     def die(self):
         self.vel = Vector(0,0)
         self.pos = self.game.level.spawn * 64
@@ -85,6 +88,7 @@ class Player(Entity):
                 # If the pointed block is solid
                 if self.game.level.level_array[loc.y + j][loc.x + i] in solid:
                     danger = self.game.level.level_array[loc.y + j][loc.x + i] == 2
+                    finish = self.game.level.level_array[loc.y + j][loc.x + i] == 3
                     neighbor = Vector((loc.x + i) * 64, (loc.y + j) * 64)
 
                     # Look at /collisions.png
@@ -93,12 +97,16 @@ class Player(Entity):
                         if (self.pos.x < neighbor.x) and (self.pos.x + self.size + self.vel.x > neighbor.x):
                             if danger:
                                 self.dead = True
+                            if finish:
+                                self.finish_level()
                             self.pos.x = neighbor.x - self.size
                             self.vel.x = 0
                         # On the right
                         elif (self.pos.x > neighbor.x) and (self.pos.x - self.size + self.vel.x < neighbor.x+64):
                             if danger:
                                 self.dead = True
+                            if finish:
+                                self.finish_level()
                             self.pos.x = neighbor.x + 64 + self.size
                             self.vel.x = 0
 
@@ -107,6 +115,8 @@ class Player(Entity):
                         if (not self.grounded) and (self.pos.y < neighbor.y) and (self.pos.y + self.size + self.vel.y + 0.001 > neighbor.y):
                             if danger:
                                 self.dead = True
+                            if finish:
+                                self.finish_level()
                             self.pos.y = neighbor.y - self.size
                             self.vel.y = 0
                             self.grounded = True
@@ -114,6 +124,8 @@ class Player(Entity):
                         elif (self.pos.y > neighbor.y) and (self.pos.y - self.size + self.vel.y < neighbor.y+64):
                             if danger:
                                 self.dead = True
+                            if finish:
+                                self.finish_level()
                             self.pos.y = neighbor.y + 64 + self.size
                             self.vel.y = 0
 
