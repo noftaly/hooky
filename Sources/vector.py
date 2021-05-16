@@ -63,6 +63,7 @@ class Vector:
     def with_ints(self):
         self.x = int(self.x)
         self.y = int(self.y)
+        return self
 
     def as_tuple(self):
         return (self.x, self.y)

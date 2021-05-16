@@ -1,5 +1,6 @@
 import pygame as pg
 from screens import Principal
+from vector import Vector
 from utils import get_asset
 
 class Menu():
@@ -19,8 +20,8 @@ class Menu():
             pg.display.set_mode((1280, 720))
 
         self.surface = pg.display.get_surface()
-        self.size = self.surface.get_size()
-        self.ratio = self.size[0] / 1920
+        self.size = Vector.from_tuple(self.surface.get_size())
+        self.ratio = self.size.x / 1920
 
         self.active = Principal(self)
 
