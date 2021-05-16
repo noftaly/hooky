@@ -1,10 +1,8 @@
-name: Bundle Hooky
-
+name: Bundle
 on: [push]
-
 jobs:
   build:
-    name: Build application
+    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -27,7 +25,8 @@ jobs:
             ASSET_MIME: application/vnd.microsoft.portable-executable
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
