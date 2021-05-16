@@ -1,19 +1,11 @@
-"""
-Initialisations, instalation des librairies
-"""
-
-import os
-#from menu import Menu
-from game import Game
+import sys
+from menu import Menu
 
 try:
     import pygame as pg
-except:
-    #system("pip install pygame")
-    pass
+except ModuleNotFoundError:
+    print("Pygame not found. Please install it with 'pip install pygame'")
+    sys.exit(1)
 
-pg.init()
-pg.display.set_mode(flags=pg.FULLSCREEN)
-
-Game(0).main()
-#Menu().main()
+Menu().main()
+pg.quit()
