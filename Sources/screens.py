@@ -65,12 +65,12 @@ class Options():
 
         self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
         self.childs = []
-        self.childs.append(Checkbox(self, self.fullscreen, self.parent.config[1]))
-        self.childs.append(Slider(self, self.parent.config[0]))
-        self.childs.append(KeyBinder(self, self.parent.config[2][0]))
-        self.childs.append(KeyBinder(self, self.parent.config[2][1]))
-        self.childs.append(KeyBinder(self, self.parent.config[2][2]))
-        self.childs.append(KeyBinder(self, self.parent.config[2][3]))
+        self.childs.append(Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')))
+        self.childs.append(Slider(self, self.parent.config.get('volume')))
+        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[0]))
+        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[1]))
+        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[2]))
+        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[3]))
         self.childs.append(Button(self, self.back, "back"))
         self.update()
 
@@ -114,11 +114,12 @@ class Options():
         del self
 
     def apply(self):
-        self.parent.config[0] = self.childs[1].value
-        self.parent.config[1] = self.childs[0].checked
-        for i in range(4):
-            self.parent.config[2][i] = self.childs[2+i].key
-
+        keybinds_button = [elm for elm in self.childs if isinstance(elm, KeyBinder)]
+        self.parent.config.update({
+            'volume': self.childs[1].value,
+            'fullscreen': self.childs[0].checked,
+            'keybinds': list(map(lambda x: x.key, keybinds_button))
+        })
         self.parent.write_config()
 
     def fullscreen(self, mode):

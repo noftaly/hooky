@@ -14,7 +14,7 @@ class Menu():
         pg.font.init()
 
         self.read_config()
-        if self.config[1]:
+        if self.config.get('fullscreen'):
             pg.display.set_mode((1920, 1080), pg.FULLSCREEN)
         else:
             pg.display.set_mode((1280, 720))
@@ -44,26 +44,26 @@ class Menu():
                 self.handle_event(event)
 
     def read_config(self):
-        self.config = []
+        self.config = {
+            'volume': 0,
+            'fullscreen': True,
+            'keybinds': []
+        }
         with open(get_asset("settings.cfg"), mode="r+t") as config_f:
             i = 0
             for line in config_f:
                 if line[-1] == '\n' or line[-1] == ' ':
                     line = line[:-1]
                 if i == 0:
-                    self.config.append(int(line))
+                    self.config.update({ 'volume': int(line) })
                 elif i == 1:
-                    self.config.append(bool(int(line)))
+                    self.config.update({ 'fullscreen': bool(int(line)) })
                 else:
-                    self.config.append(list(map(int,line.split(' '))))
+                    self.config.update({ 'keybinds': list(map(int,line.split(' '))) })
                 i += 1
 
     def write_config(self):
         with open(get_asset("settings.cfg"), mode="w+t") as config_f:
-            config_f.write(str(self.config[0])+'\n')
-            if self.config[1]:
-                config_f.write('1\n')
-            else:
-                config_f.write('0\n')
-            for i in range(4):
-                config_f.write(str(self.config[2][i]) + ' ')
+            config_f.write(str(self.config.get('volume')) + '\n')
+            config_f.write(str(self.config.get('fullscreen').bit_length()) + '\n')
+            config_f.write(' '.join(map(str, self.config.get('keybinds'))))
