@@ -23,7 +23,7 @@ class Level:
         # Définir quel map a quel thème plus tard
         if 0 <= self.number_level <= 99:
             # À modifier quand on aura les assets par un for
-            dirt = pg.image.load(get_asset("dirt_2.png"))
+            dirt = pg.image.load(get_asset("dirt.png"))
             dirt = dirt_variation = pg.transform.scale(dirt, (64, 64))
             for _ in range(4):
                 dirt_variation = pg.transform.rotate(dirt_variation, -90)
@@ -36,6 +36,9 @@ class Level:
         red_block = pg.Surface((64,64))
         red_block.fill((255,0,0))
 
+        finish_block = pg.image.load(get_asset("finish.png"))
+        finish_block = pg.transform.scale(finish_block, (64, 64))
+
         self.level_surface = pg.Surface(size)
         # Tells pg that every perfectly black pixel should be transparent, the hex of black pixels should be 010101
         self.level_surface.set_colorkey((0, 0, 0))
@@ -46,6 +49,8 @@ class Level:
                     self.level_surface.blit(random.choice(self.blocks_im), (x * 64, y * 64))
                 elif self.level_array[y][x] == 2:
                     self.level_surface.blit(red_block, (x * 64, y * 64))
+                elif self.level_array[y][x] == 3:
+                    self.level_surface.blit(finish_block, (x * 64, y * 64))
 
     def display(self):
         self.game.surface.blit(

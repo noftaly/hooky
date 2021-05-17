@@ -25,15 +25,22 @@ class Button(Widget):
         super().__init__(parent)
 
         self.on_click, self.name = on_click, name
+        self.font = self.parent.parent.font
 
         try:
-            self.image = pg.image.load(get_asset(f'{self.name}.png'))
+            self.image = pg.image.load(get_asset("button_background.png"))
+            text = self.font.render(self.name, True, (255, 255, 255))
+            text_size = Vector.from_tuple(text.get_size())
+            image_size = Vector.from_tuple(self.image.get_size())
+            pos = (image_size - text_size) // 2
+            self.image.blit(text, pos.as_tuple())
         except FileNotFoundError:
             self.image = pg.image.load(get_asset("missing.png"))
 
         self.mask = None
 
     def display(self):
+        self.parent.surface.blit(self.image, self.pos.as_tuple())
         self.parent.surface.blit(self.image, self.pos.as_tuple())
         if self.hovered:
             self.parent.surface.blit(self.mask, self.pos.as_tuple())
@@ -148,17 +155,13 @@ class KeyBinder(Widget):
         self.awaiting = False
 
     def update(self):
-        ratio = self.parent.parent.ratio
-
         self.image = pg.Surface(self.size.as_tuple())
         if self.hovered:
             self.image.fill((200, 200, 200))
         else:
             self.image.fill((255, 255, 255))
 
-        # Retrieves a Font object, asking for Option.font (impact or default), renders the character corresponding
-        # to self.key and blits it onto self.image
-        txt = pg.font.SysFont(self.parent.font, int(30 * ratio)).render(KeyBinder.KEYBINDS[self.key], True, (0, 0, 0))
+        txt = self.parent.font.render(KeyBinder.KEYBINDS[self.key], True, (0, 0, 0))
         size = txt.get_size()
         self.image.blit(txt, ((self.size.x - size[0]) // 2, 0))
 

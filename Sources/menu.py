@@ -13,6 +13,8 @@ class Menu():
         pg.init()
         pg.font.init()
 
+        self.font = pg.font.Font(get_asset("Hooky-Regular.otf"), 48)
+
         self.read_config()
         if self.config.get('fullscreen'):
             pg.display.set_mode((1920, 1080), pg.FULLSCREEN)

@@ -21,9 +21,9 @@ class Game:
         self.player = Player(self, self.level.spawn)
 
         self.config = self.parent.config
-        self.up_key = self.config.get('keybinds')[2] # pg.K_UP
         self.left_key = self.config.get('keybinds')[0] # pg.K_LEFT
         self.right_key = self.config.get('keybinds')[1] # pg.K_RIGHT
+        self.up_key = self.config.get('keybinds')[2] # pg.K_UP
 
         self.running = True
 

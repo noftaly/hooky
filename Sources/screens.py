@@ -12,16 +12,16 @@ class Principal():
 
         self.surface.blit(
             pg.transform.scale(
-                pg.image.load(get_asset("mbckg.png")),
+                pg.image.load(get_asset("menu_background.png")),
                 (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio))
             ),
             (0, 0)
         )
         # Les gros bouttons du centre d'abord !
         self.childs = [
-            Button(self, self.play, "playb"),
-            Button(self, self.options, "opb"),
-            Button(self, self.quit, "quitb"),
+            Button(self, self.play, "Jouer"),
+            Button(self, self.options, "Options"),
+            Button(self, self.quit, "Quitter"),
         ]
 
         self.update()
@@ -59,12 +59,10 @@ class Options():
         self.size = self.parent.size
         self.all_disp = False
 
-        if 'impact' in pg.font.get_fonts():
-            self.font = 'impact'
-        else:
-            self.font = pg.font.get_default_font()
+        self.font = self.parent.font
 
-        self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+
         self.childs = [
             Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')),
             Slider(self, self.parent.config.get('volume')),
@@ -95,18 +93,39 @@ class Options():
 
     def update(self):
         # Need to reload image from file, or scale will compress it
-        self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         ratio = self.parent.ratio
+        # Show captions
+        text = self.font.render("Inputs", True, (0, 0, 0))
+        self.background.blit(text, (int(600 * ratio), int(425 * ratio)))
+        text = self.font.render("Left", True, (0, 0, 0))
+        self.background.blit(text, (int(700 * ratio), int(485 * ratio)))
+        text = self.font.render("Right", True, (0, 0, 0))
+        self.background.blit(text, ((700 * ratio), int(545 * ratio)))
+        text = self.font.render("Jump", True, (0, 0, 0))
+        self.background.blit(text, (int(700 * ratio), int(605 * ratio)))
+        text = self.font.render("Pause", True, (0, 0, 0))
+        self.background.blit(text, (int(700 * ratio), int(665 * ratio)))
+
+        text = self.font.render("Volume", True, (0, 0, 0))
+        self.background.blit(text, (int(600 * ratio), int(778 * ratio)))
+        text = self.font.render("Fullscreen", True, (0, 0, 0))
+        self.background.blit(text, (int(600 * ratio), int(875 * ratio)))
+
+        # Fullscreen checkbox
         self.childs[0].pos = Vector(1020 * ratio, 875 * ratio).with_ints()
         self.childs[0].size = Vector(50 * ratio, 50 * ratio).with_ints()
+        # Volume slider
         self.childs[1].pos = Vector(950 * ratio, 778 * ratio).with_ints()
         self.childs[1].size = Vector(350 * ratio, 350 * ratio).with_ints()
+        # Key inputs
         for i in range(4):
             self.childs[2+i].pos = Vector(950 * ratio, 485 * ratio + i * 60 * ratio).with_ints()
             self.childs[2+i].size = Vector(300 * ratio, 50 * ratio).with_ints()
             self.childs[2+i].update()
 
+        # Back
         self.childs[6].pos = Vector(1450 * ratio, 60 * ratio).with_ints()
         self.childs[6].size = Vector(150 * ratio, 60 * ratio).with_ints()
         self.childs[6].update()
