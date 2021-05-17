@@ -18,6 +18,7 @@ class Menu():
         self.font = pg.font.Font(get_asset("Hooky-Regular.ttf"), 48)
 
         self.read_config()
+        pg.mixer.music.set_volume(self.config.get('volume') / 1000)
         if self.config.get('fullscreen'):
             pg.display.set_mode((1920, 1080), pg.FULLSCREEN)
         else:

@@ -1,4 +1,5 @@
 import pygame as pg
+from music_manager import change_volume
 from vector import Vector
 from utils import get_asset
 from widget import Button, Checkbox, Slider, KeyBinder
@@ -69,7 +70,7 @@ class Options():
 
         self.childs = [
             Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')),
-            Slider(self, self.parent.config.get('volume')),
+            Slider(self, self.parent.config.get('volume'), change_volume),
             KeyBinder(self, self.parent.config.get('keybinds')[0]),
             KeyBinder(self, self.parent.config.get('keybinds')[1]),
             KeyBinder(self, self.parent.config.get('keybinds')[2]),

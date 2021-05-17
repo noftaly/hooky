@@ -13,3 +13,6 @@ def play_game_theme():
 
 def stop_music():
     pg.mixer.music.stop()
+
+def change_volume(volume):
+    pg.mixer.music.set_volume(volume / 1000)

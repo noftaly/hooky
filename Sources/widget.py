@@ -113,9 +113,10 @@ class Checkbox(Widget):
             self.command(self.checked)
 
 class Slider(Widget):
-    def __init__(self, parent, value):
+    def __init__(self, parent, value, on_change):
         super().__init__(parent)
         self.value = value
+        self.on_change = on_change
 
     def display(self):
         ratio = self.parent.parent.ratio
@@ -138,6 +139,7 @@ class Slider(Widget):
                 self.value = 1000
             else:
                 self.value = int(((event.pos[0] - self.pos.x) / self.size.x) * 1000)
+            self.on_change(self.value)
             self.to_display = True
         elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             ratio = self.parent.parent.ratio
