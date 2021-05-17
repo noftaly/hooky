@@ -37,6 +37,7 @@ class Player(Entity):
 
     def die(self):
         self.vel = Vector(0,0)
+        self.game.sounds.get('damage').play()
         self.pos = self.game.level.spawn * 64
         self.stop_hook()
 

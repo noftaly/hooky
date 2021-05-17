@@ -2,7 +2,9 @@ import time
 import pygame as pg
 
 from level import Level
+from music_manager import play_game_theme
 from player import Player
+from utils import get_asset
 
 class Game:
     CELL_SIZE = 64
@@ -27,6 +29,14 @@ class Game:
         self.right_key = self.config.get('keybinds')[1] # pg.K_RIGHT
         self.up_key = self.config.get('keybinds')[2] # pg.K_UP
 
+        self.sounds = {
+            'hook-fail': pg.mixer.Sound(get_asset('hook_collision_fail.wav')),
+            'hook-success': pg.mixer.Sound(get_asset('hook_collision_success.wav')),
+            'damage': pg.mixer.Sound(get_asset('damage.wav')),
+        }
+
+        play_game_theme()
+
         self.running = True
 
     def handle_event(self, event):
@@ -48,26 +58,6 @@ class Game:
         #self.show_hud()
 
         pg.display.update()
-
-    # def show_hud(self):
-    #     """ Create an HUD """
-    #     surface = pg.Surface((250, 150))
-    #     surface.fill(0x010101)
-    #     time = self.font.render(f'Temps : {self.get_time()}', False, (255, 255, 255))
-    #     level = self.font.render(f'Niveau : X', False, (255, 255, 255))
-    #     attempt = self.font.render(f'Tentative : X', False, (255, 255, 255))
-    #     surface.blit(time, (20, 20))
-    #     surface.blit(level, (20, 60))
-    #     surface.blit(attempt, (20, 100))
-
-    #     self.surface.blit(surface, (10, 10))
-
-    # def get_time(self):
-    #     seconds = round(datetime.today().timestamp()) - self.level.start
-    #     minutes = seconds // 60
-    #     seconds %= 60
-    #     print(f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}')
-    #     return f'{str(minutes).rjust(2, "0")}:{str(seconds).rjust(2, "0")}'
 
     def next_level(self):
         self.running = False

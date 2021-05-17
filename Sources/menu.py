@@ -1,4 +1,5 @@
 import pygame as pg
+from music_manager import play_menu_theme, stop_music
 from screens import Principal
 from vector import Vector
 from utils import get_asset
@@ -12,6 +13,7 @@ class Menu():
     def __init__(self):
         pg.init()
         pg.font.init()
+        pg.mixer.init()
 
         self.font = pg.font.Font(get_asset("Hooky-Regular.otf"), 48)
 
@@ -38,15 +40,20 @@ class Menu():
 
     def handle_event(self, event):
         if event.type == pg.QUIT:
-            self.running = False
+            self.stop()
         else:
             self.active.handle_event(event)
 
     def main(self):
+        play_menu_theme()
         while self.running:
             self.display()
             for event in pg.event.get():
                 self.handle_event(event)
+
+    def stop(self):
+        self.running = False
+        stop_music()
 
     def read_config(self):
         self.config = {

@@ -45,7 +45,7 @@ class Principal():
 
     def play(self):
         Game(self.parent, 1, True).main()
-        self.parent.running = False # Will be executed only if the Game.main() is broke by an alt+f4
+        self.parent.stop() # Will be executed only if the Game.main() is broke by an alt+f4
 
     def select(self):
         self.parent.active = LevelSelector(self.parent, 5)
@@ -54,7 +54,7 @@ class Principal():
         self.parent.active = Options(self.parent)
 
     def quit(self):
-        self.parent.running = False
+        self.parent.stop()
 
 class Options():
     def __init__(self, parent):
@@ -215,7 +215,7 @@ class LevelSelector():
 
     def start_level(self, number):
         Game(self.parent, number, False).main()
-        self.parent.running = False
+        self.parent.stop()
 
     def back(self):
         self.parent.active = Principal(self.parent)
