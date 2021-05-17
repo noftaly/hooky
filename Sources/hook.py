@@ -45,10 +45,10 @@ class Hook(Entity):
 
     def collision(self):
         self.impact = False
-        solid = [1,2,3] # Define solid blocks
+        solid = [1,2] # Define solid blocks
         loc = self.pos // 64
         loc.with_ints()
-        # Not well secured, but the player shouldn't be on the edge of the map anyway
+        # Not well secured, but the player shouldn't be on the edge of the map anywayd
         for i in range(-1, 2):
             # Goes around the player
             for j in range(-1, 2):
