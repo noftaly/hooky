@@ -9,41 +9,41 @@ class Vector:
         return Vector(tuple_[0], tuple_[1])
 
     # Operations
-    def __sub__(self, other):
+    def __sub__(self, other): # self - other
         """ Subtraction by a vector or a scalar. """
         if isinstance(other, (int, float)):
             return Vector(self.x - other, self.y - other)
         return Vector(self.x - other.x, self.y - other.y)
 
-    def __add__(self, other):
+    def __add__(self, other): # self + other
         """ Addition with a vector or a scalar. """
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         return Vector(self.x + other.x, self.y + other.y)
 
-    def __mul__(self, scalar):
+    def __mul__(self, scalar): # self * scalar
         """ Multiplication of a vector by a scalar. """
         if isinstance(scalar, (int, float)):
             return Vector(self.x*scalar, self.y*scalar)
-        raise NotImplementedError('Can only multiply Vector by a scalar')
+        raise TypeError('Can only multiply Vector by a scalar')
 
-    def __truediv__(self, scalar):
+    def __truediv__(self, scalar): # self / scalar
         """ Divide of a vector by a scalar. """
         if isinstance(scalar, (int, float)):
             return Vector(self.x / scalar, self.y / scalar)
-        raise NotImplementedError('Can only divide Vector by a scalar')
+        raise TypeError('Can only divide Vector by a scalar')
 
-    def __floordiv__(self, scalar):
+    def __floordiv__(self, scalar): # self // scalar
         """ Floor-divide of a vector by a scalar. """
         if isinstance(scalar, (int, float)):
             return Vector(self.x // scalar, self.y // scalar)
-        raise NotImplementedError('Can only divide Vector by a scalar')
+        raise TypeError('Can only true-divide Vector by a scalar')
 
-    def __abs__(self):
+    def __abs__(self): # abs(self)
         """ Absolute value (magnitude) of the vector. """
-        return math.sqrt(self.x**2 + self.y**2)
+        return self.mag()
 
-    def __str__(self):
+    def __str__(self): # str(self)
         """ Human-readable string representation of the vector. """
         return f'(x={self.x}, y={self.y})'
 
@@ -51,13 +51,13 @@ class Vector:
     # Useful methods
     def mag(self):
         """ Magnitude of the vector. """
-        return math.sqrt(self.x**2 + self.y**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2)
 
-    def normalize(self,val):
+    def normalize(self, val):
         """ Normalize a vector. """
         magnitude = self.mag()
         if magnitude != 0:
-            return self * ((1/magnitude) * val)
+            return self * ((1 / magnitude) * val)
         return self
 
     def with_ints(self):

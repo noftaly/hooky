@@ -10,7 +10,6 @@ class Principal():
         self.surface = parent.surface
         self.size = self.parent.size
 
-        self.childs = []
         self.surface.blit(
             pg.transform.scale(
                 pg.image.load(get_asset("mbckg.png")),
@@ -19,9 +18,11 @@ class Principal():
             (0, 0)
         )
         # Les gros bouttons du centre d'abord !
-        self.childs.append(Button(self, self.play, "playb"))
-        self.childs.append(Button(self, self.options, "opb"))
-        self.childs.append(Button(self, self.quit, "quitb"))
+        self.childs = [
+            Button(self, self.play, "playb"),
+            Button(self, self.options, "opb"),
+            Button(self, self.quit, "quitb"),
+        ]
 
         self.update()
 
@@ -64,14 +65,16 @@ class Options():
             self.font = pg.font.get_default_font()
 
         self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
-        self.childs = []
-        self.childs.append(Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')))
-        self.childs.append(Slider(self, self.parent.config.get('volume')))
-        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[0]))
-        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[1]))
-        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[2]))
-        self.childs.append(KeyBinder(self, self.parent.config.get('keybinds')[3]))
-        self.childs.append(Button(self, self.back, "back"))
+        self.childs = [
+            Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')),
+            Slider(self, self.parent.config.get('volume')),
+            KeyBinder(self, self.parent.config.get('keybinds')[0]),
+            KeyBinder(self, self.parent.config.get('keybinds')[1]),
+            KeyBinder(self, self.parent.config.get('keybinds')[2]),
+            KeyBinder(self, self.parent.config.get('keybinds')[3]),
+            Button(self, self.back, "back"),
+        ]
+
         self.update()
 
     def display(self):
@@ -122,9 +125,9 @@ class Options():
         })
         self.parent.write_config()
 
-    def fullscreen(self, mode):
-        if mode:
-            pg.display.set_mode((1920,1080), pg.FULLSCREEN)
+    def fullscreen(self, is_fullscreen):
+        if is_fullscreen:
+            pg.display.set_mode((1920, 1080), pg.FULLSCREEN)
         else:
             pg.display.set_mode((1280,720))
 

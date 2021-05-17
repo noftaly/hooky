@@ -40,8 +40,7 @@ class Button(Widget):
         self.to_display = False
 
     def update(self):
-        half_size = Vector(self.size.x // 2, self.size.y // 2)
-        self.pos -= half_size
+        self.pos -= self.size // 2
 
         self.mask = pg.Surface(self.size.as_tuple())
         self.mask.set_alpha(80)
@@ -159,7 +158,7 @@ class KeyBinder(Widget):
 
         # Retrieves a Font object, asking for Option.font (impact or default), renders the character corresponding
         # to self.key and blits it onto self.image
-        txt = pg.font.SysFont(self.parent.font, int(30 * ratio)).render(KeyBinder.KEYBINDS[self.key], True, (0,0,0))
+        txt = pg.font.SysFont(self.parent.font, int(30 * ratio)).render(KeyBinder.KEYBINDS[self.key], True, (0, 0, 0))
         size = txt.get_size()
         self.image.blit(txt, ((self.size.x - size[0]) // 2, 0))
 
