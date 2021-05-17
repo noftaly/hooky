@@ -35,10 +35,10 @@ class Principal():
             child.handle_event(event)
 
     def update(self):
-        ratio = int(self.parent.ratio)
+        ratio = self.parent.ratio
         for i in range(3):
-            self.childs[i].size = Vector(450 * ratio, 112 * ratio)
-            self.childs[i].pos = Vector(960 * ratio, 500 * ratio + i * 150 * ratio)
+            self.childs[i].size = Vector(450 * ratio, 112 * ratio).with_ints()
+            self.childs[i].pos = Vector(960 * ratio, 500 * ratio + i * 150 * ratio).with_ints()
             self.childs[i].update()
 
     def play(self):
@@ -94,18 +94,18 @@ class Options():
         # Need to reload image from file, or scale will compress it
         self.background = pg.transform.scale(pg.image.load(get_asset("obckg.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
-        ratio = int(self.parent.ratio)
-        self.childs[0].pos = Vector(1020 * ratio, 875 * ratio)
-        self.childs[0].size = Vector(50 * ratio, 50 * ratio)
-        self.childs[1].pos = Vector(950 * ratio, 778 * ratio)
-        self.childs[1].size = Vector(350 * ratio, 350 * ratio)
+        ratio = self.parent.ratio
+        self.childs[0].pos = Vector(1020 * ratio, 875 * ratio).with_ints()
+        self.childs[0].size = Vector(50 * ratio, 50 * ratio).with_ints()
+        self.childs[1].pos = Vector(950 * ratio, 778 * ratio).with_ints()
+        self.childs[1].size = Vector(350 * ratio, 350 * ratio).with_ints()
         for i in range(4):
-            self.childs[2+i].pos = Vector(950 * ratio, 485 * ratio + i * 60 * ratio)
-            self.childs[2+i].size = Vector(300 * ratio, 50 * ratio)
+            self.childs[2+i].pos = Vector(950 * ratio, 485 * ratio + i * 60 * ratio).with_ints()
+            self.childs[2+i].size = Vector(300 * ratio, 50 * ratio).with_ints()
             self.childs[2+i].update()
 
-        self.childs[6].pos = Vector(1450 * ratio, 60 * ratio)
-        self.childs[6].size = Vector(150 * ratio, 60 * ratio)
+        self.childs[6].pos = Vector(1450 * ratio, 60 * ratio).with_ints()
+        self.childs[6].size = Vector(150 * ratio, 60 * ratio).with_ints()
         self.childs[6].update()
 
     def back(self):
