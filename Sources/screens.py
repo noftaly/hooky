@@ -118,7 +118,7 @@ class Options():
         self.childs[0].size = Vector(50 * ratio, 50 * ratio).with_ints()
         # Volume slider
         self.childs[1].pos = Vector(950 * ratio, 778 * ratio).with_ints()
-        self.childs[1].size = Vector(350 * ratio, 350 * ratio).with_ints()
+        self.childs[1].size = Vector(350 * ratio, 8 * ratio).with_ints()
         # Key inputs
         for i in range(4):
             self.childs[2+i].pos = Vector(950 * ratio, 485 * ratio + i * 60 * ratio).with_ints()

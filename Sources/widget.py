@@ -122,11 +122,11 @@ class Slider(Widget):
         pg.draw.line(self.parent.surface, (50, 50, 50),
                     self.pos.as_tuple(),
                     (self.pos.x + (self.size.x * self.value) // 1000, self.pos.y),
-                    int(8 * ratio))
+                    self.size.y)
         pg.draw.line(self.parent.surface, (150, 150, 150),
                     (self.pos.x + (self.size.x * self.value) // 1000, self.pos.y),
                     (self.pos.x + self.size.x, self.pos.y),
-                    int(8 * ratio))
+                    self.size.y)
         pg.draw.circle(self.parent.surface, (50, 50, 50), (self.pos.x + (self.size.x * self.value) // 1000, self.pos.y), int(25 * ratio))
         self.to_display = False
 
@@ -134,7 +134,7 @@ class Slider(Widget):
         if event.type == pg.MOUSEMOTION and self.engaged:
             if event.pos[0] <= self.pos.x:
                 self.value = 0
-            elif event.pos[0] >= self.pos.y + self.size.x:
+            elif event.pos[0] >= self.pos.x + self.size.x:
                 self.value = 1000
             else:
                 self.value = int(((event.pos[0] - self.pos.x) / self.size.x) * 1000)
