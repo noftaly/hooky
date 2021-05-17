@@ -71,8 +71,8 @@ class Game:
         self.running = False
         next_level = self.level.number_level + 1
         if next_level > Level.MAX_LEVEL:
-            # TODO: Bring back to main menu
-            print("Max level reached.")
+            self.parent.start()
+            self.parent.main()
         else:
             self.level = Level(self, self.level.number_level + 1)
             self.player = Player(self, self.level.spawn)

@@ -22,9 +22,12 @@ class Menu():
         self.surface = pg.display.get_surface()
         self.size = Vector.from_tuple(self.surface.get_size())
         self.ratio = self.size.x / 1920
+        self.active = None
+        self.running = False
+        self.start()
 
+    def start(self):
         self.active = Principal(self)
-
         self.running = True
 
     def display(self):
