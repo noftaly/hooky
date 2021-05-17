@@ -70,7 +70,7 @@ class Options():
             KeyBinder(self, self.parent.config.get('keybinds')[1]),
             KeyBinder(self, self.parent.config.get('keybinds')[2]),
             KeyBinder(self, self.parent.config.get('keybinds')[3]),
-            Button(self, self.back, "back"),
+            Button(self, self.back, "Save"),
         ]
 
         self.update()
@@ -126,8 +126,10 @@ class Options():
             self.childs[2+i].update()
 
         # Back
-        self.childs[6].pos = Vector(1450 * ratio, 60 * ratio).with_ints()
-        self.childs[6].size = Vector(150 * ratio, 60 * ratio).with_ints()
+        # I CAN'T FKCING CENTER IT OMGGG
+        self.childs[6].size = Vector(300 * ratio, 80 * ratio).with_ints()
+        total_size = Vector.from_tuple(self.parent.surface.get_size()) // 2
+        self.childs[6].pos = Vector(total_size.x - self.childs[6].size.x // 2, 1000).with_ints()
         self.childs[6].update()
 
     def back(self):

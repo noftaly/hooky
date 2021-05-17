@@ -84,7 +84,7 @@ class Checkbox(Widget):
         ratio = self.parent.parent.ratio
         self.image = pg.Surface(self.size.as_tuple())
         if self.hovered:
-            self.image.fill((0, 255, 255))
+            self.image.fill((150, 150, 150))
 
         pg.draw.rect(
             self.image, (255, 255, 255),
