@@ -15,7 +15,7 @@ class Menu():
         pg.font.init()
         pg.mixer.init()
 
-        self.font = pg.font.Font(get_asset("Hooky-Regular.otf"), 48)
+        self.font = pg.font.Font(get_asset("Hooky-Regular.ttf"), 48)
 
         self.read_config()
         if self.config.get('fullscreen'):
