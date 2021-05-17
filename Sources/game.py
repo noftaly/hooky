@@ -7,11 +7,13 @@ from player import Player
 class Game:
     CELL_SIZE = 64
 
-    def __init__(self, parent, number_level):
+    def __init__(self, parent, number_level, auto_next=True):
         self.parent = parent
         self.surface = pg.display.get_surface()
         self.size = self.surface.get_size()
         self.half_size = self.size[0] // 2, self.size[1] // 2
+
+        self.auto_next = auto_next
 
         # self.font = pg.font.SysFont('Helvetica', 30)
         self.background = pg.Surface(self.size)
@@ -70,7 +72,7 @@ class Game:
     def next_level(self):
         self.running = False
         next_level = self.level.number_level + 1
-        if next_level > Level.MAX_LEVEL:
+        if not self.auto_next or next_level > Level.MAX_LEVEL:
             self.parent.start()
             self.parent.main()
         else:

@@ -20,6 +20,7 @@ class Principal():
         # Les gros bouttons du centre d'abord !
         self.childs = [
             Button(self, self.play, "Jouer"),
+            Button(self, self.select, "Niveaux"),
             Button(self, self.options, "Options"),
             Button(self, self.quit, "Quitter"),
         ]
@@ -37,14 +38,17 @@ class Principal():
 
     def update(self):
         ratio = self.parent.ratio
-        for i in range(3):
-            self.childs[i].size = Vector(450 * ratio, 112 * ratio).with_ints()
-            self.childs[i].pos = Vector(960 * ratio, 500 * ratio + i * 150 * ratio).with_ints()
-            self.childs[i].update()
+        for (i, child) in enumerate(self.childs):
+            child.size = Vector(450 * ratio, 112 * ratio).with_ints()
+            child.pos = Vector(960 * ratio, 500 * ratio + i * 150 * ratio).with_ints()
+            child.update()
 
     def play(self):
-        Game(self.parent, 1).main()
+        Game(self.parent, 1, True).main()
         self.parent.running = False # Will be executed only if the Game.main() is broke by an alt+f4
+
+    def select(self):
+        self.parent.active = LevelSelector(self.parent, 5)
 
     def options(self):
         self.parent.active = Options(self.parent)
@@ -70,7 +74,7 @@ class Options():
             KeyBinder(self, self.parent.config.get('keybinds')[1]),
             KeyBinder(self, self.parent.config.get('keybinds')[2]),
             KeyBinder(self, self.parent.config.get('keybinds')[3]),
-            Button(self, self.back, "Save"),
+            Button(self, self.save, "Save"),
         ]
 
         self.update()
@@ -132,7 +136,7 @@ class Options():
         self.childs[6].pos = Vector(total_size.x - self.childs[6].size.x // 2, 1000).with_ints()
         self.childs[6].update()
 
-    def back(self):
+    def save(self):
         self.parent.active = Principal(self.parent)
         self.apply()
         del self
@@ -160,10 +164,59 @@ class Options():
         self.update()
 
 class LevelSelector():
-    def __init__(self):
+    def __init__(self, parent, levels_amount):
+        self.parent = parent
+        self.surface = parent.surface
+        self.size = self.parent.size
+
+        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+
         self.childs = []
+        for i in range(levels_amount):
+            start_level = lambda i=i: self.start_level(i + 1)
+            self.childs.append(Button(self, start_level, f"Niveau {i + 1}"))
+
+        self.childs.append(Button(self, self.back, "Retour"))
+        self.update()
 
     def display(self):
         for child in self.childs:
-            if child.todisp:
+            if child.to_display:
                 child.display()
+
+    def handle_event(self, event):
+        for child in self.childs:
+            child.handle_event(event)
+
+    def update(self):
+        self.surface.blit(self.background, (0, 0))
+        # Need to reload image from file, or scale will compress it
+        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+
+        ratio = self.parent.ratio
+        aligns = { 'left': 700 * ratio, 'right': 1200 * ratio }
+        column = 0
+        for (i, child) in enumerate(self.childs[:-1]):
+            is_right = i % 2 == 1
+            alignement = aligns['right' if is_right else 'left']
+            child.size = Vector(350 * ratio, 98 * ratio).with_ints()
+            child.pos = Vector(alignement, 500 * ratio + column * 150 * ratio).with_ints()
+            child.update()
+            if is_right:
+                column += 1
+
+        # Back
+        # I CAN'T FKCING CENTER IT OMGGG
+        last = self.childs[-1]
+        last.size = Vector(300 * ratio, 80 * ratio).with_ints()
+        total_size = Vector.from_tuple(self.parent.surface.get_size()) // 2
+        last.pos = Vector(total_size.x - last.size.x // 2, 1000).with_ints()
+        last.update()
+
+    def start_level(self, number):
+        Game(self.parent, number, False).main()
+        self.parent.running = False
+
+    def back(self):
+        self.parent.active = Principal(self.parent)
+        del self
