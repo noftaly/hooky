@@ -67,10 +67,10 @@ class Player(Entity):
         if hook_acc.y > 0:
             hook_acc.y *= 0.8
 
-        length = abs(hook_acc) - 20
-        norm = (length/Hook.MAX_SIZE) * 1.5
+        length = abs(hook_acc) 
+        norm = (length/Hook.MAX_SIZE) * 2
 
-        norm = min(norm, 0.9)
+        norm = min(norm, 0.7)
 
         hook_acc = hook_acc.normalize(norm)
         self.acc += hook_acc
