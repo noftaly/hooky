@@ -43,7 +43,6 @@ class Hook(Entity):
             self.length = (self.pos - self.player.pos).mag()
             if not self.gripped and self.length > Hook.MAX_SIZE:
                 self.reset()
-                self.game.sounds.get('hook-fail').play()
 
     def collision(self):
         self.impact = False

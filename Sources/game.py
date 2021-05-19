@@ -30,7 +30,6 @@ class Game:
         self.up_key = self.config.get('keybinds')[2] # pg.K_UP
 
         self.sounds = {
-            'hook-fail': pg.mixer.Sound(get_asset('hook_collision_fail.wav')),
             'hook-success': pg.mixer.Sound(get_asset('hook_collision_success.wav')),
             'damage': pg.mixer.Sound(get_asset('damage.wav')),
         }
