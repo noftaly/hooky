@@ -1,8 +1,10 @@
 import pygame as pg
+from game import Game
 from music_manager import play_menu_theme, stop_music
-from screens import Principal
+from screens import Principal, Pause
 from vector import Vector
 from utils import get_asset
+from gc import collect
 
 class Menu():
     """
@@ -27,13 +29,10 @@ class Menu():
         self.surface = pg.display.get_surface()
         self.size = Vector.from_tuple(self.surface.get_size())
         self.ratio = self.size.x / 1920
-        self.active = None
-        self.running = False
-        self.start()
-
-    def start(self):
         self.active = Principal(self)
         self.running = True
+        play_menu_theme()
+
 
     def display(self):
         self.active.display()
@@ -46,15 +45,35 @@ class Menu():
             self.active.handle_event(event)
 
     def main(self):
-        play_menu_theme()
         while self.running:
             self.display()
             for event in pg.event.get():
                 self.handle_event(event)
-
+    def play(self):
+        self.game = Game(self, 1, True)
+        self.game.main()
+        #triggers when a clean exit is done (esc + quit)
     def stop(self):
         self.running = False
         stop_music()
+
+    def pause(self):
+        self.game.running = False
+        self.active = Pause(self)
+    
+    def back(self):
+        del self.active
+        del self.game
+        #je sais pas pourquoi mais faut activement gc (le jeu pèse ~100 mb, si on spam back => play on tape vite le giga)
+        collect()
+        self.active = Principal(self)
+
+    def resume(self):
+        del self.active
+        collect()
+        self.game.running = True
+        self.game.pause = False
+        self.game.main()
 
     def read_config(self):
         self.config = {

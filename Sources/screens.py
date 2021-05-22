@@ -4,6 +4,7 @@ from vector import Vector
 from utils import get_asset
 from widget import Button, Checkbox, Slider, KeyBinder
 from game import Game
+from gc import collect
 
 class Principal():
     def __init__(self, parent):
@@ -20,7 +21,7 @@ class Principal():
         )
         # Les gros bouttons du centre d'abord !
         self.childs = [
-            Button(self, self.play, "Jouer"),
+            Button(self, self.parent.play, "Jouer"),
             Button(self, self.select, "Niveaux"),
             Button(self, self.options, "Options"),
             Button(self, self.quit, "Quitter"),
@@ -43,10 +44,6 @@ class Principal():
             child.size = Vector(450 * ratio, 112 * ratio).with_ints()
             child.pos = Vector(960 * ratio, 500 * ratio + i * 150 * ratio).with_ints()
             child.update()
-
-    def play(self):
-        Game(self.parent, 1, True).main()
-        self.parent.stop() # Will be executed only if the Game.main() is broke by an alt+f4
 
     def select(self):
         self.parent.active = LevelSelector(self.parent, 5)
@@ -124,7 +121,7 @@ class Options():
         # Volume slider
         self.childs[1].pos = Vector(950 * ratio, 778 * ratio).with_ints()
         self.childs[1].size = Vector(350 * ratio, 8 * ratio).with_ints()
-        # Key inputs
+        # Key inputsd
         for i in range(4):
             self.childs[2+i].pos = Vector(950 * ratio, 485 * ratio + i * 60 * ratio).with_ints()
             self.childs[2+i].size = Vector(300 * ratio, 50 * ratio).with_ints()
@@ -132,15 +129,15 @@ class Options():
 
         # Back
         # I CAN'T FKCING CENTER IT OMGGG
-        self.childs[6].size = Vector(300 * ratio, 80 * ratio).with_ints()
-        total_size = Vector.from_tuple(self.parent.surface.get_size()) // 2
-        self.childs[6].pos = Vector(total_size.x - self.childs[6].size.x // 2, 1000).with_ints()
+        self.childs[6].size = Vector(250 * ratio, 60 * ratio).with_ints()
+        self.childs[6].pos = Vector(690 * ratio, 1000 * ratio).with_ints()
         self.childs[6].update()
 
     def save(self):
         self.parent.active = Principal(self.parent)
         self.apply()
         del self
+        collect()
 
     def apply(self):
         keybinds_button = [elm for elm in self.childs if isinstance(elm, KeyBinder)]
@@ -215,9 +212,55 @@ class LevelSelector():
         last.update()
 
     def start_level(self, number):
-        Game(self.parent, number, False).main()
+        self.parent.game = Game(self.parent, number, False)
+        self.parent.game.main()
         self.parent.stop()
 
     def back(self):
         self.parent.active = Principal(self.parent)
         del self
+        collect()
+
+class Pause():
+    def __init__(self, parent):
+        self.parent = parent
+        ratio = parent.ratio
+        if not pg.display.get_init():
+            pg.display.init()
+        self.surface = parent.surface
+
+        self.image = pg.Surface(
+            (int(400*ratio), int(400*ratio))
+            )
+        self.image.fill((210, 224, 125))
+        text = parent.font.render("Pause",True,(0,0,0))
+        self.image.blit(text,(int(150*ratio),int(30*ratio)))
+
+        self.childs = [
+            Button(self, self.parent.resume,"Resume"),
+            Button(self, self.parent.back, "Back")
+
+        ]
+        
+        self.surface.blit(self.image,(int(760*ratio),int(162*ratio)))
+        
+
+        self.childs[0].pos = Vector(960*ratio,350*ratio).with_ints()
+        self.childs[0].size = Vector(250*ratio,80*ratio).with_ints()
+        self.childs[0].update()
+
+        self.childs[1].pos = Vector(960*ratio,450*ratio).with_ints()
+        self.childs[1].size = Vector(250*ratio,80*ratio).with_ints()
+        self.childs[1].update()
+
+    def display(self):
+        for child in self.childs:
+            if child.to_display:
+                child.display()
+    
+    def handle_event(self,event):
+        if event.type == pg.KEYDOWN and event.key == self.parent.config['keybinds'][3]:
+                self.parent.resume()
+        else:
+            for child in self.childs:
+                child.handle_event(event)

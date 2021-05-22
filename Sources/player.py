@@ -2,6 +2,7 @@ import pygame as pg
 from entity import Entity
 from vector import Vector
 from hook import Hook
+from utils import get_asset
 
 class Player(Entity):
     def __init__(self, game, spawn_location):
@@ -150,3 +151,11 @@ class Player(Entity):
 
         # Takes them into account
         super().update()
+
+    def load_sprites(self):
+        pass
+        self.sprites = [
+            pg.image.load(get_asset())
+        ]
+    def update_sprite(self):
+        pass

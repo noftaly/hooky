@@ -35,17 +35,19 @@ class Game:
         }
 
         play_game_theme()
+        self.pause = False
 
         self.running = True
 
     def handle_event(self, event):
         if event.type == pg.QUIT:
-            self.running = False
-        if event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
+            self.running = self.parent.running = False
+        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
             self.player.launch_hook(event.pos)
-        if event.type == pg.MOUSEBUTTONUP and event.button == 3:
+        elif event.type == pg.MOUSEBUTTONUP and event.button == 3:
             self.player.stop_hook()
-
+        elif event.type == pg.KEYDOWN and event.key == self.config['keybinds'][3]:
+            self.pause = True
     def display(self):
         """ Update the graphics """
         self.surface.blit(self.background, (0, 0))
@@ -54,7 +56,6 @@ class Game:
         if self.player.hook.visible:
             self.player.hook.display()
         self.player.display()
-        #self.show_hud()
 
         pg.display.update()
 
@@ -76,7 +77,6 @@ class Game:
         self.player.update()
         if self.player.hook.visible:
             self.player.hook.update()
-
     def main(self):
         while self.running:
             start_frame = time.time()
@@ -86,6 +86,8 @@ class Game:
             for event in pg.event.get():
                 self.handle_event(event)
 
+            if self.pause:
+                self.parent.pause()
             wait = 0.0083 - time.time() + start_frame
             if wait > 0:
                 time.sleep(wait)
