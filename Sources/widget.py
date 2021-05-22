@@ -48,11 +48,13 @@ class Button(Widget):
 
     def update(self):
         self.pos -= self.size // 2
-
-        self.mask = pg.Surface(self.size.as_tuple())
+        self.image = pg.transform.scale(self.image, self.size.as_tuple())
+        mask = pg.mask.from_surface(self.image)
+        self.mask = self.image.copy()
+        mask.to_surface(self.mask, setcolor=(0, 0, 0, 255), unsetcolor=(0, 0, 0, 0))
         self.mask.set_alpha(80)
 
-        self.image = pg.transform.scale(self.image, self.size.as_tuple())
+        
 
     def handle_event(self, event): # Only pass mouse events !
         if event.type == pg.MOUSEMOTION:
