@@ -1,9 +1,9 @@
+from time import time
 import pygame as pg
 from entity import Entity
 from vector import Vector
 from hook import Hook
 from utils import get_asset
-from time import time
 
 class Player(Entity):
     def __init__(self, game, spawn_location):
@@ -95,6 +95,10 @@ class Player(Entity):
         for i in range(-1, 2):
             # Goes around the player
             for j in range(-1, 2):
+                try:
+                    self.game.level.level_array[loc.y + j][loc.x + i]
+                except IndexError:
+                    continue
                 # If the pointed block is solid
                 if self.game.level.level_array[loc.y + j][loc.x + i] in solid:
                     danger = self.game.level.level_array[loc.y + j][loc.x + i] == 2
@@ -196,10 +200,5 @@ class Player(Entity):
                     self.last_u = time()
                     if self.grounded:
                         self.sprite_index = (self.sprite_index + 1)%5
-<<<<<<< HEAD
-                
-                self.image = self.sprites[self.sprite_index]
-=======
 
                 self.image = self.sprites[self.sprite_index]
->>>>>>> 50e8365fd3633b7ebac4dc03ba97d3fa06cfef48
