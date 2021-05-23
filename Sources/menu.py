@@ -70,14 +70,13 @@ class Menu():
         self.active = Pause(self)
 
     def back(self):
-        if self.active:
-            del self.active
+        self.active = Principal(self)
         del self.game
         stop_music()
         play_menu_theme()
         #je sais pas pourquoi mais faut activement gc (le jeu pèse ~100 mb, si on spam back => play on tape vite le giga)
         collect()
-        self.active = Principal(self)
+        
 
     def resume(self):
         del self.active
