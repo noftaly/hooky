@@ -1,10 +1,10 @@
+from gc import collect
 import pygame as pg
 from music_manager import change_volume
 from vector import Vector
 from utils import get_asset
 from widget import Button, Checkbox, Slider, KeyBinder
 from game import Game
-from gc import collect
 
 class Principal():
     def __init__(self, parent):
@@ -21,7 +21,7 @@ class Principal():
         )
         # Les gros bouttons du centre d'abord !
         self.childs = [
-            Button(self, self.parent.play, "Jouer"),
+            Button(self, lambda: self.parent.play(1), "Jouer"),
             Button(self, self.select, "Niveaux"),
             Button(self, self.options, "Options"),
             Button(self, self.quit, "Quitter"),
@@ -171,8 +171,7 @@ class LevelSelector():
 
         self.childs = []
         for i in range(levels_amount):
-            start_level = lambda i=i: self.start_level(i + 1)
-            self.childs.append(Button(self, start_level, f"Niveau {i + 1}"))
+            self.childs.append(Button(self, lambda i=i: self.parent.play(i + 1), f"Niveau {i + 1}"))
 
         self.childs.append(Button(self, self.back, "Retour"))
         self.update()
@@ -211,10 +210,6 @@ class LevelSelector():
         last.pos = Vector(total_size.x - last.size.x // 2, 1000).with_ints()
         last.update()
 
-    def start_level(self, number):
-        self.parent.game = Game(self.parent, number, False)
-        self.parent.game.main()
-
     def back(self):
         self.parent.active = Principal(self.parent)
         del self
@@ -234,7 +229,7 @@ class Pause():
         self.image.blit(text,(int(150*ratio),int(30*ratio)))
 
         self.childs = [
-            Button(self, self.parent.resume,"Resume"),
+            Button(self, self.parent.resume, "Resume"),
             Button(self, self.parent.back, "Back")
         ]
 

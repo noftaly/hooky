@@ -1,10 +1,10 @@
+from gc import collect
 import pygame as pg
 from game import Game
 from music_manager import play_menu_theme, stop_music
 from screens import Principal, Pause
 from vector import Vector
 from utils import get_asset
-from gc import collect
 
 class Menu():
     """
@@ -55,10 +55,12 @@ class Menu():
             self.display()
             for event in pg.event.get():
                 self.handle_event(event)
-    def play(self):
-        self.game = Game(self, 1, True)
-        self.game.main()
+
+    def play(self, level):
+        self.game = Game(self, level, True)
         #triggers when a clean exit is done (esc + quit)
+        self.game.main()
+
     def stop(self):
         self.running = False
         stop_music()
