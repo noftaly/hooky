@@ -173,20 +173,23 @@ class Player(Entity):
         
     def update_sprite(self):
 
-        
-        if self.vel.y < 0:
-            self.image = self.sprites[5]
-        elif self.vel.y > 0:
-            self.image = self.sprites[6]
-        elif self.vel.x == 0:
+        if self.vel.x == 0:
             self.image = self.sprites[2]
         else:
             if (self.vel.x > 0)^(self.right):
                 self.right = not self.right
-            if time()-self.last_u > (1/24):
-                self.last_u = time()
-                if self.grounded:
-                    self.sprite_index = (self.sprite_index + 1)%5
             
-            
-            self.image = self.sprites[self.sprite_index]
+            if self.vel.y < 0 :
+                self.image = self.sprites[5]
+            elif self.vel.y > 0:
+                self.image = self.sprites[6]
+            else:
+                if (self.vel.x > 0)^(self.right):
+                    self.right = not self.right
+                if time()-self.last_u > (1/24):
+                    self.last_u = time()
+                    if self.grounded:
+                        self.sprite_index = (self.sprite_index + 1)%5
+                
+                
+                self.image = self.sprites[self.sprite_index]
