@@ -56,9 +56,9 @@ class Menu():
             for event in pg.event.get():
                 self.handle_event(event)
 
-    def play(self, level):
-        self.game = Game(self, level, True)
-        #triggers when a clean exit is done (esc + quit)
+    def play(self, level, auto_next=True):
+        self.game = Game(self, level, auto_next)
+        # Triggers when a clean exit is done (esc + quit)
         self.game.main()
 
     def stop(self):
@@ -76,7 +76,7 @@ class Menu():
         play_menu_theme()
         #je sais pas pourquoi mais faut activement gc (le jeu pèse ~100 mb, si on spam back => play on tape vite le giga)
         collect()
-        
+
 
     def resume(self):
         del self.active

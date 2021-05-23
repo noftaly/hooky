@@ -171,7 +171,7 @@ class LevelSelector():
 
         self.childs = []
         for i in range(levels_amount):
-            self.childs.append(Button(self, lambda i=i: self.parent.play(i + 1), f"Niveau {i + 1}"))
+            self.childs.append(Button(self, lambda i=i: self.parent.play(i + 1, False), f"Niveau {i + 1}"))
 
         self.childs.append(Button(self, self.back, "Retour"))
         self.update()
