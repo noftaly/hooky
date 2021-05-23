@@ -3,6 +3,7 @@ from entity import Entity
 from vector import Vector
 from hook import Hook
 from utils import get_asset
+from time import time
 
 class Player(Entity):
     def __init__(self, game, spawn_location):
@@ -11,10 +12,17 @@ class Player(Entity):
         self.hook = Hook(self, game)
 
         self.dead = False
+        self.load_sprites()
+        self.right = True
+        self.last_u = time()
+
+        self.update_sprite()
+
 
     def display(self):
         # Bit bigger than the hitbox to make it look cuul
-        pg.draw.circle(self.game.surface, (0, 0, 255), self.game.half_size, int(self.size * 1.2))
+        image = self.image if self.right else pg.transform.flip(self.image,True,False)
+        self.game.surface.blit(image,(self.game.half_size[0]-30, self.game.half_size[1]-30))
 
     def handle_input(self):
         keys = pg.key.get_pressed()
@@ -133,6 +141,7 @@ class Player(Entity):
 
     def update(self):
         # Apply forces
+        self.update_sprite()
         self.handle_input()
 
         if self.hook.visible and self.hook.gripped:
@@ -148,14 +157,36 @@ class Player(Entity):
             self.die()
             self.dead = False
         self.acc = Vector(0, 0)
-
+        
         # Takes them into account
         super().update()
 
     def load_sprites(self):
-        pass
-        self.sprites = [
-            pg.image.load(get_asset())
-        ]
+        self.sprites = []
+        for i in range(1,8):
+            self.sprites.append(
+                pg.image.load(get_asset(f"hk_{i}.png"))
+            )
+        for i in range(len(self.sprites)):
+            self.sprites[i] = pg.transform.scale(self.sprites[i], (60, 60))
+        self.sprite_index = 0
+        
     def update_sprite(self):
-        pass
+
+        
+        if self.vel.y < 0:
+            self.image = self.sprites[5]
+        elif self.vel.y > 0:
+            self.image = self.sprites[6]
+        elif self.vel.x == 0:
+            self.image = self.sprites[2]
+        else:
+            if (self.vel.x > 0)^(self.right):
+                self.right = not self.right
+            if time()-self.last_u > (1/24):
+                self.last_u = time()
+                if self.grounded:
+                    self.sprite_index = (self.sprite_index + 1)%5
+            
+            
+            self.image = self.sprites[self.sprite_index]

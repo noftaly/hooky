@@ -28,9 +28,9 @@ class Entity:
     def nullify(self):
         """ When vel approaches 0, set it to 0, because otherwise there are cases where it will
         never reach 0 and we will always have a base velocity. """
-        if abs(self.vel.x) < 0.05:
+        if abs(self.vel.x) < 0.08:
             self.vel.x = 0
-        if abs(self.vel.y) < 0.05:
+        if abs(self.vel.y) < 0.08:
             self.vel.y = 0
 
     def update(self):
