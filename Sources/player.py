@@ -157,7 +157,7 @@ class Player(Entity):
             self.die()
             self.dead = False
         self.acc = Vector(0, 0)
-        
+
         # Takes them into account
         super().update()
 
@@ -165,12 +165,12 @@ class Player(Entity):
         self.sprites = []
         for i in range(1,8):
             self.sprites.append(
-                pg.image.load(get_asset(f"hk_{i}.png"))
+                pg.image.load(get_asset(f"Images/hooky_{i}.png"))
             )
         for i in range(len(self.sprites)):
             self.sprites[i] = pg.transform.scale(self.sprites[i], (60, 60))
         self.sprite_index = 0
-        
+
     def update_sprite(self):
 
         if self.vel.x == 0:
@@ -178,7 +178,7 @@ class Player(Entity):
         else:
             if (self.vel.x > 0)^(self.right):
                 self.right = not self.right
-            
+
             if self.vel.y < 0 :
                 self.image = self.sprites[5]
             elif self.vel.y > 0:
@@ -190,6 +190,5 @@ class Player(Entity):
                     self.last_u = time()
                     if self.grounded:
                         self.sprite_index = (self.sprite_index + 1)%5
-                
-                
+
                 self.image = self.sprites[self.sprite_index]

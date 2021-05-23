@@ -17,7 +17,7 @@ class Menu():
         pg.font.init()
         pg.mixer.init()
 
-        self.font = pg.font.Font(get_asset("Hooky-Regular.ttf"), 48)
+        self.font = pg.font.Font(get_asset("Font/Hooky-Regular.ttf"), 48)
 
         self.read_config()
         pg.mixer.music.set_volume(self.config.get('volume') / 1000)
