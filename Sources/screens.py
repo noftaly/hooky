@@ -14,7 +14,7 @@ class Principal():
 
         self.surface.blit(
             pg.transform.scale(
-                pg.image.load(get_asset("menu_background.png")),
+                pg.image.load(get_asset("Images/menu_background.png")),
                 (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio))
             ),
             (0, 0)
@@ -63,7 +63,7 @@ class Options():
 
         self.font = self.parent.font
 
-        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("Images/menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         self.childs = [
             Checkbox(self, self.fullscreen, self.parent.config.get('fullscreen')),
@@ -95,7 +95,7 @@ class Options():
 
     def update(self):
         # Need to reload image from file, or scale will compress it
-        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("Images/menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         ratio = self.parent.ratio
         # Show captions
@@ -167,7 +167,7 @@ class LevelSelector():
         self.surface = parent.surface
         self.size = self.parent.size
 
-        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("Images/menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         self.childs = []
         for i in range(levels_amount):
@@ -189,7 +189,7 @@ class LevelSelector():
     def update(self):
         self.surface.blit(self.background, (0, 0))
         # Need to reload image from file, or scale will compress it
-        self.background = pg.transform.scale(pg.image.load(get_asset("menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
+        self.background = pg.transform.scale(pg.image.load(get_asset("Images/menu_background.png")), (int(1920 * self.parent.ratio), int(1080 * self.parent.ratio)))
 
         ratio = self.parent.ratio
         aligns = { 'left': 700 * ratio, 'right': 1200 * ratio }
@@ -228,9 +228,7 @@ class Pause():
             pg.display.init()
         self.surface = parent.surface
 
-        self.image = pg.Surface(
-            (int(400*ratio), int(400*ratio))
-            )
+        self.image = pg.Surface((int(400*ratio), int(400*ratio)))
         self.image.fill((210, 224, 125))
         text = parent.font.render("Pause",True,(0,0,0))
         self.image.blit(text,(int(150*ratio),int(30*ratio)))
@@ -238,11 +236,9 @@ class Pause():
         self.childs = [
             Button(self, self.parent.resume,"Resume"),
             Button(self, self.parent.back, "Back")
-
         ]
-        
+
         self.surface.blit(self.image,(int(760*ratio),int(162*ratio)))
-        
 
         self.childs[0].pos = Vector(960*ratio,350*ratio).with_ints()
         self.childs[0].size = Vector(250*ratio,80*ratio).with_ints()
@@ -256,10 +252,10 @@ class Pause():
         for child in self.childs:
             if child.to_display:
                 child.display()
-    
+
     def handle_event(self,event):
         if event.type == pg.KEYDOWN and event.key == self.parent.config['keybinds'][3]:
-                self.parent.resume()
+            self.parent.resume()
         else:
             for child in self.childs:
                 child.handle_event(event)

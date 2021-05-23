@@ -27,15 +27,12 @@ class Button(Widget):
         self.on_click, self.name = on_click, name
         self.font = self.parent.parent.font
 
-        try:
-            self.image = pg.image.load(get_asset("button_background.png"))
-            text = self.font.render(self.name, True, (255, 255, 255))
-            text_size = Vector.from_tuple(text.get_size())
-            image_size = Vector.from_tuple(self.image.get_size())
-            pos = (image_size - text_size) // 2
-            self.image.blit(text, pos.as_tuple())
-        except FileNotFoundError:
-            self.image = pg.image.load(get_asset("missing.png"))
+        self.image = pg.image.load(get_asset("Images/button_background.png"))
+        text = self.font.render(self.name, True, (255, 255, 255))
+        text_size = Vector.from_tuple(text.get_size())
+        image_size = Vector.from_tuple(self.image.get_size())
+        pos = (image_size - text_size) // 2
+        self.image.blit(text, pos.as_tuple())
 
         self.mask = None
 
@@ -53,8 +50,6 @@ class Button(Widget):
         self.mask = self.image.copy()
         mask.to_surface(self.mask, setcolor=(0, 0, 0, 255), unsetcolor=(0, 0, 0, 0))
         self.mask.set_alpha(80)
-
-        
 
     def handle_event(self, event): # Only pass mouse events !
         if event.type == pg.MOUSEMOTION:

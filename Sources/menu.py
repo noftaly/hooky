@@ -17,7 +17,7 @@ class Menu():
         pg.font.init()
         pg.mixer.init()
 
-        self.font = pg.font.Font(get_asset("Hooky-Regular.ttf"), 48)
+        self.font = pg.font.Font(get_asset("Font/Hooky-Regular.ttf"), 48)
 
         self.read_config()
         pg.mixer.music.set_volume(self.config.get('volume') / 1000)
@@ -29,10 +29,10 @@ class Menu():
         self.surface = pg.display.get_surface()
         self.size = Vector.from_tuple(self.surface.get_size())
         self.ratio = self.size.x / 1920
-        self.active = Principal(self)
-        self.running = True
-        play_menu_theme()
-
+        self.game = None
+        self.running = False
+        self.active = None
+        self.start()
 
     def display(self):
         self.active.display()
@@ -43,6 +43,12 @@ class Menu():
             self.stop()
         else:
             self.active.handle_event(event)
+
+    def start(self):
+        self.active = Principal(self)
+        self.running = True
+        stop_music()
+        play_menu_theme()
 
     def main(self):
         while self.running:
@@ -60,10 +66,12 @@ class Menu():
     def pause(self):
         self.game.running = False
         self.active = Pause(self)
-    
+
     def back(self):
         del self.active
         del self.game
+        stop_music()
+        play_menu_theme()
         #je sais pas pourquoi mais faut activement gc (le jeu pèse ~100 mb, si on spam back => play on tape vite le giga)
         collect()
         self.active = Principal(self)
