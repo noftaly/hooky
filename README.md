@@ -7,11 +7,10 @@
   - Options : affiche le menus des options (modifier les binds des touches, le volume, reset les scores...)
 - Jeu :
   - Encodage des cartes :
-    - Espaces : Air | 0 : Block | 1 : Reset | 2 : Blue | 3 : Orange | 4
     - Dans un .txt ou autre
   - Personnage :
     - Peut hook des blocs avec un grapin
-    - Peut jump/double jump
+    - Peut jump
     - Peut se déplacer (gauche/droite) (Dans les airs, mais moindrement)
 - Bonus :
   - Editeur de niveau
@@ -20,12 +19,20 @@
 
 ## Organisation des fichiers
 
-- Dossier `Assets` : Contient toutes les ressources utilisées (images, musiques...).
-- Dossier `Levels` : Contient tous les fichiers des niveaux.
+- Dossier `Assets` : Contient toutes les ressources utilisées (images, musiques, polices, niveaux et le fichier de configuration).
 - Dossier `Sources` : Contient le code source Python.
-  - Fichier `main.py` : Fait appel à la méthode `main()` du menu, installe les librairies manquantes
-  - Fichier `menu.py` : Définit la classe `Menu`, qui elle même fait appel à des classes widgets définis dans d'autres fichiers
-  - Fichier `game.py` : Définit la classe `Game`, qui fait appel à `Player` et `Level`
+  - Fichier `main.py` : Point d'entré du programme
+  - Fichier `menu.py` : Définit le menu principal, qui contient des sous-menus appelés par des widgets
+  - Fichier `game.py` : Définit la classe `Game` qui gère l'état du jeu
+  - Fichier `entity.py` : Définit une entité de base dans le jeu (utilisé pour le grapin et le joueur)
+  - Fichier `hook.py` : Définit le grapin
+  - Fichier `level.py` : Définit un niveau quelconque
+  - Fichier `music_manager.py` : Fonctions permettant de gérer la musique de fond
+  - Fichier `player.py` : Définit le joueur
+  - Fichier `screens.py` : Différents écrans disponibles (sur le menu principal)
+  - Fichier `utils.py` : Diverses fonctions utilitaires
+  - Fichier `vector.py` : Définit un vecteur mathématique
+  - Fichier `widget.py` : Différents widgets utilisés (bouton, sliders, checkbox, keybinder...)
 
 ## Répartition des tâches
 
