@@ -70,7 +70,8 @@ class Menu():
         self.active = Pause(self)
 
     def back(self):
-        del self.active
+        if self.active:
+            del self.active
         del self.game
         stop_music()
         play_menu_theme()
