@@ -63,8 +63,7 @@ class Game:
         self.running = False
         next_level = self.level.number_level + 1
         if not self.auto_next or next_level > Level.MAX_LEVEL:
-            self.parent.start()
-            self.parent.main()
+            self.parent.back()
         else:
             self.level = Level(self, self.level.number_level + 1)
             self.player = Player(self, self.level.spawn)

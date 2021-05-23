@@ -77,9 +77,9 @@ class Player(Entity):
             hook_acc.y *= 0.8
 
         length = abs(hook_acc)
-        norm = (length/Hook.MAX_SIZE) * 2
+        norm = (length/Hook.MAX_SIZE) * 2.5
 
-        norm = min(norm, 0.7)
+        norm = min(norm, 0.75)
 
         hook_acc = hook_acc.normalize(norm)
         self.acc += hook_acc
@@ -151,7 +151,13 @@ class Player(Entity):
         self.add_gravity()
 
         self.vel += self.acc
-        self.vel.y = min(self.vel.y, 15)
+        norm = abs(self.vel)
+        #allez savoir pourquoi ce tweak rends le grappin 10x plus agréable
+        if self.hook.gripped:
+            self.vel = self.vel.normalize(min(norm,11.5))
+        else:
+            self.vel.y = min(self.vel.y,12)
+        #self.vel.y = min(self.vel.y, 15)
         self.collision()
         if self.dead:
             self.die()
@@ -190,6 +196,5 @@ class Player(Entity):
                     self.last_u = time()
                     if self.grounded:
                         self.sprite_index = (self.sprite_index + 1)%5
-                
                 
                 self.image = self.sprites[self.sprite_index]

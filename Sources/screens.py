@@ -214,7 +214,6 @@ class LevelSelector():
     def start_level(self, number):
         self.parent.game = Game(self.parent, number, False)
         self.parent.game.main()
-        self.parent.stop()
 
     def back(self):
         self.parent.active = Principal(self.parent)
