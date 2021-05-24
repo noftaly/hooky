@@ -189,9 +189,9 @@ class Player(Entity):
             if (self.vel.x > 0)^(self.right):
                 self.right = not self.right
 
-            if self.vel.y < 0 :
+            if self.vel.y < -1 :
                 self.image = self.sprites[5]
-            elif self.vel.y > 0:
+            elif self.vel.y > 1:
                 self.image = self.sprites[6]
             else:
                 if (self.vel.x > 0)^(self.right):
